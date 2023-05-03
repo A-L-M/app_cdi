@@ -3,6 +3,7 @@ import 'package:flutter_portal/flutter_portal.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_strategy/url_strategy.dart';
 
+import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/theme/theme.dart';
 import 'package:app_cdi/helpers/constants.dart';
 import 'package:app_cdi/router/router.dart';
@@ -16,6 +17,8 @@ void main() async {
     url: supabaseUrl,
     anonKey: anonKey,
   );
+
+  await initGlobals();
 
   runApp(const MyApp());
 }
