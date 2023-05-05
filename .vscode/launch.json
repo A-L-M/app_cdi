@@ -8,7 +8,7 @@
       "name": "app_cdi",
       "request": "launch",
       "type": "dart",
-      "args": ["-d", "chrome", "--web-port", "3000", "--web-renderer", "html"]
+      "args": ["-d", "chrome", "--web-renderer", "html"]
     },
     {
       "name": "app_cdi (profile mode)",
