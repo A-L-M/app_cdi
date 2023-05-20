@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'provider/providers.dart';
 
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/theme/theme.dart';
@@ -20,7 +22,16 @@ void main() async {
 
   await initGlobals();
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => UserState(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -48,7 +59,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return Portal(
       child: MaterialApp.router(
-        title: 'Arux',
+        title: 'CDI',
         debugShowCheckedModeBanner: false,
         locale: _locale,
         supportedLocales: const [Locale('en', 'US')],

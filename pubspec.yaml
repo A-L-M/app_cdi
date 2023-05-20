@@ -37,11 +37,13 @@ dependencies:
   fluttertoast: ^8.2.1
   go_router: ^7.0.0
   google_fonts: ^4.0.3
-  pluto_grid: ^6.0.4
+  image_picker: ^0.8.7+5
+  path: ^1.8.3
   provider: ^6.0.5
   shared_preferences: ^2.1.0
   supabase_flutter: ^1.7.0
   url_strategy: ^0.2.0
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_lints: ^2.0.0

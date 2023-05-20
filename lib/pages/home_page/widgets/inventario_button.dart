@@ -49,6 +49,7 @@ class _InventarioButtonState extends State<InventarioButton> {
           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
           decoration: BoxDecoration(
             color: buttonColor,
+            borderRadius: BorderRadius.circular(3),
           ),
           child: Text(
             widget.label,

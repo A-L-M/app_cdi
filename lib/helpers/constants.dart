@@ -7,3 +7,5 @@ const redirectUrl = 'https://supabase.cbluna-dev.com/arux-change-pass';
 const themeId = String.fromEnvironment('themeId', defaultValue: '2');
 
 String bonitaConnectionUrl = 'https://arux.cbluna-dev.com/arux/api';
+
+const mobileSize = 700;
