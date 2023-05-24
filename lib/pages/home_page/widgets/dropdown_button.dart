@@ -7,10 +7,14 @@ class CustomDropdownButton extends StatefulWidget {
     Key? key,
     required this.title,
     this.portalFollower,
+    required this.portalVisibility,
+    required this.onTap,
   }) : super(key: key);
 
   final String title;
   final Widget? portalFollower;
+  final bool portalVisibility;
+  final void Function() onTap;
 
   @override
   State<CustomDropdownButton> createState() => _CustomDropdownButtonState();
@@ -18,7 +22,6 @@ class CustomDropdownButton extends StatefulWidget {
 
 class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   Color buttonColor = Colors.white;
-  bool portalVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +36,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         setState(() {});
       },
       child: PortalTarget(
-        visible: portalVisible,
+        visible: widget.portalVisibility,
         anchor: const Aligned(
           follower: Alignment.topCenter,
           target: Alignment.bottomCenter,
@@ -41,11 +44,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         portalFollower: widget.portalFollower,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTap: () {
-            setState(() {
-              portalVisible = !portalVisible;
-            });
-          },
+          onTap: widget.onTap,
           child: Container(
             padding: const EdgeInsets.all(15),
             child: Row(

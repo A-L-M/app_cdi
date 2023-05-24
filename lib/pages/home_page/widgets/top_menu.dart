@@ -1,9 +1,11 @@
 import 'package:app_cdi/helpers/constants.dart';
 import 'package:app_cdi/pages/home_page/widgets/login_form.dart';
+import 'package:app_cdi/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:app_cdi/pages/home_page/widgets/dropdown_button.dart';
+import 'package:provider/provider.dart';
 
 class TopMenuWidget extends StatelessWidget {
   const TopMenuWidget({Key? key}) : super(key: key);
@@ -56,6 +58,8 @@ class TopMenuBodyDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomePageProvider provider = Provider.of<HomePageProvider>(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
       margin: const EdgeInsets.only(bottom: 20, left: 68, right: 68),
@@ -78,11 +82,15 @@ class TopMenuBodyDesktop extends StatelessWidget {
               width: 50,
               color: Colors.red,
             ),
+            portalVisibility: provider.cdiPortalVisible,
+            onTap: () => provider.changeCdiPortalVisible(),
           ),
           const Spacer(),
           CustomDropdownButton(
             title: 'Iniciar Sesión',
             portalFollower: const LoginForm(),
+            portalVisibility: provider.loginPortalVisible,
+            onTap: () => provider.changeLoginPortalVisible(),
           ),
         ],
       ),

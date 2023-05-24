@@ -28,6 +28,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => UserState(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => HomePageProvider(),
+        )
       ],
       child: const MyApp(),
     ),

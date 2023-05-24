@@ -1,7 +1,9 @@
-import 'package:app_cdi/pages/home_page/widgets/top_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import 'package:app_cdi/pages/home_page/widgets/top_menu.dart';
+import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/helpers/constants.dart';
 import 'package:app_cdi/pages/home_page/widgets/inventario_button.dart';
 
@@ -15,9 +17,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final HomePageProvider provider = Provider.of<HomePageProvider>(context);
+
     return Scaffold(
       body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          provider.setPortalsVisible(false);
+        },
         child: Container(
           constraints: const BoxConstraints.expand(),
           decoration: const BoxDecoration(

@@ -1,8 +1,9 @@
-import 'package:app_cdi/provider/user_state_provider.dart';
-import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+
+import 'package:app_cdi/provider/user_state_provider.dart';
+import 'package:app_cdi/theme/theme.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -12,9 +13,12 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
+
     return Container(
       height: 200,
       width: 250,
@@ -23,22 +27,25 @@ class _LoginFormState extends State<LoginForm> {
         color: const Color(0xCCFFFFFF),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          LoginInputField(
-            label: 'Usuario',
-            controller: userState.emailController,
-            // width: 100,
-          ),
-          LoginInputField(
-            label: 'Contraseña',
-            isPasswordField: true,
-            controller: userState.emailController,
-            // width: 100,
-          ),
-          Text('Iniciar sesion'),
-        ],
+      child: Form(
+        key: formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            LoginInputField(
+              label: 'Usuario',
+              controller: userState.emailController,
+              // width: 100,
+            ),
+            LoginInputField(
+              label: 'Contraseña',
+              isPasswordField: true,
+              controller: userState.emailController,
+              // width: 100,
+            ),
+            Text('Iniciar sesion'),
+          ],
+        ),
       ),
     );
   }
