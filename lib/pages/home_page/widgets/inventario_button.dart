@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class InventarioButton extends StatefulWidget {
-  const InventarioButton({
+class HomePageButton extends StatefulWidget {
+  const HomePageButton({
     Key? key,
     required this.label,
     required this.onTap,
+    this.padding = const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+    this.fontSize = 18,
   }) : super(key: key);
 
   final String label;
   final void Function() onTap;
+  final EdgeInsets padding;
+  final double fontSize;
 
   @override
-  State<InventarioButton> createState() => _InventarioButtonState();
+  State<HomePageButton> createState() => _HomePageButtonState();
 }
 
-class _InventarioButtonState extends State<InventarioButton> {
+class _HomePageButtonState extends State<HomePageButton> {
   Color buttonColor = const Color(0xFFD1AC2B);
 
   Color lighten(Color c, [int percent = 10]) {
@@ -46,7 +50,7 @@ class _InventarioButtonState extends State<InventarioButton> {
         child: AnimatedContainer(
           curve: Curves.easeIn,
           duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+          padding: widget.padding,
           decoration: BoxDecoration(
             color: buttonColor,
             borderRadius: BorderRadius.circular(3),
@@ -55,7 +59,7 @@ class _InventarioButtonState extends State<InventarioButton> {
             widget.label,
             style: GoogleFonts.montserrat(
               color: Colors.white,
-              fontSize: 18,
+              fontSize: widget.fontSize,
               fontWeight: FontWeight.bold,
             ),
           ),

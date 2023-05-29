@@ -1,11 +1,10 @@
-import 'package:app_cdi/helpers/constants.dart';
-import 'package:app_cdi/pages/home_page/widgets/login_form.dart';
-import 'package:app_cdi/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:app_cdi/pages/home_page/widgets/dropdown_button.dart';
 import 'package:provider/provider.dart';
+
+import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/helpers/constants.dart';
+import 'package:app_cdi/pages/home_page/widgets/dropdown_button.dart';
 
 class TopMenuWidget extends StatelessWidget {
   const TopMenuWidget({Key? key}) : super(key: key);
@@ -75,21 +74,9 @@ class TopMenuBodyDesktop extends StatelessWidget {
               ),
             ),
           ),
-          CustomDropdownButton(
-            title: 'CDI',
-            portalFollower: Container(
-              height: 50,
-              width: 50,
-              color: Colors.red,
-            ),
-            portalVisibility: provider.cdiPortalVisible,
-            onTap: () => provider.changeCdiPortalVisible(),
-          ),
           const Spacer(),
           CustomDropdownButton(
             title: 'Iniciar Sesión',
-            portalFollower: const LoginForm(),
-            portalVisibility: provider.loginPortalVisible,
             onTap: () => provider.changeLoginPortalVisible(),
           ),
         ],

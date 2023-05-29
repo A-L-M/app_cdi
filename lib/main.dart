@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_portal/flutter_portal.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -60,23 +59,21 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Portal(
-      child: MaterialApp.router(
-        title: 'CDI',
-        debugShowCheckedModeBanner: false,
-        locale: _locale,
-        supportedLocales: const [Locale('en', 'US')],
-        theme: ThemeData(
-          brightness: Brightness.light,
-          dividerColor: Colors.grey,
-        ),
-        darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          dividerColor: Colors.grey,
-        ),
-        themeMode: _themeMode,
-        routerConfig: router,
+    return MaterialApp.router(
+      title: 'CDI',
+      debugShowCheckedModeBanner: false,
+      locale: _locale,
+      supportedLocales: const [Locale('en', 'US')],
+      theme: ThemeData(
+        brightness: Brightness.light,
+        dividerColor: Colors.grey,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        dividerColor: Colors.grey,
+      ),
+      themeMode: _themeMode,
+      routerConfig: router,
     );
   }
 }

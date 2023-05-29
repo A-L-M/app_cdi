@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/pages/home_page/widgets/login_form.dart';
 import 'package:app_cdi/pages/home_page/widgets/top_menu.dart';
 import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/helpers/constants.dart';
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
-          provider.setPortalsVisible(false);
+          provider.setLoginVisible(false);
         },
         child: Container(
           constraints: const BoxConstraints.expand(),
@@ -83,9 +84,9 @@ class HomePageBodyMobile extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          InventarioButton(label: 'INVENTARIO I', onTap: () {}),
+          HomePageButton(label: 'INVENTARIO I', onTap: () {}),
           const SizedBox(height: 20),
-          InventarioButton(label: 'INVENTARIO II', onTap: () {}),
+          HomePageButton(label: 'INVENTARIO II', onTap: () {}),
         ],
       ),
     );
@@ -97,42 +98,55 @@ class HomePageBodyDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final HomePageProvider provider = Provider.of<HomePageProvider>(context);
+    return Stack(
       children: [
-        const TopMenuWidget(),
-        Container(
-          padding: const EdgeInsets.only(top: 125),
-          margin: const EdgeInsets.only(bottom: 25),
-          child: const Text(
-            '¡Bienvenido!',
-            style: TextStyle(
-              fontFamily: 'DroidSerif',
-              fontStyle: FontStyle.italic,
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 70,
-            ),
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(bottom: 50),
-          child: Text(
-            'LABORATORIO DE INFANTES',
-            style: GoogleFonts.montserrat(
-              color: Colors.white,
-              fontSize: 75,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Column(
           children: [
-            InventarioButton(label: 'INVENTARIO I', onTap: () {}),
-            const SizedBox(width: 50),
-            InventarioButton(label: 'INVENTARIO II', onTap: () {}),
+            const TopMenuWidget(),
+            Container(
+              padding: const EdgeInsets.only(top: 125),
+              margin: const EdgeInsets.only(bottom: 25),
+              child: const Text(
+                '¡Bienvenido!',
+                style: TextStyle(
+                  fontFamily: 'DroidSerif',
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 70,
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 50),
+              child: Text(
+                'LABORATORIO DE INFANTES',
+                style: GoogleFonts.montserrat(
+                  color: Colors.white,
+                  fontSize: 75,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                HomePageButton(label: 'INVENTARIO I', onTap: () {}),
+                const SizedBox(width: 50),
+                HomePageButton(label: 'INVENTARIO II', onTap: () {}),
+              ],
+            ),
           ],
+        ),
+        Positioned(
+          right: 35,
+          top: 80,
+          child: Visibility(
+            visible: provider.loginVisible,
+            child: const LoginForm(),
+          ),
         ),
       ],
     );

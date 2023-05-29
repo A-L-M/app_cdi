@@ -10,7 +10,7 @@ class Usuario {
     required this.nombre,
     required this.apellidos,
     this.imagen,
-    required this.telefono,
+    this.telefono,
     required this.rol,
   });
 
@@ -20,7 +20,7 @@ class Usuario {
   String nombre;
   String apellidos;
   String? imagen;
-  String telefono;
+  String? telefono;
   Rol rol;
 
   String get nombreCompleto => '$nombre $apellidos';
@@ -30,7 +30,7 @@ class Usuario {
   factory Usuario.fromMap(Map<String, dynamic> json) {
     Usuario usuario = Usuario(
       id: json["id"],
-      idSecuencial: json["usuario_id_secuencial"],
+      idSecuencial: json["id_secuencial"],
       email: json["email"],
       nombre: json["nombre"],
       apellidos: json["apellidos"],

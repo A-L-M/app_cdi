@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
 
 class HomePageProvider extends ChangeNotifier {
-  bool loginPortalVisible = false;
-  bool cdiPortalVisible = false;
+  bool loginVisible = false;
 
-  void setPortalsVisible(bool value) {
-    loginPortalVisible = value;
-    cdiPortalVisible = value;
+  void setLoginVisible(bool value) {
+    loginVisible = value;
     notifyListeners();
   }
 
   void changeLoginPortalVisible() {
-    loginPortalVisible = !loginPortalVisible;
-    notifyListeners();
-  }
-
-  void changeCdiPortalVisible() {
-    cdiPortalVisible = !cdiPortalVisible;
+    loginVisible = !loginVisible;
     notifyListeners();
   }
 }
