@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -84,9 +85,17 @@ class HomePageBodyMobile extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          HomePageButton(label: 'INVENTARIO I', onTap: () {}),
+          HomePageButton(
+              label: 'INVENTARIO I',
+              onTap: () {
+                context.pushReplacement('/cdi-1');
+              }),
           const SizedBox(height: 20),
-          HomePageButton(label: 'INVENTARIO II', onTap: () {}),
+          HomePageButton(
+              label: 'INVENTARIO II',
+              onTap: () {
+                context.pushReplacement('/cdi-2');
+              }),
         ],
       ),
     );
@@ -133,9 +142,17 @@ class HomePageBodyDesktop extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                HomePageButton(label: 'INVENTARIO I', onTap: () {}),
+                HomePageButton(
+                    label: 'INVENTARIO I',
+                    onTap: () {
+                      context.pushReplacement('/cdi-1');
+                    }),
                 const SizedBox(width: 50),
-                HomePageButton(label: 'INVENTARIO II', onTap: () {}),
+                HomePageButton(
+                    label: 'INVENTARIO II',
+                    onTap: () {
+                      context.pushReplacement('/cdi-2');
+                    }),
               ],
             ),
           ],

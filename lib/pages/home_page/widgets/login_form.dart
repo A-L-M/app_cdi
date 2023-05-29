@@ -103,10 +103,8 @@ class _LoginFormState extends State<LoginForm> {
                     return;
                   }
 
-                  print('Sesion iniciada');
-
-                  // if (!mounted) return;
-                  // context.pushReplacement('/dashboards');
+                  if (!mounted) return;
+                  context.pushReplacement('/formularios');
                 } catch (e) {
                   if (e is AuthException) {
                     await ApiErrorHandler.callToast('Credenciales inválidas');
