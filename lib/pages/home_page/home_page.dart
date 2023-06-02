@@ -17,11 +17,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     final HomePageProvider provider = Provider.of<HomePageProvider>(context);
 
     return Scaffold(
+      key: scaffoldKey,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -88,13 +91,15 @@ class HomePageBodyMobile extends StatelessWidget {
           HomePageButton(
               label: 'INVENTARIO I',
               onTap: () {
-                context.pushReplacement('/cdi-1');
+                context.pushReplacement('/datos-personales',
+                    extra: 'INVENTARIO I');
               }),
           const SizedBox(height: 20),
           HomePageButton(
               label: 'INVENTARIO II',
               onTap: () {
-                context.pushReplacement('/cdi-2');
+                context.pushReplacement('/datos-personales',
+                    extra: 'INVENTARIO II');
               }),
         ],
       ),
@@ -145,13 +150,19 @@ class HomePageBodyDesktop extends StatelessWidget {
                 HomePageButton(
                     label: 'INVENTARIO I',
                     onTap: () {
-                      context.pushReplacement('/cdi-1');
+                      context.pushReplacement(
+                        '/datos-personales',
+                        extra: 'INVENTARIO I',
+                      );
                     }),
                 const SizedBox(width: 50),
                 HomePageButton(
                     label: 'INVENTARIO II',
                     onTap: () {
-                      context.pushReplacement('/cdi-2');
+                      context.pushReplacement(
+                        '/datos-personales',
+                        extra: 'INVENTARIO II',
+                      );
                     }),
               ],
             ),

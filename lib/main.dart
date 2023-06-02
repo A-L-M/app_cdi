@@ -29,7 +29,10 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => HomePageProvider(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (_) => DatosPersonalesProvider(),
+        ),
       ],
       child: const MyApp(),
     ),

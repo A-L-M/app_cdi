@@ -17,12 +17,13 @@ final GoRouter router = GoRouter(
 
     if (state.location == '/cambio_contrasena' ||
         state.location == '/cdi-1' ||
-        state.location == '/cdi-2') {
+        state.location == '/cdi-2' ||
+        state.location == '/datos-personales') {
       return null;
     }
 
     //If user is not logged in and not in the login page
-    if (!loggedIn && !isLoggingIn) return '/login';
+    // if (!loggedIn && !isLoggingIn) return '/login';
 
     //if user is logged in and in the login page
     if (loggedIn && isLoggingIn) return '/';
@@ -35,6 +36,16 @@ final GoRouter router = GoRouter(
       name: 'home',
       builder: (BuildContext context, GoRouterState state) {
         return const HomePage();
+      },
+    ),
+    GoRoute(
+      path: '/datos-personales',
+      name: 'datos_personales',
+      builder: (BuildContext context, GoRouterState state) {
+        // if (state.extra == null) return const HomePage();
+        if (state.extra == null)
+          return DatosPersonalesPage(inventario: 'INVENTARIO II');
+        return DatosPersonalesPage(inventario: state.extra as String);
       },
     ),
     GoRoute(
