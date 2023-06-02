@@ -1,6 +1,8 @@
+import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cdi/helpers/datetime_extension.dart';
 import 'package:app_cdi/helpers/string_extension.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 /// Class [CustomDatePicker] help display date picker on web
 class CustomDatePicker extends StatefulWidget {
@@ -9,12 +11,13 @@ class CustomDatePicker extends StatefulWidget {
     this.initialDate,
     this.firstDate,
     this.lastDate,
-    required this.onChange,
+    required this.onChanged,
     this.style,
-    this.width = 200,
+    this.width = double.infinity,
     this.height = 36,
     this.prefix,
     this.dateformat = 'yyyy/MM/dd',
+    this.label = '',
   }) : super(key: key);
 
   /// The initial date first
@@ -27,7 +30,7 @@ class CustomDatePicker extends StatefulWidget {
   final DateTime? lastDate;
 
   /// Called when the user picks a day.
-  final ValueChanged<DateTime?> onChange;
+  final ValueChanged<DateTime?> onChanged;
 
   /// The text style of date form field
   final TextStyle? style;
@@ -42,11 +45,13 @@ class CustomDatePicker extends StatefulWidget {
   /// The date format will be displayed in date form field
   final String dateformat;
 
+  final String label;
+
   @override
-  _WebDatePickerState createState() => _WebDatePickerState();
+  State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
-class _WebDatePickerState extends State<CustomDatePicker> {
+class _CustomDatePickerState extends State<CustomDatePicker> {
   final FocusNode _focusNode = FocusNode();
 
   late OverlayEntry _overlayEntry;
@@ -79,13 +84,13 @@ class _WebDatePickerState extends State<CustomDatePicker> {
         Overlay.of(context).insert(_overlayEntry);
       } else {
         _controller.text = _selectedDate.parseToString(widget.dateformat);
-        widget.onChange.call(_selectedDate);
+        widget.onChanged.call(_selectedDate);
         _overlayEntry.remove();
       }
     });
   }
 
-  void onChange(DateTime? selectedDate) {
+  void onChanged(DateTime? selectedDate) {
     _selectedDate = selectedDate;
     _controller.text = _selectedDate.parseToString(widget.dateformat);
 
@@ -93,25 +98,25 @@ class _WebDatePickerState extends State<CustomDatePicker> {
   }
 
   OverlayEntry _createOverlayEntry() {
-    final RenderBox? renderBox = context.findRenderObject() as RenderBox?;
-    final size = renderBox!.size;
-
     return OverlayEntry(
       builder: (context) => Positioned(
         width: 300,
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: Offset(0.0, size.height + 5.0),
-          child: Material(
-            elevation: 5,
-            child: SizedBox(
-              height: 250,
-              child: CalendarDatePicker(
-                firstDate: _firstDate,
-                lastDate: _lastDate,
-                initialDate: _selectedDate ?? DateTime.now(),
-                onDateChanged: onChange,
+          // offset: Offset(0.0, size.height + 5.0),
+          offset: const Offset(0.0, -250),
+          child: TextFieldTapRegion(
+            child: Material(
+              elevation: 5,
+              child: SizedBox(
+                height: 250,
+                child: CalendarDatePicker(
+                  firstDate: _firstDate,
+                  lastDate: _lastDate,
+                  initialDate: _selectedDate ?? DateTime.now(),
+                  onDateChanged: onChanged,
+                ),
               ),
             ),
           ),
@@ -124,39 +129,74 @@ class _WebDatePickerState extends State<CustomDatePicker> {
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
       link: _layerLink,
-      child: MouseRegion(
-        onEnter: (_) {
-          setState(() {
-            _isEnterDateField = true;
-          });
-        },
-        onExit: (_) {
-          setState(() {
-            _isEnterDateField = false;
-          });
-        },
-        child: SizedBox(
-          width: widget.width,
-          height: widget.height,
-          child: TextFormField(
-            focusNode: _focusNode,
-            controller: _controller,
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-              border: const OutlineInputBorder(),
-              suffixIcon: _buildPrefixIcon(),
+      child: SizedBox(
+        width: widget.width,
+        height: widget.height,
+        child: TextFormField(
+          focusNode: _focusNode,
+          controller: _controller,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+              top: 15,
+              bottom: 12.5,
             ),
-            onChanged: (dateString) {
-              final date = dateString.parseToDateTime(widget.dateformat);
-              if (date.isBefore(_firstDate)) {
-                _selectedDate = _firstDate;
-              } else if (date.isAfter(_lastDate)) {
-                _selectedDate = _lastDate;
-              } else {
-                _selectedDate = date;
-              }
-            },
+            alignLabelWithHint: true,
+            hintText: widget.dateformat.toLowerCase(),
+            hintStyle: GoogleFonts.robotoSlab(
+              color: const Color(0xFFBfbfbf),
+              fontWeight: FontWeight.normal,
+              fontSize: 14,
+            ),
+            border: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Color(0xFFCCCCCC),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(4.88),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Color(0xFFCCCCCC),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(4.88),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.black,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(4.88),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(4.88),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                color: Colors.red,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(4.88),
+            ),
+            focusColor: AppTheme.of(context).primaryColor,
+            suffixIcon: _buildPrefixIcon(),
           ),
+          onChanged: (dateString) {
+            final date = dateString.parseToDateTime(widget.dateformat);
+            if (date.isBefore(_firstDate)) {
+              _selectedDate = _firstDate;
+            } else if (date.isAfter(_lastDate)) {
+              _selectedDate = _lastDate;
+            } else {
+              _selectedDate = date;
+            }
+          },
         ),
       ),
     );

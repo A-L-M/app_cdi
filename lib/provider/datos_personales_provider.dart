@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+enum Sexo { hombre, mujer }
+
 class DatosPersonalesProvider extends ChangeNotifier {
   final numIdentificacionController = TextEditingController();
   final nombreCuidadorController = TextEditingController();
@@ -8,9 +10,26 @@ class DatosPersonalesProvider extends ChangeNotifier {
   final apellidoMaternoController = TextEditingController();
   final buscarController = TextEditingController();
 
-  String? sexo;
+  Sexo? sexo;
   DateTime? fechaNacimiento;
   DateTime? fechaCita;
+
+  void setSexo(Sexo selected) {
+    sexo = selected;
+    notifyListeners();
+  }
+
+  void clearAll() {
+    numIdentificacionController.clear();
+    nombreController.clear();
+    nombreController.clear();
+    apellidoPaternoController.clear();
+    apellidoMaternoController.clear();
+    buscarController.clear();
+    sexo = null;
+    fechaNacimiento = null;
+    fechaCita = null;
+  }
 
   @override
   void dispose() {

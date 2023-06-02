@@ -1,10 +1,12 @@
-import 'package:app_cdi/pages/datos_personales_page/widgets/custom_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:app_cdi/helpers/constants.dart';
+import 'package:app_cdi/pages/datos_personales_page/cards/title_card.dart';
+import 'package:app_cdi/pages/datos_personales_page/widgets/custom_date_picker.dart';
+import 'package:app_cdi/pages/datos_personales_page/widgets/datos_button.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/custom_card.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_header.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_input_field.dart';
@@ -85,53 +87,7 @@ class _DatosPersonalesDesktopState extends State<DatosPersonalesDesktop> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Column(
                         children: [
-                          CustomCard(
-                            title: 'Palabras y Enunciados',
-                            height: 191.8,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.symmetric(
-                                    vertical: 10,
-                                  ),
-                                  child: Text(
-                                    '(${widget.inventario})',
-                                    style: GoogleFonts.montserrat(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFF2B2B2B),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Donna Jackson - Maldonado, PhD',
-                                        style: GoogleFonts.robotoSlab(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      Text(
-                                        'Elizabeth Bates, PhD y Donna J. Thal, PhD',
-                                        style: GoogleFonts.robotoSlab(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          TitleCard(inventario: widget.inventario),
                           CustomCard(
                             title: '¿Es tu segunda o tercera cita?',
                             height: 180,
@@ -149,7 +105,12 @@ class _DatosPersonalesDesktopState extends State<DatosPersonalesDesktop> {
                                     ),
                                   ],
                                 ),
-                                Text('Buscar'),
+                                Align(
+                                  child: DatosButton(
+                                    label: 'BUSCAR',
+                                    onTap: () {},
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -248,12 +209,78 @@ class _DatosPersonalesDesktopState extends State<DatosPersonalesDesktop> {
                               ],
                             ),
                             const InputLabel(label: 'Sexo'),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile<Sexo>(
+                                      title: const Text('Hombre'),
+                                      activeColor: const Color(0xFF002976),
+                                      value: Sexo.hombre,
+                                      groupValue: provider.sexo,
+                                      onChanged: (sexo) {
+                                        if (sexo == null) return;
+                                        provider.setSexo(sexo);
+                                      },
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile<Sexo>(
+                                      title: const Text('Mujer'),
+                                      activeColor: const Color(0xFF002976),
+                                      value: Sexo.mujer,
+                                      groupValue: provider.sexo,
+                                      onChanged: (sexo) {
+                                        if (sexo == null) return;
+                                        provider.setSexo(sexo);
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             const InputLabel(label: 'Fecha de nacimiento'),
-                            CustomDatePicker(onChange: (date) {
-                              if (date == null) return;
-                              provider.fechaNacimiento = date;
-                            }),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 15),
+                              child: CustomDatePicker(onChanged: (date) {
+                                if (date == null) return;
+                                provider.fechaNacimiento = date;
+                              }),
+                            ),
                             const InputLabel(label: 'Fecha de la cita'),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 15),
+                              child: CustomDatePicker(
+                                initialDate: DateTime.now(),
+                                onChanged: (date) {
+                                  if (date == null) return;
+                                  provider.fechaCita = date;
+                                },
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                DatosButton(
+                                  label: 'LIMPIAR',
+                                  onTap: () {
+                                    provider.clearAll();
+                                  },
+                                ),
+                                const SizedBox(width: 20),
+                                DatosButton(
+                                  label: 'CONTINUAR',
+                                  onTap: () {
+                                    if (widget.inventario == 'INVENTARIO I') {
+                                      context.pushReplacement('/cdi-1');
+                                    } else {
+                                      context.pushReplacement('cdi-2');
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
