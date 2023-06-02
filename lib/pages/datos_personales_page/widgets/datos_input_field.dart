@@ -37,11 +37,12 @@ class _LoginInputFieldState extends State<DatosInputField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 60,
       child: TextFormField(
         key: widget.key,
         controller: widget.controller,
         validator: widget.validator,
+        inputFormatters: widget.inputFormatters,
         decoration: InputDecoration(
           isCollapsed: true,
           isDense: true,

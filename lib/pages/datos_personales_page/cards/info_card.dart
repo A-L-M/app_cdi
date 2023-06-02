@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/custom_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class TitleCard extends StatelessWidget {
-  const TitleCard({
+class InfoCard extends StatelessWidget {
+  const InfoCard({
     super.key,
     required this.inventario,
   });
