@@ -92,14 +92,14 @@ class _LoginFormState extends State<LoginForm> {
                   }
 
                   if (supabase.auth.currentUser == null) {
-                    await ApiErrorHandler.callToast();
+                    // await ApiErrorHandler.callToast();
                     return;
                   }
 
                   currentUser = await SupabaseQueries.getCurrentUserData();
 
                   if (currentUser == null) {
-                    await ApiErrorHandler.callToast();
+                    // await ApiErrorHandler.callToast();
                     return;
                   }
 
@@ -107,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
                   context.pushReplacement('/formularios');
                 } catch (e) {
                   if (e is AuthException) {
-                    await ApiErrorHandler.callToast('Credenciales inválidas');
+                    // await ApiErrorHandler.callToast('Credenciales inválidas');
                     return;
                   }
                   log('Error al iniciar sesión - $e');
