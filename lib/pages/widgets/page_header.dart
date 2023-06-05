@@ -2,23 +2,23 @@ import 'package:app_cdi/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DatosHeader extends StatelessWidget {
-  const DatosHeader({Key? key}) : super(key: key);
+class PageHeader extends StatelessWidget {
+  const PageHeader({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth > mobileSize) {
-        return const DatosHeaderDesktop();
+        return const PageHeaderDesktop();
       } else {
-        return const DatosHeaderMobile();
+        return const PageHeaderMobile();
       }
     });
   }
 }
 
-class DatosHeaderDesktop extends StatelessWidget {
-  const DatosHeaderDesktop({Key? key}) : super(key: key);
+class PageHeaderDesktop extends StatelessWidget {
+  const PageHeaderDesktop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +70,8 @@ class DatosHeaderDesktop extends StatelessWidget {
   }
 }
 
-class DatosHeaderMobile extends StatelessWidget {
-  const DatosHeaderMobile({Key? key}) : super(key: key);
+class PageHeaderMobile extends StatelessWidget {
+  const PageHeaderMobile({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

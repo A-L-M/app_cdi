@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:app_cdi/pages/datos_personales_page/widgets/custom_card.dart';
+import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class InfoCard extends StatelessWidget {
@@ -15,7 +15,6 @@ class InfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomCard(
       title: 'Palabras y Enunciados',
-      height: 191.8,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

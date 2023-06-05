@@ -7,19 +7,20 @@ class CustomCard extends StatelessWidget {
     required this.title,
     required this.child,
     this.width = double.infinity,
-    required this.height,
+    this.contentPadding = const EdgeInsets.all(15),
+    this.textAlign = TextAlign.center,
   }) : super(key: key);
 
   final String title;
   final Widget child;
   final double width;
-  final double height;
+  final EdgeInsets contentPadding;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: height,
       margin: const EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
@@ -28,6 +29,7 @@ class CustomCard extends StatelessWidget {
         ),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             width: double.infinity,
@@ -48,15 +50,15 @@ class CustomCard extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                textAlign: TextAlign.center,
+                textAlign: textAlign,
               ),
             ),
           ),
-          Expanded(
+          Flexible(
             child: SizedBox(
               width: double.infinity,
               child: Container(
-                padding: const EdgeInsets.all(15),
+                padding: contentPadding,
                 child: child,
               ),
             ),

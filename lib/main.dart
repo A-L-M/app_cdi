@@ -33,6 +33,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => DatosPersonalesProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => CDI2Provider(),
+        ),
       ],
       child: const MyApp(),
     ),

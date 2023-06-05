@@ -4,7 +4,7 @@ import 'package:app_cdi/helpers/constants.dart';
 import 'package:app_cdi/pages/datos_personales_page/cards/datos_bebe_card.dart';
 import 'package:app_cdi/pages/datos_personales_page/cards/busqueda_card.dart';
 import 'package:app_cdi/pages/datos_personales_page/cards/info_card.dart';
-import 'package:app_cdi/pages/datos_personales_page/widgets/datos_header.dart';
+import 'package:app_cdi/pages/widgets/page_header.dart';
 
 class DatosPersonalesPage extends StatefulWidget {
   const DatosPersonalesPage({
@@ -65,7 +65,7 @@ class _DatosPersonalesDesktopState extends State<DatosPersonalesDesktop> {
         child: Column(
           children: [
             const SizedBox(height: 50),
-            const DatosHeader(),
+            const PageHeader(),
             SizedBox(
               width: 1170,
               child: Row(
@@ -128,7 +128,7 @@ class _DatosPersonalesMobileState extends State<DatosPersonalesMobile> {
           child: Column(
             children: [
               const SizedBox(height: 50),
-              const DatosHeader(),
+              const PageHeader(),
               InfoCard(inventario: widget.inventario),
               const BusquedaCard(),
               DatosBebeCard(

@@ -1,13 +1,15 @@
-import 'package:app_cdi/pages/datos_personales_page/widgets/custom_card.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/custom_date_picker.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_button.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_input_field.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/input_label.dart';
 import 'package:app_cdi/provider/providers.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class DatosBebeCard extends StatefulWidget {
   const DatosBebeCard({
@@ -23,6 +25,7 @@ class DatosBebeCard extends StatefulWidget {
 
 class _DatosBebeCardState extends State<DatosBebeCard> {
   final formKey = GlobalKey<FormState>();
+  bool showSexoError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,6 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
 
     return CustomCard(
       title: 'Datos del bebé',
-      height: 765,
       child: Form(
         key: formKey,
         child: Column(
@@ -119,55 +121,79 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
               ],
             ),
             const InputLabel(label: 'Sexo'),
-            Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: RadioListTile<Sexo>(
-                      title: const Text('Hombre'),
-                      activeColor: const Color(0xFF002976),
-                      value: Sexo.hombre,
-                      groupValue: provider.sexo,
-                      onChanged: (sexo) {
-                        if (sexo == null) return;
-                        provider.setSexo(sexo);
-                      },
-                    ),
+            Row(
+              children: [
+                Expanded(
+                  child: RadioListTile<Sexo>(
+                    title: const Text('Hombre'),
+                    activeColor: const Color(0xFF002976),
+                    value: Sexo.hombre,
+                    groupValue: provider.sexo,
+                    onChanged: (sexo) {
+                      if (sexo == null) return;
+                      provider.setSexo(sexo);
+                    },
                   ),
-                  Expanded(
-                    child: RadioListTile<Sexo>(
-                      title: const Text('Mujer'),
-                      activeColor: const Color(0xFF002976),
-                      value: Sexo.mujer,
-                      groupValue: provider.sexo,
-                      onChanged: (sexo) {
-                        if (sexo == null) return;
-                        provider.setSexo(sexo);
-                      },
-                    ),
+                ),
+                Expanded(
+                  child: RadioListTile<Sexo>(
+                    title: const Text('Mujer'),
+                    activeColor: const Color(0xFF002976),
+                    value: Sexo.mujer,
+                    groupValue: provider.sexo,
+                    onChanged: (sexo) {
+                      if (sexo == null) return;
+                      provider.setSexo(sexo);
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+            if (showSexoError)
+              Text(
+                'El sexo es obligatorio',
+                style: GoogleFonts.robotoSlab(
+                  color: Colors.red,
+                  fontSize: 12,
+                ),
+              ),
+            const SizedBox(height: 10),
             const InputLabel(label: 'Fecha de nacimiento'),
-            Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              child: CustomDatePicker(onChanged: (date) {
+            CustomDatePicker(
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]/'),
+                ),
+              ],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'La fecha de nacimiento es obligatoria';
+                }
+                return null;
+              },
+              onChanged: (date) {
                 if (date == null) return;
                 provider.fechaNacimiento = date;
-              }),
+              },
             ),
             const InputLabel(label: 'Fecha de la cita'),
-            Container(
-              margin: const EdgeInsets.only(bottom: 15),
-              child: CustomDatePicker(
-                initialDate: DateTime.now(),
-                onChanged: (date) {
-                  if (date == null) return;
-                  provider.fechaCita = date;
-                },
-              ),
+            CustomDatePicker(
+              initialDate: DateTime.now(),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(r'[0-9]/'),
+                ),
+              ],
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'La fecha de la cita es obligatoria';
+                }
+                return null;
+              },
+              onChanged: (date) {
+                if (date == null) return;
+                provider.fechaCita = date;
+              },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -183,8 +209,17 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                   label: 'CONTINUAR',
                   onTap: () {
                     if (!formKey.currentState!.validate()) {
+                      if (provider.sexo == null) {
+                        showSexoError = true;
+                        setState(() {});
+                        return;
+                      } else {
+                        showSexoError = false;
+                        setState(() {});
+                      }
                       return;
                     }
+
                     if (widget.inventario == 'INVENTARIO I') {
                       context.pushReplacement('/cdi-1');
                     } else {

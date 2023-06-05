@@ -1,3 +1,4 @@
+export 'package:app_cdi/provider/cdi_2_provider.dart';
 export 'package:app_cdi/provider/datos_personales_provider.dart';
 export 'package:app_cdi/provider/home_page_provider.dart';
 export 'package:app_cdi/provider/user_state_provider.dart';

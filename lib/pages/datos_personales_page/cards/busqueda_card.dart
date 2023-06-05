@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_button.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_input_field.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/input_label.dart';
-import 'package:app_cdi/pages/datos_personales_page/widgets/custom_card.dart';
+import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:app_cdi/provider/providers.dart';
 
 class BusquedaCard extends StatelessWidget {
@@ -19,7 +19,6 @@ class BusquedaCard extends StatelessWidget {
         Provider.of<DatosPersonalesProvider>(context);
     return CustomCard(
       title: '¿Es tu segunda o tercera cita?',
-      height: 190,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

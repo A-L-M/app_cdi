@@ -59,6 +59,10 @@ class _LoginInputFieldState extends State<DatosInputField> {
             fontWeight: FontWeight.normal,
             fontSize: 14,
           ),
+          errorStyle: GoogleFonts.robotoSlab(
+            fontWeight: FontWeight.normal,
+            color: Colors.red,
+          ),
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               color: Color(0xFFCCCCCC),
