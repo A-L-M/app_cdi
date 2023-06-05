@@ -63,10 +63,10 @@ class _PalabrasSectionState extends State<PalabrasSection> {
 
           return Container(
             decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color(0xFFDDDDDD),
-              ),
-            ),
+                border: Border.all(
+                  color: const Color(0xFFDDDDDD),
+                ),
+                color: palabra.icplim ? Colors.grey[300] : null),
             width: 285.75,
             height: 50,
             child: ListTile(
@@ -74,6 +74,8 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                 palabra.nombre,
                 style: GoogleFonts.robotoSlab(
                   fontSize: 14,
+                  decoration:
+                      palabra.subrayada ? TextDecoration.underline : null,
                   fontWeight: FontWeight.normal,
                   color: const Color(0xFF2B2B2B),
                 ),
