@@ -1,3 +1,4 @@
+export 'package:app_cdi/pages/gracias_page/gracias_page.dart';
 export 'package:app_cdi/pages/page_not_found.dart';
 export 'package:app_cdi/pages/datos_personales_page/datos_personales_page.dart';
 export 'package:app_cdi/pages/home_page/home_page.dart';

@@ -219,6 +219,7 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                       }
                       return;
                     }
+                    provider.id = provider.numIdentificacionController.text;
 
                     if (widget.inventario == 'INVENTARIO I') {
                       context.pushReplacement('/cdi-1');

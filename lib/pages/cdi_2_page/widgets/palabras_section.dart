@@ -20,9 +20,20 @@ class _PalabrasSectionState extends State<PalabrasSection> {
   @override
   Widget build(BuildContext context) {
     final CDI2Provider provider = Provider.of<CDI2Provider>(context);
+    final size = MediaQuery.of(context).size;
 
     //numero de columnas
-    const int numColumnas = 4;
+    int numColumnas = 4;
+
+    if (size.width > 1145) {
+      numColumnas = 4;
+    } else if (size.width > 857) {
+      numColumnas = 3;
+    } else if (size.width > 571) {
+      numColumnas = 2;
+    } else {
+      numColumnas = 1;
+    }
 
     //numero de renglones
     final int renglones = (widget.palabras.length / numColumnas).ceil();

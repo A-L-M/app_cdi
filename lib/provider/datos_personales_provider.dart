@@ -13,6 +13,7 @@ class DatosPersonalesProvider extends ChangeNotifier {
   Sexo? sexo;
   DateTime? fechaNacimiento;
   DateTime? fechaCita;
+  String? id;
 
   void setSexo(Sexo selected) {
     sexo = selected;

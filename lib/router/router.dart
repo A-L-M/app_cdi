@@ -1,5 +1,4 @@
 import 'package:app_cdi/helpers/globals.dart';
-import 'package:app_cdi/pages/formularios_page/formularios_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,7 +9,7 @@ import 'package:app_cdi/services/navigation_service.dart';
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
-  initialLocation: '/cdi-2',
+  initialLocation: '/',
   redirect: (BuildContext context, GoRouterState state) {
     final bool loggedIn = currentUser != null;
     final bool isLoggingIn = state.location == '/login';
@@ -18,7 +17,8 @@ final GoRouter router = GoRouter(
     if (state.location == '/cambio_contrasena' ||
         state.location == '/cdi-1' ||
         state.location == '/cdi-2' ||
-        state.location == '/datos-personales') {
+        state.location == '/datos-personales' ||
+        state.location == '/gracias') {
       return null;
     }
 
@@ -63,10 +63,10 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/formularios',
-      name: 'formularios',
+      path: '/gracias',
+      name: 'gracias',
       builder: (BuildContext context, GoRouterState state) {
-        return const FormulariosPage();
+        return const GraciasPage();
       },
     ),
   ],

@@ -37,7 +37,7 @@ class _FormSectionState extends State<FormSection> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 20),
+          padding: const EdgeInsets.only(bottom: 20, right: 10),
           child: Align(
             alignment: Alignment.centerRight,
             child: Column(
