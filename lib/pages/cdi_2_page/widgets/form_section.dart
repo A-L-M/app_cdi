@@ -14,7 +14,7 @@ class FormSection extends StatefulWidget {
   }) : super(key: key);
 
   final String title;
-  final List<Palabra> palabras;
+  final List<PalabraCDI2> palabras;
 
   @override
   State<FormSection> createState() => _FormSectionState();

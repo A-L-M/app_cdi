@@ -10,7 +10,7 @@ class PalabrasSection extends StatefulWidget {
     required this.palabras,
   }) : super(key: key);
 
-  final List<Palabra> palabras;
+  final List<PalabraCDI2> palabras;
 
   @override
   State<PalabrasSection> createState() => _PalabrasSectionState();
@@ -39,7 +39,7 @@ class _PalabrasSectionState extends State<PalabrasSection> {
     final int renglones = (widget.palabras.length / numColumnas).ceil();
 
     //Se divide la lista de palabras para generar las columnas
-    List<List<Palabra>> palabrasSubLists = [];
+    List<List<PalabraCDI2>> palabrasSubLists = [];
 
     for (var i = 0; i < numColumnas; i++) {
       //renglones = 5
@@ -52,21 +52,21 @@ class _PalabrasSectionState extends State<PalabrasSection> {
     //Cada columna se genera con una sublista
     final List<Column> columnas =
         List.generate(palabrasSubLists.length, (index) {
-      final List<Palabra> sublist = palabrasSubLists[index];
+      final List<PalabraCDI2> sublist = palabrasSubLists[index];
 
       final List<Widget> listaDePalabras = List.generate(
         sublist.length,
         (index) {
           //Se obtiene el objeto Palabra original
           final int i = widget.palabras.indexOf(sublist[index]);
-          Palabra palabra = widget.palabras[i];
+          PalabraCDI2 palabra = widget.palabras[i];
 
           return Container(
             decoration: BoxDecoration(
                 border: Border.all(
                   color: const Color(0xFFDDDDDD),
                 ),
-                color: palabra.icplim ? Colors.grey[300] : null),
+                color: palabra.sombreada ? Colors.grey[300] : null),
             width: 285.75,
             height: 50,
             child: ListTile(

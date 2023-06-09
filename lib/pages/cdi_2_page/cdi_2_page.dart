@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:app_cdi/helpers/constants.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_section.dart';
-import 'package:app_cdi/pages/cdi_2_page/widgets/section_title.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:app_cdi/provider/providers.dart';
 
@@ -191,53 +189,6 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                 ],
               ),
             ),
-
-            // const SectionTitle(
-            //   label:
-            //       '11.- Lugares fuera de la casa (MA 22 - ICPLIM 6) (Total 28)',
-            // ),
-            // const SectionTitle(
-            //   label: '12.- Personas (MA 29 - ICPLIM 7) (Total 36)',
-            // ),
-            // const SectionTitle(
-            //   label:
-            //       '13.- Rutina diaria, reglas sociales y juegos (MA 25 - ICPLIM 6) (Total 31)',
-            // ),
-            // const SectionTitle(
-            //   label:
-            //       '14.- Acciones y procesos (verbos) (MA 103 - ICPLIM 16) (Total 119)',
-            // ),
-            // const SectionTitle(
-            //   label: '15.- Estados (MA 3 - ICPLIM 0) (Total 3)',
-            // ),
-            // const SectionTitle(
-            //   label:
-            //       '16.- Cualidades y atributos (MA 63 - ICPLIM 10) (Total 73)',
-            // ),
-            // const SectionTitle(
-            //   label: '17.- Tiempo (MA 12 - ICPLIM 4) (Total 16)',
-            // ),
-            // const SectionTitle(
-            //   label:
-            //       '18.- Pronombres y modificadores (MA 43 - ICPLIM 4) (Total 47)',
-            // ),
-            // const SectionTitle(
-            //   label: '19.- Preguntas (MA 7 - ICPLIM 0) (Total 7)',
-            // ),
-            // const SectionTitle(
-            //   label:
-            //       '20.- Preposiciones y artículos (MA 15 - ICPLIM 9) (Total 23)',
-            // ),
-            // const SectionTitle(
-            //   label:
-            //       '21.- Cuantificadores y adverbios (MA 15 - ICPLIM 3) (Total 18)',
-            // ),
-            // const SectionTitle(
-            //   label: '22.- Locativos (MA 13 - ICPLIM 8) (Total 13)',
-            // ),
-            // const SectionTitle(
-            //   label: '23.- Conectivos (MA 6 - ICPLIM 0) (Total 6)',
-            // ),
           ],
         ),
       ),
