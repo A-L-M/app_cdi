@@ -1,36 +1,55 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/models.dart';
+import 'package:app_cdi/models/seccion_palabras_cdi2.dart';
 import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 class CDI2Provider extends ChangeNotifier {
+  List<SeccionPalabrasCDI2> seccionesPalabras = [];
+
   CDI2Provider() {
-    for (var palabra in palabrasSeccion1) {
-      print('${palabra.nombre},${palabra.sombreada},${palabra.subrayada},1');
+    // for (var palabra in seccionesPalabras.first.palabras) {
+    //   print('${palabra.nombre},${palabra.sombreada},${palabra.subrayada},1');
+    // }
+  }
+
+  Future<void> getSeccionesPalabras() async {
+    if (seccionesPalabras.isNotEmpty) return;
+
+    try {
+      final res = await supabase.from('secciones_palabras_cdi2').select();
+
+      seccionesPalabras = (res as List<dynamic>)
+          .map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra)))
+          .toList();
+
+      notifyListeners();
+    } catch (e) {
+      log('Error en getPalabrasSeccion - $e');
     }
   }
 
-  List<PalabraCDI2> palabrasSeccion1 = [
-    PalabraCDI2(nombre: '¡Am!', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: '¡Auch!', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: '¡Ay!', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Bee / me', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Chuu-chuu', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: 'Cua-cuá', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Gordogordo', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: 'Grrr', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: 'Gua-guá', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Miau', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Mmmmm', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: 'Muu', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Oinc-oinc', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: '¡Pazz!', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: '¡Pío-pío!', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Pi-pí', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: '¡Pum!', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: 'Qui-qui-ri-quí', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Tic-tac', sombreada: true, subrayada: true),
-    PalabraCDI2(nombre: 'Tu-tú', sombreada: false, subrayada: false),
-  ];
+  Future<void> getPalabrasSeccion(int seccion) async {
+    if (seccionesPalabras[seccion].palabras.isNotEmpty) return;
+
+    try {
+      final res = await supabase
+          .from('palabra_cdi2_inventario')
+          .select()
+          .eq('seccion_fk', seccionesPalabras[seccion].seccionId);
+
+      seccionesPalabras[seccion].palabras = (res as List<dynamic>)
+          .map((palabra) => PalabraCDI2.fromJson(jsonEncode(palabra)))
+          .toList();
+
+      notifyListeners();
+    } catch (e) {
+      log('Error en getPalabrasSeccion - $e');
+    }
+  }
 
   List<PalabraCDI2> palabrasSeccion2 = [
     PalabraCDI2(nombre: 'Abeja', sombreada: false, subrayada: true),
@@ -823,11 +842,11 @@ class CDI2Provider extends ChangeNotifier {
 
     //1
     List<String> nombresSeccion1 =
-        palabrasSeccion1.map((e) => e.nombre).toList();
+        seccionesPalabras[0].palabras.map((e) => e.nombre).toList();
 
     List<dynamic> row = [];
 
-    for (var palabra in palabrasSeccion1) {
+    for (var palabra in seccionesPalabras[0].palabras) {
       int coding = 0;
       if (palabra.opcion == Opcion.comprende) {
         coding = 1;

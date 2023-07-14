@@ -9,7 +9,7 @@ import 'package:app_cdi/services/navigation_service.dart';
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
-  initialLocation: '/',
+  initialLocation: '/cdi-2',
   redirect: (BuildContext context, GoRouterState state) {
     final bool loggedIn = currentUser != null;
     final bool isLoggingIn = state.location == '/login';

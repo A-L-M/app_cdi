@@ -20,7 +20,7 @@ class PalabraCDI2 {
       PalabraCDI2.fromMap(json.decode(str));
 
   factory PalabraCDI2.fromMap(Map<String, dynamic> json) => PalabraCDI2(
-        palabraId: json['palabra_id'],
+        palabraId: json['palabra_cdi2_inventario_id'],
         nombre: json["nombre"],
         sombreada: json['sombreada'],
         subrayada: json['subrayada'],

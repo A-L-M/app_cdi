@@ -18,6 +18,19 @@ class _CDI1PageState extends State<CDI2Page> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      CDI2Provider provider = Provider.of<CDI2Provider>(
+        context,
+        listen: false,
+      );
+      await provider.getSeccionesPalabras();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
@@ -111,6 +124,20 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
     //   ),
     // );
 
+    if (provider.seccionesPalabras.isEmpty) {
+      return const CircularProgressIndicator();
+    }
+
+    final List<FormSection> secciones = [];
+    for (var seccion in provider.seccionesPalabras) {
+      secciones.add(
+        FormSection(
+          title: seccion.tituloCompleto,
+          palabras: seccion.palabras,
+        ),
+      );
+    }
+
     return SizedBox(
       height: size.height,
       width: size.width,
@@ -125,11 +152,7 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  FormSection(
-                    title:
-                        '1.- Sonidos de las cosas y animales (MA 12 - ICPLIM 8) (Total 20)',
-                    palabras: provider.palabrasSeccion1,
-                  ),
+                  ...secciones,
                   FormSection(
                     title:
                         '2.- Animales de verdad y de juguete (MA 43 - ICPLIM 14) (Total 57)',
