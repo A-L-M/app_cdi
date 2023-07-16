@@ -42,7 +42,6 @@ class _PalabrasSectionState extends State<PalabrasSection> {
     List<List<PalabraCDI2>> palabrasSubLists = [];
 
     for (var i = 0; i < numColumnas; i++) {
-      //renglones = 5
       int startIndex = i * renglones;
       int finalIndex = startIndex + renglones;
       if (i == numColumnas - 1) finalIndex = widget.palabras.length;

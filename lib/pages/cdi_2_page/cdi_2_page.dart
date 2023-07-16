@@ -153,49 +153,6 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...secciones,
-                  FormSection(
-                    title:
-                        '2.- Animales de verdad y de juguete (MA 43 - ICPLIM 14) (Total 57)',
-                    palabras: provider.palabrasSeccion2,
-                  ),
-                  FormSection(
-                    title:
-                        '3.- Vehículos de verdad y de juguete (MA 14 - ICPLIM 7) (Total 21)',
-                    palabras: provider.palabrasSeccion3,
-                  ),
-                  FormSection(
-                    title:
-                        '4.- Alimentos y bebidas (MA 68 - ICPLIM 9) (Total 77)',
-                    palabras: provider.palabrasSeccion4,
-                  ),
-                  FormSection(
-                    title: '5.- Ropa (MA 28 - ICPLIM 5) (Total 33)',
-                    palabras: provider.palabrasSeccion5,
-                  ),
-                  FormSection(
-                    title:
-                        '6.- Partes del cuerpo (MA 27 - ICPLIM 6) (Total 33)',
-                    palabras: provider.palabrasSeccion6,
-                  ),
-                  FormSection(
-                    title: '7.- Juguetes (MA 18 - ICPLIM 10) (Total 28)',
-                    palabras: provider.palabrasSeccion7,
-                  ),
-                  FormSection(
-                    title:
-                        '8.- Utensilios de la casa (MA 50 - ICPLIM 6) (Total 56)',
-                    palabras: provider.palabrasSeccion8,
-                  ),
-                  FormSection(
-                    title:
-                        '9.- Muebles y cuartos (MA 33 - ICPLIM 3) (Total 36)',
-                    palabras: provider.palabrasSeccion9,
-                  ),
-                  FormSection(
-                    title:
-                        '10.- Objetos fuera de la casa (MA 31 - ICPLIM 0) (Total 31)',
-                    palabras: provider.palabrasSeccion10,
-                  ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: FormButton(
