@@ -59,7 +59,7 @@ final GoRouter router = GoRouter(
       path: '/cdi-2',
       name: 'cdi_2',
       builder: (BuildContext context, GoRouterState state) {
-        return const CDI2Page();
+        return const CDI2PalabrasPage();
       },
     ),
     GoRoute(
