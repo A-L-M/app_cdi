@@ -4,13 +4,13 @@ enum Opcion { comprende, comprendeYDice, noContesto }
 
 class PalabraCDI2 {
   PalabraCDI2({
-    this.palabraId,
+    required this.palabraId,
     required this.nombre,
     required this.sombreada,
     required this.subrayada,
   });
 
-  int? palabraId;
+  int palabraId;
   String nombre;
   bool sombreada;
   bool subrayada;

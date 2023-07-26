@@ -26,15 +26,6 @@ class CDI2Provider extends ChangeNotifier {
     }
   }
 
-  List<PalabraCDI2> palabrasSeccion23 = [
-    PalabraCDI2(nombre: 'Entonces', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: 'Luego', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: 'O', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: 'Pues', sombreada: false, subrayada: false),
-    PalabraCDI2(nombre: 'Que', sombreada: false, subrayada: true),
-    PalabraCDI2(nombre: 'Y', sombreada: false, subrayada: false),
-  ];
-
   void setOpcionPalabra(Opcion opcion, PalabraCDI2 palabra) {
     palabra.opcion = opcion;
     notifyListeners();

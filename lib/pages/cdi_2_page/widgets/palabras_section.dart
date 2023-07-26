@@ -62,10 +62,11 @@ class _PalabrasSectionState extends State<PalabrasSection> {
 
           return Container(
             decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFDDDDDD),
-                ),
-                color: palabra.sombreada ? Colors.grey[300] : null),
+              border: Border.all(
+                color: const Color(0xFFDDDDDD),
+              ),
+              color: palabra.sombreada ? Colors.grey[300] : null,
+            ),
             width: 285.75,
             height: 50,
             child: ListTile(

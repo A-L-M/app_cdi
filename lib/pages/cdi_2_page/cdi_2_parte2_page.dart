@@ -1,5 +1,4 @@
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_button.dart';
-import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -8,14 +7,14 @@ import 'package:app_cdi/pages/cdi_2_page/widgets/form_section.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:app_cdi/provider/providers.dart';
 
-class CDI2PalabrasPage extends StatefulWidget {
-  const CDI2PalabrasPage({Key? key}) : super(key: key);
+class CDI2Parte2Page extends StatefulWidget {
+  const CDI2Parte2Page({Key? key}) : super(key: key);
 
   @override
-  State<CDI2PalabrasPage> createState() => _CDI2PalabrasPageState();
+  State<CDI2Parte2Page> createState() => _CDI2Parte2PageState();
 }
 
-class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
+class _CDI2Parte2PageState extends State<CDI2Parte2Page> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -57,7 +56,7 @@ class CDI2PageDesktop extends StatefulWidget {
 }
 
 class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
-  int index = 3;
+  int index = 1;
   ScrollController scrollController = ScrollController();
 
   @override
@@ -117,7 +116,6 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...division,
-                  if (index == 3) const PreguntasLenguajeWidget(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Row(
