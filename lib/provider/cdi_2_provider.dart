@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 class CDI2Provider extends ChangeNotifier {
   List<SeccionPalabrasCDI2> seccionesPalabras = [];
+  CDI2Comprension comprension = CDI2Comprension.fromMap({});
 
   Future<void> getSeccionesPalabras() async {
     if (seccionesPalabras.isNotEmpty) return;

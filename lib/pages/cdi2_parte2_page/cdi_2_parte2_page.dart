@@ -1,4 +1,6 @@
+import 'package:app_cdi/pages/cdi2_parte2_page/widgets/inciso_a_widget.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_button.dart';
+import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +42,7 @@ class _CDI2Parte2PageState extends State<CDI2Parte2Page> {
         },
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return const CDI2PageDesktop();
+            return const CDI2Parte2PageDesktop();
           },
         ),
       ),
@@ -48,17 +50,14 @@ class _CDI2Parte2PageState extends State<CDI2Parte2Page> {
   }
 }
 
-class CDI2PageDesktop extends StatefulWidget {
-  const CDI2PageDesktop({Key? key}) : super(key: key);
+class CDI2Parte2PageDesktop extends StatefulWidget {
+  const CDI2Parte2PageDesktop({Key? key}) : super(key: key);
 
   @override
-  State<CDI2PageDesktop> createState() => _CDI2PageDesktopState();
+  State<CDI2Parte2PageDesktop> createState() => _CDI2Parte2PageDesktopState();
 }
 
-class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
-  int index = 1;
-  ScrollController scrollController = ScrollController();
-
+class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -92,19 +91,10 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
 
     List<FormSection> division = [];
 
-    if (index == 1) {
-      division = secciones.sublist(0, 8);
-    } else if (index == 2) {
-      division = secciones.sublist(8, 16);
-    } else {
-      division = secciones.sublist(16);
-    }
-
     return SizedBox(
       height: size.height,
       width: size.width,
       child: SingleChildScrollView(
-        controller: scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -116,37 +106,47 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...division,
+                  CustomCard(
+                    title: '2º Parte: Oraciones y gramática',
+                    textAlign: TextAlign.left,
+                    contentPadding: EdgeInsets.zero,
+                    child: Container(),
+                  ),
+                  const IncisoAWidget(),
+                  CustomCard(
+                    title: 'B. Ejemplos',
+                    child: Container(
+                      child: Text('Ver'),
+                    ),
+                  ),
+                  CustomCard(
+                    title: 'C. Complejidad de frases',
+                    child: Container(
+                      child: Text('Ver'),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        if (index != 1)
-                          FormButton(
-                            label: 'Retroceder',
-                            onTap: () {
-                              index -= 1;
-                              scrollController.jumpTo(0.0);
-                              setState(() {});
-                            },
-                          ),
-                        if (index != 1) const SizedBox(width: 10),
+                        FormButton(
+                          label: 'Retroceder',
+                          onTap: () {
+                            context.pushReplacement('/cdi-2');
+                          },
+                        ),
+                        const SizedBox(width: 10),
                         FormButton(
                           label: 'Continuar',
-                          onTap: () {
-                            if (index != 3) {
-                              index += 1;
-                              scrollController.jumpTo(0.0);
-                              setState(() {});
-                              return;
-                            }
-                            index = 1;
+                          onTap: () async {
                             final DatosPersonalesProvider datosPersonales =
                                 Provider.of<DatosPersonalesProvider>(context,
                                     listen: false);
-                            provider
+                            await provider
                                 .generarReporteExcel(datosPersonales.id ?? '');
+                            if (!mounted) return;
                             context.pushReplacement('/gracias');
                           },
                         ),

@@ -1,8 +1,9 @@
+import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
+import 'package:app_cdi/provider/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-enum OpcionPregunta { todaviaNo, deVezEnCuando, muchasVeces, noContesto }
+import 'package:provider/provider.dart';
 
 class PreguntasLenguajeWidget extends StatefulWidget {
   const PreguntasLenguajeWidget({super.key});
@@ -21,16 +22,10 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
     '5.- ¿Al señalar o tomar un objeto, su hijo(a) dice el nombre de la persona a la que pertenece aunque esa persona no esté presente?, Por ejemplo, ¿Encuentra los lentes de su papá y dice "papá"?',
   ];
 
-  final List<OpcionPregunta> respuestas = [
-    OpcionPregunta.noContesto,
-    OpcionPregunta.noContesto,
-    OpcionPregunta.noContesto,
-    OpcionPregunta.noContesto,
-    OpcionPregunta.noContesto,
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final CDI2Provider provider = Provider.of<CDI2Provider>(context);
+
     final Column columnaPreguntas = Column(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(
@@ -49,6 +44,8 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
         width: double.infinity,
       ),
     );
+
+    var respuestas = provider.comprension.preguntas;
 
     return CustomCard(
       title: 'Cómo usa y comprende el niño el lenguaje',

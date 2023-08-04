@@ -144,12 +144,7 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                               return;
                             }
                             index = 1;
-                            final DatosPersonalesProvider datosPersonales =
-                                Provider.of<DatosPersonalesProvider>(context,
-                                    listen: false);
-                            provider
-                                .generarReporteExcel(datosPersonales.id ?? '');
-                            context.pushReplacement('/gracias');
+                            context.push('/cdi-2/parte-2');
                           },
                         ),
                       ],
