@@ -1,6 +1,7 @@
 import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -71,9 +72,9 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
                 index -= 1;
                 return CustomTableCell(
                   child: Radio(
-                    value: OpcionPregunta.todaviaNo,
+                    value: RespuestaComprension.todaviaNo,
                     groupValue: respuestas[index],
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     onChanged: (opcion) {
                       if (opcion == null) return;
                       respuestas[index] = opcion;
@@ -99,9 +100,9 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
                 index -= 1;
                 return CustomTableCell(
                   child: Radio(
-                    value: OpcionPregunta.deVezEnCuando,
+                    value: RespuestaComprension.deVezEnCuando,
                     groupValue: respuestas[index],
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     onChanged: (opcion) {
                       if (opcion == null) return;
                       respuestas[index] = opcion;
@@ -127,9 +128,9 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
                 index -= 1;
                 return CustomTableCell(
                   child: Radio(
-                    value: OpcionPregunta.muchasVeces,
+                    value: RespuestaComprension.muchasVeces,
                     groupValue: respuestas[index],
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     onChanged: (opcion) {
                       if (opcion == null) return;
                       respuestas[index] = opcion;

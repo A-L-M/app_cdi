@@ -1,3 +1,4 @@
+import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
@@ -126,7 +127,7 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                 Expanded(
                   child: RadioListTile<Sexo>(
                     title: const Text('Hombre'),
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     value: Sexo.hombre,
                     groupValue: provider.sexo,
                     onChanged: (sexo) {
@@ -138,7 +139,7 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                 Expanded(
                   child: RadioListTile<Sexo>(
                     title: const Text('Mujer'),
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     value: Sexo.mujer,
                     groupValue: provider.sexo,
                     onChanged: (sexo) {

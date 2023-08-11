@@ -1,5 +1,6 @@
 import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +87,7 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                   Radio(
                     value: Opcion.comprende,
                     groupValue: palabra.opcion,
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     onChanged: (opcion) {
                       if (opcion == null) return;
                       provider.setOpcionPalabra(opcion, palabra);
@@ -95,7 +96,7 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                   Radio(
                     value: Opcion.comprendeYDice,
                     groupValue: palabra.opcion,
-                    activeColor: const Color(0xFF002976),
+                    activeColor: AppTheme.of(context).secondaryColor,
                     onChanged: (opcion) {
                       if (opcion == null) return;
                       provider.setOpcionPalabra(opcion, palabra);

@@ -75,7 +75,7 @@ class LightModeTheme extends AppTheme {
   @override
   Color primaryColor = const Color(0xFFD1AC2B);
   @override
-  Color secondaryColor = const Color(0XFF5FD39E);
+  Color secondaryColor = const Color(0xFF002976);
   @override
   Color tertiaryColor = const Color(0xFF102047);
   @override
@@ -104,9 +104,9 @@ class LightModeTheme extends AppTheme {
 
 class DarkModeTheme extends AppTheme {
   @override
-  Color primaryColor = const Color(0XFF00C774);
+  Color primaryColor = const Color(0xFFD1AC2B);
   @override
-  Color secondaryColor = const Color(0XFF5FD39E);
+  Color secondaryColor = const Color(0xFF002976);
   @override
   Color tertiaryColor = const Color(0xFF102047);
   @override

@@ -1,4 +1,5 @@
 import 'package:app_cdi/helpers/constants.dart';
+import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -34,7 +35,7 @@ class PageHeaderDesktop extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 60),
         margin: const EdgeInsets.only(bottom: 30),
         decoration: BoxDecoration(
-          color: const Color(0xFF002976),
+          color: AppTheme.of(context).secondaryColor,
           borderRadius: BorderRadius.circular(6),
         ),
         child: Column(
@@ -79,7 +80,7 @@ class PageHeaderMobile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       margin: const EdgeInsets.only(bottom: 30),
       decoration: BoxDecoration(
-        color: const Color(0xFF002976),
+        color: AppTheme.of(context).secondaryColor,
         borderRadius: BorderRadius.circular(6),
       ),
       child: Column(

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-enum OpcionPregunta { todaviaNo, deVezEnCuando, muchasVeces, noContesto }
+import 'package:app_cdi/models/respuesta_comprension.dart';
 
 class CDI2Comprension {
   CDI2Comprension({
@@ -9,7 +9,7 @@ class CDI2Comprension {
   });
 
   int? cdi2Id;
-  List<OpcionPregunta> preguntas = [];
+  List<RespuestaComprension> preguntas = [];
 
   factory CDI2Comprension.fromJson(String str) =>
       CDI2Comprension.fromMap(json.decode(str));
@@ -17,7 +17,7 @@ class CDI2Comprension {
   String toJson() => json.encode(toMap());
 
   factory CDI2Comprension.fromMap(Map<String, dynamic> json) {
-    final List<OpcionPregunta> preguntasTemp = [];
+    final List<RespuestaComprension> preguntasTemp = [];
     preguntasTemp.add(convertToEnum(json["pregunta1"]));
     preguntasTemp.add(convertToEnum(json["pregunta2"]));
     preguntasTemp.add(convertToEnum(json["pregunta3"]));
@@ -37,28 +37,4 @@ class CDI2Comprension {
         "pregunta4": convertToString(preguntas[3]),
         "pregunta5": convertToString(preguntas[4]),
       };
-
-  static String convertToString(OpcionPregunta value) {
-    switch (value) {
-      case OpcionPregunta.todaviaNo:
-        return 'Todavía no';
-      default:
-        return 'No contestó';
-    }
-  }
-
-  static OpcionPregunta convertToEnum(String? value) {
-    switch (value) {
-      case 'Todavía no':
-        return OpcionPregunta.todaviaNo;
-      case 'De vez en cuando':
-        return OpcionPregunta.deVezEnCuando;
-      case 'Muchas veces':
-        return OpcionPregunta.muchasVeces;
-      case 'No contestó':
-        return OpcionPregunta.noContesto;
-      default:
-        return OpcionPregunta.noContesto;
-    }
-  }
 }
