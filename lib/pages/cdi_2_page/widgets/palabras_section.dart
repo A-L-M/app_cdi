@@ -28,9 +28,9 @@ class _PalabrasSectionState extends State<PalabrasSection> {
 
     if (size.width > 1145) {
       numColumnas = 4;
-    } else if (size.width > 857) {
+    } else if (size.width > 859) {
       numColumnas = 3;
-    } else if (size.width > 571) {
+    } else if (size.width > 573) {
       numColumnas = 2;
     } else {
       numColumnas = 1;

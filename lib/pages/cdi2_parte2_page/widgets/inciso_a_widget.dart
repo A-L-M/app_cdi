@@ -136,8 +136,9 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
           ),
           const SizedBox(height: 10),
           Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: columnasPresente),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: columnasPresente,
+          ),
         ],
       ),
     );

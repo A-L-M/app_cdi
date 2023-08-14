@@ -108,7 +108,7 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                   ...division,
                   CustomCard(
                     title: '2º Parte: Oraciones y gramática',
-                    textAlign: TextAlign.left,
+                    textAlign: Alignment.centerLeft,
                     contentPadding: EdgeInsets.zero,
                     child: Container(),
                   ),

@@ -26,6 +26,10 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
   @override
   Widget build(BuildContext context) {
     final CDI2Provider provider = Provider.of<CDI2Provider>(context);
+    final size = MediaQuery.of(context).size;
+
+    final cellHeight = size.width > 1145 ? 75.0 : 125.0;
+    final titleHeight = size.width > 857 ? 38.0 : 60.0;
 
     final Column columnaPreguntas = Column(
       mainAxisSize: MainAxisSize.min,
@@ -33,115 +37,135 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
         preguntas.length,
         (index) => CustomTableCellText(
           label: preguntas[index],
-          height: 75,
+          height: cellHeight,
         ),
       ),
     );
 
     columnaPreguntas.children.insert(
       0,
-      const CustomTableCell(
-        height: 38,
+      CustomTableCell(
+        height: titleHeight,
         width: double.infinity,
       ),
     );
 
     var respuestas = provider.comprension.preguntas;
 
+    final body = Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(flex: 3, child: columnaPreguntas),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(respuestas.length + 1, (index) {
+              if (index == 0) {
+                return CustomTableCellText(
+                  label: 'Todavía no',
+                  height: titleHeight,
+                  fontWeight: FontWeight.w700,
+                );
+              }
+              index -= 1;
+              return CustomTableCell(
+                height: cellHeight,
+                child: Radio(
+                  value: RespuestaComprension.todaviaNo,
+                  groupValue: respuestas[index],
+                  activeColor: AppTheme.of(context).secondaryColor,
+                  onChanged: (opcion) {
+                    if (opcion == null) return;
+                    respuestas[index] = opcion;
+                    setState(() {});
+                  },
+                ),
+              );
+            }),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(respuestas.length + 1, (index) {
+              if (index == 0) {
+                return CustomTableCellText(
+                  label: 'De vez en cuando',
+                  height: titleHeight,
+                  fontWeight: FontWeight.w700,
+                );
+              }
+              index -= 1;
+              return CustomTableCell(
+                height: cellHeight,
+                child: Radio(
+                  value: RespuestaComprension.deVezEnCuando,
+                  groupValue: respuestas[index],
+                  activeColor: AppTheme.of(context).secondaryColor,
+                  onChanged: (opcion) {
+                    if (opcion == null) return;
+                    respuestas[index] = opcion;
+                    setState(() {});
+                  },
+                ),
+              );
+            }),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: List.generate(respuestas.length + 1, (index) {
+              if (index == 0) {
+                return CustomTableCellText(
+                  label: 'Muchas veces',
+                  height: titleHeight,
+                  fontWeight: FontWeight.w700,
+                );
+              }
+              index -= 1;
+              return CustomTableCell(
+                height: cellHeight,
+                child: Radio(
+                  value: RespuestaComprension.muchasVeces,
+                  groupValue: respuestas[index],
+                  activeColor: AppTheme.of(context).secondaryColor,
+                  onChanged: (opcion) {
+                    if (opcion == null) return;
+                    respuestas[index] = opcion;
+                    setState(() {});
+                  },
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
+    );
+
+    if (size.width > 600) {
+      return CustomCard(
+        title: 'Cómo usa y comprende el niño el lenguaje',
+        contentPadding: EdgeInsets.zero,
+        textAlign: Alignment.centerLeft,
+        child: body,
+      );
+    }
+
     return CustomCard(
       title: 'Cómo usa y comprende el niño el lenguaje',
       contentPadding: EdgeInsets.zero,
-      textAlign: TextAlign.left,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Expanded(flex: 3, child: columnaPreguntas),
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: List.generate(respuestas.length + 1, (index) {
-                if (index == 0) {
-                  return const CustomTableCellText(
-                    label: 'Todavía no',
-                    height: 38,
-                    fontWeight: FontWeight.w700,
-                  );
-                }
-                index -= 1;
-                return CustomTableCell(
-                  child: Radio(
-                    value: RespuestaComprension.todaviaNo,
-                    groupValue: respuestas[index],
-                    activeColor: AppTheme.of(context).secondaryColor,
-                    onChanged: (opcion) {
-                      if (opcion == null) return;
-                      respuestas[index] = opcion;
-                      setState(() {});
-                    },
-                  ),
-                );
-              }),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: List.generate(respuestas.length + 1, (index) {
-                if (index == 0) {
-                  return const CustomTableCellText(
-                    label: 'De vez en cuando',
-                    height: 38,
-                    fontWeight: FontWeight.w700,
-                  );
-                }
-                index -= 1;
-                return CustomTableCell(
-                  child: Radio(
-                    value: RespuestaComprension.deVezEnCuando,
-                    groupValue: respuestas[index],
-                    activeColor: AppTheme.of(context).secondaryColor,
-                    onChanged: (opcion) {
-                      if (opcion == null) return;
-                      respuestas[index] = opcion;
-                      setState(() {});
-                    },
-                  ),
-                );
-              }),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: List.generate(respuestas.length + 1, (index) {
-                if (index == 0) {
-                  return const CustomTableCellText(
-                    label: 'Muchas veces',
-                    height: 38,
-                    fontWeight: FontWeight.w700,
-                  );
-                }
-                index -= 1;
-                return CustomTableCell(
-                  child: Radio(
-                    value: RespuestaComprension.muchasVeces,
-                    groupValue: respuestas[index],
-                    activeColor: AppTheme.of(context).secondaryColor,
-                    onChanged: (opcion) {
-                      if (opcion == null) return;
-                      respuestas[index] = opcion;
-                      setState(() {});
-                    },
-                  ),
-                );
-              }),
-            ),
-          ),
-        ],
+      textAlign: Alignment.centerLeft,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: 600,
+          child: body,
+        ),
       ),
     );
   }

@@ -31,7 +31,7 @@ class _FormSectionState extends State<FormSection> {
         CustomCard(
           title: widget.title,
           contentPadding: EdgeInsets.zero,
-          textAlign: TextAlign.left,
+          textAlign: Alignment.centerLeft,
           child: PalabrasSection(
             palabras: widget.palabras,
           ),

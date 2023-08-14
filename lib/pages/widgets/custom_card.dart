@@ -8,17 +8,19 @@ class CustomCard extends StatelessWidget {
     required this.child,
     this.width = double.infinity,
     this.contentPadding = const EdgeInsets.all(15),
-    this.textAlign = TextAlign.center,
+    this.textAlign = Alignment.center,
   }) : super(key: key);
 
   final String title;
   final Widget child;
   final double width;
   final EdgeInsets contentPadding;
-  final TextAlign textAlign;
+  final Alignment textAlign;
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       width: width,
       margin: const EdgeInsets.only(bottom: 20),
@@ -42,15 +44,20 @@ class CustomCard extends StatelessWidget {
               ),
             ),
             child: SizedBox(
-              height: 17.6,
-              child: Text(
-                title.toUpperCase(),
-                style: GoogleFonts.montserrat(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              height: size.width > 857 ? 17.6 : 36,
+              child: Align(
+                alignment: textAlign,
+                child: Text(
+                  title.toUpperCase(),
+                  style: GoogleFonts.montserrat(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: textAlign == Alignment.center
+                      ? TextAlign.center
+                      : TextAlign.start,
                 ),
-                textAlign: textAlign,
               ),
             ),
           ),

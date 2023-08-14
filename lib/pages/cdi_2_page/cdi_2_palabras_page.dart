@@ -67,10 +67,10 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
 
     double formSize = 1145;
 
-    if (size.width < 1145) {
+    if (size.width <= 1145) {
       formSize = 859.25;
     }
-    if (size.width < 859.25) {
+    if (size.width <= 859) {
       formSize = 573.5;
     }
     if (size.width < 573.5) {
