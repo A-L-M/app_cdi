@@ -12,6 +12,16 @@ class CDI2Provider extends ChangeNotifier {
   CDI2Comprension comprension = CDI2Comprension.fromMap({});
   CDI2Parte2 parte2 = CDI2Parte2.fromMap({});
 
+  TextEditingController ejemplo1Controller = TextEditingController();
+  TextEditingController ejemplo2Controller = TextEditingController();
+  TextEditingController ejemplo3Controller = TextEditingController();
+
+  CDI2Provider() {
+    ejemplo1Controller.text = parte2.ejemplo1 ?? '';
+    ejemplo2Controller.text = parte2.ejemplo2 ?? '';
+    ejemplo3Controller.text = parte2.ejemplo3 ?? '';
+  }
+
   Future<void> getSeccionesPalabras() async {
     if (seccionesPalabras.isNotEmpty) return;
 
@@ -30,6 +40,11 @@ class CDI2Provider extends ChangeNotifier {
 
   void setOpcionPalabra(Opcion opcion, PalabraCDI2 palabra) {
     palabra.opcion = opcion;
+    notifyListeners();
+  }
+
+  void setCombinaPalabras(RespuestaComprension opcion) {
+    parte2.combinaPalabras = opcion;
     notifyListeners();
   }
 
@@ -114,5 +129,13 @@ class CDI2Provider extends ChangeNotifier {
     if (fileBytes == null) return false;
 
     return true;
+  }
+
+  @override
+  void dispose() {
+    ejemplo1Controller.dispose();
+    ejemplo2Controller.dispose();
+    ejemplo3Controller.dispose();
+    super.dispose();
   }
 }

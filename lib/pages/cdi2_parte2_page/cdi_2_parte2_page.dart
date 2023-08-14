@@ -1,4 +1,7 @@
+import 'package:app_cdi/models/respuesta_comprension.dart';
 import 'package:app_cdi/pages/cdi2_parte2_page/widgets/inciso_a_widget.dart';
+import 'package:app_cdi/pages/cdi2_parte2_page/widgets/inciso_b_widget.dart';
+import 'package:app_cdi/pages/cdi2_parte2_page/widgets/inciso_c_widget.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_button.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +68,7 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
 
     double formSize = 1145;
 
-    if (size.width < 1145) {
+    if (size.width <= 1145) {
       formSize = 859.25;
     }
     if (size.width < 859.25) {
@@ -91,6 +94,10 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
 
     List<FormSection> division = [];
 
+    final bool visible = provider.parte2.combinaPalabras != null &&
+        provider.parte2.combinaPalabras != RespuestaComprension.noContesto &&
+        provider.parte2.combinaPalabras != RespuestaComprension.todaviaNo;
+
     return SizedBox(
       height: size.height,
       width: size.width,
@@ -113,18 +120,9 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                     child: Container(),
                   ),
                   const IncisoAWidget(),
-                  CustomCard(
-                    title: 'B. Ejemplos',
-                    child: Container(
-                      child: Text('Ver'),
-                    ),
-                  ),
-                  CustomCard(
-                    title: 'C. Complejidad de frases',
-                    child: Container(
-                      child: Text('Ver'),
-                    ),
-                  ),
+                  //TODO: invertir logica
+                  if (!visible) const IncisoBWidget(),
+                  if (!visible) const IncisoCWidget(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Row(

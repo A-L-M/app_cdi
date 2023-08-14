@@ -1,3 +1,5 @@
+import 'package:app_cdi/models/respuesta_comprension.dart';
+import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -14,10 +16,17 @@ class IncisoAWidget extends StatefulWidget {
 }
 
 class _IncisoAWidgetState extends State<IncisoAWidget> {
+  final List<String> preguntas = [
+    '¿Su hijo(a) ya empezó a combinar palabras, como "papá coche" o "más agua"?',
+  ];
+
   @override
   Widget build(BuildContext context) {
     final CDI2Provider provider = Provider.of<CDI2Provider>(context);
     final size = MediaQuery.of(context).size;
+
+    final cellHeight = size.width > 1145 ? 75.0 : 125.0;
+    final titleHeight = size.width > 857 ? 38.0 : 60.0;
 
     //numero de columnas
     int numColumnas = 3;
@@ -109,8 +118,217 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
     }
 
     //PASADO
+    final List<_VerboWidget> pasado = [
+      _VerboWidget(
+        verbo: 'Acabé',
+        valor: provider.parte2.acabe,
+        onChanged: (bool value) => provider.parte2.acabe = value,
+      ),
+      _VerboWidget(
+        verbo: 'Acabó',
+        valor: provider.parte2.acabo2,
+        onChanged: (bool value) => provider.parte2.acabo2 = value,
+      ),
+      _VerboWidget(
+        verbo: 'Comí',
+        valor: provider.parte2.comi,
+        onChanged: (bool value) => provider.parte2.comi = value,
+      ),
+      _VerboWidget(
+        verbo: 'Comió',
+        valor: provider.parte2.comio,
+        onChanged: (bool value) => provider.parte2.comio = value,
+      ),
+      _VerboWidget(
+        verbo: 'Subí',
+        valor: provider.parte2.subi,
+        onChanged: (bool value) => provider.parte2.subi = value,
+      ),
+      _VerboWidget(
+        verbo: 'Subió',
+        valor: provider.parte2.subio,
+        onChanged: (bool value) => provider.parte2.subio = value,
+      ),
+    ];
 
-    //PRESENTE
+    final int numRenglonesPasado = (pasado.length / numColumnas).ceil();
+
+    List<Column> columnasPasado = [];
+
+    for (var i = 0; i < numColumnas; i++) {
+      int startIndex = i * numRenglonesPasado;
+      int finalIndex = startIndex + numRenglonesPasado;
+      if (i == numColumnas - 1) finalIndex = pasado.length;
+      final columna = Column(
+        children: pasado.sublist(startIndex, finalIndex),
+      );
+      columnasPasado.add(columna);
+    }
+
+    //ORDENAR
+    final List<_VerboWidget> ordenar = [
+      _VerboWidget(
+        verbo: 'Acaba',
+        valor: provider.parte2.acaba2,
+        onChanged: (bool value) => provider.parte2.acaba2 = value,
+      ),
+      _VerboWidget(
+        verbo: 'Acábate (la leche)',
+        valor: provider.parte2.acabate,
+        onChanged: (bool value) => provider.parte2.acabate = value,
+      ),
+      _VerboWidget(
+        verbo: 'Come',
+        valor: provider.parte2.come2,
+        onChanged: (bool value) => provider.parte2.come2 = value,
+      ),
+      _VerboWidget(
+        verbo: 'Cómete',
+        valor: provider.parte2.comete,
+        onChanged: (bool value) => provider.parte2.comete = value,
+      ),
+      _VerboWidget(
+        verbo: 'Sube',
+        valor: provider.parte2.sube,
+        onChanged: (bool value) => provider.parte2.sube = value,
+      ),
+      _VerboWidget(
+        verbo: 'Súbete',
+        valor: provider.parte2.comes,
+        onChanged: (bool value) => provider.parte2.subete = value,
+      ),
+    ];
+
+    final int numRenglonesOrdenar = (ordenar.length / numColumnas).ceil();
+
+    List<Column> columnasOrdenar = [];
+
+    for (var i = 0; i < numColumnas; i++) {
+      int startIndex = i * numRenglonesOrdenar;
+      int finalIndex = startIndex + numRenglonesOrdenar;
+      if (i == numColumnas - 1) finalIndex = ordenar.length;
+      final columna = Column(
+        children: ordenar.sublist(startIndex, finalIndex),
+      );
+      columnasOrdenar.add(columna);
+    }
+
+    //COMBINAR PALABRAS
+    final Column columnaPreguntas = Column(
+      mainAxisSize: MainAxisSize.min,
+      children: List.generate(
+        preguntas.length,
+        (index) => CustomTableCellText(
+          label: preguntas[index],
+          height: cellHeight,
+        ),
+      ),
+    );
+
+    columnaPreguntas.children.insert(
+      0,
+      CustomTableCell(
+        height: titleHeight,
+        width: double.infinity,
+      ),
+    );
+
+    final rawBody = Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(flex: 3, child: columnaPreguntas),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CustomTableCellText(
+                label: 'Todavía no',
+                height: titleHeight,
+                fontWeight: FontWeight.w700,
+              ),
+              CustomTableCell(
+                height: cellHeight,
+                child: Radio(
+                  value: RespuestaComprension.todaviaNo,
+                  groupValue: provider.parte2.combinaPalabras,
+                  activeColor: AppTheme.of(context).secondaryColor,
+                  onChanged: (opcion) {
+                    if (opcion == null) return;
+                    provider.setCombinaPalabras(opcion);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CustomTableCellText(
+                label: 'De vez en cuando',
+                height: titleHeight,
+                fontWeight: FontWeight.w700,
+              ),
+              CustomTableCell(
+                height: cellHeight,
+                child: Radio(
+                  value: RespuestaComprension.deVezEnCuando,
+                  groupValue: provider.parte2.combinaPalabras,
+                  activeColor: AppTheme.of(context).secondaryColor,
+                  onChanged: (opcion) {
+                    if (opcion == null) return;
+                    provider.setCombinaPalabras(opcion);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CustomTableCellText(
+                label: 'Muchas veces',
+                height: titleHeight,
+                fontWeight: FontWeight.w700,
+              ),
+              CustomTableCell(
+                height: cellHeight,
+                child: Radio(
+                  value: RespuestaComprension.muchasVeces,
+                  groupValue: provider.parte2.combinaPalabras,
+                  activeColor: AppTheme.of(context).secondaryColor,
+                  onChanged: (opcion) {
+                    if (opcion == null) return;
+                    provider.setCombinaPalabras(opcion);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    Widget body;
+
+    if (size.width > 600) {
+      body = rawBody;
+    } else {
+      body = SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: SizedBox(
+          width: 600,
+          child: rawBody,
+        ),
+      );
+    }
 
     return CustomCard(
       title: 'A. Formas de verbos',
@@ -139,6 +357,46 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: columnasPresente,
           ),
+          const SizedBox(height: 10),
+          Text(
+            'Para hablar de cosas que ya sucedieron, ¿Cuáles de estas formas usa?',
+            style: GoogleFonts.robotoSlab(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: const Color(0xFF2B2B2B),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: columnasPasado,
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Para pedir algo u ordenar, ¿Cuáles de estas formas usa?',
+            style: GoogleFonts.robotoSlab(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: const Color(0xFF2B2B2B),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: columnasOrdenar,
+          ),
+          const SizedBox(height: 20),
+          body,
+          const SizedBox(height: 20),
+          Text(
+            'Si contestó "todavía no", no siga llenando este formato. Si contestó "de vez en cuando" o "muchas veces", por favor continúe llenando el formato.',
+            style: GoogleFonts.robotoSlab(
+              fontSize: 14,
+              fontWeight: FontWeight.normal,
+              color: const Color(0xFF2B2B2B),
+            ),
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
