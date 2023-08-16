@@ -1,3 +1,4 @@
+export 'package:app_cdi/models/bebe.dart';
 export 'package:app_cdi/models/cdi2_parte2.dart';
 export 'package:app_cdi/models/respuesta_comprension.dart';
 export 'package:app_cdi/models/cdi2_comprension.dart';

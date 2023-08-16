@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:app_cdi/helpers/datetime_extension.dart';
 import 'package:app_cdi/helpers/string_extension.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 /// Class [CustomDatePicker] help display date picker on web
 class CustomDatePicker extends StatefulWidget {
@@ -19,6 +22,7 @@ class CustomDatePicker extends StatefulWidget {
     this.label = '',
     this.validator,
     this.inputFormatters,
+    this.controller,
   }) : super(key: key);
 
   /// The initial date first
@@ -46,6 +50,9 @@ class CustomDatePicker extends StatefulWidget {
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
 
+  //DateController
+  final TextEditingController? controller;
+
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
@@ -57,7 +64,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
 
   final LayerLink _layerLink = LayerLink();
 
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
 
   late DateTime? _selectedDate;
   late DateTime _firstDate;
@@ -68,6 +75,25 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   @override
   void initState() {
     super.initState();
+
+    if (widget.controller != null) {
+      _controller = widget.controller!;
+    } else {
+      _controller = TextEditingController();
+    }
+
+    _controller.addListener(() {
+      DateTime? date;
+      try {
+        date = DateFormat('yyyy/MM/dd').parse(_controller.text);
+      } catch (e) {
+        log('Error in date format - $e');
+      }
+      if (date != null) {
+        _selectedDate = date;
+      }
+      setState(() {});
+    });
 
     _selectedDate = widget.initialDate;
     _firstDate = widget.firstDate ?? DateTime(2000);
@@ -87,6 +113,13 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         _overlayEntry.remove();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 
   void onChanged(DateTime? selectedDate) {

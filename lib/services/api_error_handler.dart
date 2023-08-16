@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 class ApiErrorHandler {
@@ -17,15 +18,15 @@ class ApiErrorHandler {
     }
   }
 
-  //  static Future<void> callToast(
-  //      [String msg = 'Error al realizar petición']) async {
-  //    await Fluttertoast.showToast(
-  //      msg: msg,
-  //      toastLength: Toast.LENGTH_SHORT,
-  //      webBgColor: "#e74c3c",
-  //      textColor: Colors.black,
-  //      timeInSecForIosWeb: 5,
-  //      webPosition: 'center',
-  //    );
-  //  }
+  static Future<void> callToast(
+      [String msg = 'Error al realizar petición']) async {
+    await Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      webBgColor: "#e74c3c",
+      textColor: Colors.black,
+      timeInSecForIosWeb: 5,
+      webPosition: 'center',
+    );
+  }
 }

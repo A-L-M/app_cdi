@@ -1,5 +1,8 @@
+import 'package:app_cdi/models/bebe.dart';
+import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,9 +30,11 @@ class DatosBebeCard extends StatefulWidget {
 class _DatosBebeCardState extends State<DatosBebeCard> {
   final formKey = GlobalKey<FormState>();
   bool showSexoError = false;
+  FToast fToast = FToast();
 
   @override
   Widget build(BuildContext context) {
+    fToast.init(context);
     final DatosPersonalesProvider provider =
         Provider.of<DatosPersonalesProvider>(context);
 
@@ -161,6 +166,8 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
             const SizedBox(height: 10),
             const InputLabel(label: 'Fecha de nacimiento'),
             CustomDatePicker(
+              initialDate: provider.fechaNacimiento,
+              controller: provider.fechaNacimientoController,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(
                   RegExp(r'[0-9]/'),
@@ -208,7 +215,7 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                 const SizedBox(width: 20),
                 DatosButton(
                   label: 'CONTINUAR',
-                  onTap: () {
+                  onTap: () async {
                     if (!formKey.currentState!.validate()) {
                       if (provider.sexo == null) {
                         showSexoError = true;
@@ -221,6 +228,14 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                       return;
                     }
                     provider.id = provider.numIdentificacionController.text;
+
+                    final res = await provider.registrarBebe();
+                    if (!res) {
+                      ApiErrorHandler.callToast('Error al registrar bebé');
+                      return;
+                    }
+
+                    if (!mounted) return;
 
                     if (widget.inventario == 'INVENTARIO I') {
                       context.pushReplacement('/cdi-1');
