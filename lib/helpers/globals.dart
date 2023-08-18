@@ -17,14 +17,10 @@ final supabase = Supabase.instance.client;
 
 late final SharedPreferences prefs;
 
-late final Assets assets;
-
 Usuario? currentUser;
 
 Future<void> initGlobals() async {
   prefs = await SharedPreferences.getInstance();
-
-  assets = await SupabaseQueries.getAssets();
 
   currentUser = await SupabaseQueries.getCurrentUserData();
 

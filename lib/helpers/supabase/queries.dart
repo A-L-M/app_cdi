@@ -54,32 +54,4 @@ class SupabaseQueries {
       return null;
     }
   }
-
-  static Future<Assets> getAssets() async {
-    Map<String, String> assetMap = {
-      'logoColor': 'assets/images/LogoColor.png',
-      'logoBlanco': 'assets/images/LogoBlanco.png',
-      'bg1': 'assets/images/bg1.png',
-      'bgLogin': 'assets/images/bgLogin.png',
-    };
-    try {
-      //Logo Color
-      assetMap['logoColor'] =
-          supabase.storage.from('assets').getPublicUrl('LogoColor.png');
-
-      assetMap['logoBlanco'] =
-          supabase.storage.from('assets').getPublicUrl('LogoBlanco.png');
-
-      //BG 1
-      assetMap['bg1'] = supabase.storage.from('assets').getPublicUrl('bg1.png');
-
-      //BG Login
-      assetMap['bgLogin'] =
-          supabase.storage.from('assets').getPublicUrl('bgLogin.png');
-
-      return Assets.fromMap(assetMap);
-    } catch (e) {
-      return Assets.fromMap(assetMap);
-    }
-  }
 }
