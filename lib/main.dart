@@ -36,6 +36,12 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => CDI2Provider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => UsuariosProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => VisualStateProvider(),
+        ),
       ],
       child: const MyApp(),
     ),

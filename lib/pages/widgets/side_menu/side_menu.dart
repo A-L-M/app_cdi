@@ -43,7 +43,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                       tooltip: 'Usuarios',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.group_outlined,
-                      isTaped: visualState.isTaped[7],
+                      isTaped: visualState.isTaped[0],
                       onPressed: () {
                         context.pushReplacement('/usuarios');
                       },

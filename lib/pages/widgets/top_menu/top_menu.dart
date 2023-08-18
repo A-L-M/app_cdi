@@ -37,16 +37,6 @@ class _TopMenuWidgetState extends State<TopMenuWidget> {
             mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.06,
-              ),
-              Image.asset(
-                AppTheme.of(context).primaryBackground == Colors.white
-                    ? 'assets/images/LogoColor.png'
-                    : 'assets/images/LogoBlanco.png',
-                height: 0.05 * MediaQuery.of(context).size.height,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.22,
               ),
               Expanded(

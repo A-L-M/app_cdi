@@ -104,7 +104,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                       columns: [
                                         PlutoColumn(
                                           title: 'ID',
-                                          field: 'usuario_id_secuencial',
+                                          field: 'id_secuencial',
                                           width: 80,
                                           titleTextAlign:
                                               PlutoColumnTextAlign.center,

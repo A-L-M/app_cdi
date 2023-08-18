@@ -32,7 +32,7 @@ class UsuariosProvider extends ChangeNotifier {
 
   //PANTALLA USUARIOS
   final busquedaController = TextEditingController();
-  String orden = "usuario_id_secuencial";
+  String orden = "id_secuencial";
 
   Future<void> updateState() async {
     await getRoles(notify: false);
@@ -56,13 +56,11 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<void> getRoles({bool notify = true}) async {
     if (roles.isNotEmpty) return;
-    final res = await supabase
-        .from('roles')
-        .select('nombre_rol, id_rol_pk, permisos')
-        .order(
-          'nombre_rol',
-          ascending: true,
-        );
+    final res =
+        await supabase.from('rol').select('rol_id, nombre, permisos').order(
+              'nombre',
+              ascending: true,
+            );
 
     roles = (res as List<dynamic>)
         .map((rol) => Rol.fromJson(jsonEncode(rol)))
@@ -92,12 +90,12 @@ class UsuariosProvider extends ChangeNotifier {
         rows.add(
           PlutoRow(
             cells: {
-              'usuario_id_secuencial': PlutoCell(value: usuario.idSecuencial),
+              'id_secuencial': PlutoCell(value: usuario.idSecuencial),
               'nombre':
                   PlutoCell(value: "${usuario.nombre} ${usuario.apellidos}"),
               'rol': PlutoCell(value: usuario.rol.nombre),
               'email': PlutoCell(value: usuario.email),
-              'telefono': PlutoCell(value: usuario.telefono),
+              'telefono': PlutoCell(value: usuario.telefono ?? ''),
               'acciones': PlutoCell(value: usuario.id),
             },
           ),
