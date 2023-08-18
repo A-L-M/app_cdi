@@ -1,13 +1,8 @@
 import 'dart:developer';
-import 'dart:typed_data';
 
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/router/router.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart' as p;
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 class UserState extends ChangeNotifier {
   //EMAIL
@@ -40,14 +35,10 @@ class UserState extends ChangeNotifier {
   TextEditingController nombrePerfil = TextEditingController();
   TextEditingController apellidosPerfil = TextEditingController();
   TextEditingController telefonoPerfil = TextEditingController();
-  TextEditingController extensionPerfil = TextEditingController();
   TextEditingController emailPerfil = TextEditingController();
   TextEditingController contrasenaAnteriorPerfil = TextEditingController();
   TextEditingController confirmarContrasenaPerfil = TextEditingController();
   TextEditingController contrasenaPerfil = TextEditingController();
-
-  String? imageName;
-  Uint8List? webImage;
 
   //Constructor de provider
   UserState() {
@@ -79,60 +70,15 @@ class UserState extends ChangeNotifier {
     }
   }
 
-  //TODO: agregar info de perfil
-  // void initPerfilUsuario() {
-  //   if (currentUser == null) return;
-  //   nombrePerfil.text = currentUser!.nombre;
-  //   apellidosPerfil.text = currentUser!.apellidos;
-  //   telefonoPerfil.text = currentUser!.telefono;
-  //   extensionPerfil.text = currentUser!.ext ?? '';
-  //   emailPerfil.text = currentUser!.email;
-  //   imageName = currentUser!.imagen;
-  //   webImage = null;
-  //   contrasenaPerfil.clear();
-  //   contrasenaAnteriorPerfil.clear();
-  //   confirmarContrasenaPerfil.clear();
-  // }
-
-  Future<void> selectImage() async {
-    final ImagePicker picker = ImagePicker();
-
-    final XFile? pickedImage = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-
-    if (pickedImage == null) return;
-
-    final String fileExtension = p.extension(pickedImage.name);
-    const uuid = Uuid();
-    final String fileName = uuid.v1();
-    imageName = 'avatar-$fileName$fileExtension';
-
-    webImage = await pickedImage.readAsBytes();
-
-    notifyListeners();
-  }
-
-  void clearImage() {
-    webImage = null;
-    imageName = null;
-    notifyListeners();
-  }
-
-  Future<String?> uploadImage() async {
-    if (webImage != null && imageName != null) {
-      await supabase.storage.from('avatars').uploadBinary(
-            imageName!,
-            webImage!,
-            fileOptions: const FileOptions(
-              cacheControl: '3600',
-              upsert: false,
-            ),
-          );
-
-      return imageName;
-    }
-    return null;
+  void initPerfilUsuario() {
+    if (currentUser == null) return;
+    nombrePerfil.text = currentUser!.nombre;
+    apellidosPerfil.text = currentUser!.apellidos;
+    telefonoPerfil.text = currentUser!.telefono ?? '';
+    emailPerfil.text = currentUser!.email;
+    contrasenaPerfil.clear();
+    contrasenaAnteriorPerfil.clear();
+    confirmarContrasenaPerfil.clear();
   }
 
   Future<bool> editarPerfilDeUsuario() async {
@@ -142,13 +88,25 @@ class UserState extends ChangeNotifier {
           'nombre': nombrePerfil.text,
           'apellidos': apellidosPerfil.text,
           'telefono': telefonoPerfil.text,
-          'imagen': imageName,
         },
       ).eq('perfil_usuario_id', currentUser!.id);
       return true;
     } catch (e) {
       log('Error en editarPerfilDeUsuario() - $e');
       return false;
+    }
+  }
+
+  Future<String?> getUserId(String email) async {
+    try {
+      final res = await supabase.from('users').select('id').eq('email', email);
+      if ((res as List).isNotEmpty || res[0]['id'] != null) {
+        return res[0]['id'];
+      }
+      return null;
+    } catch (e) {
+      log('Error en getUserId - $e');
+      return null;
     }
   }
 

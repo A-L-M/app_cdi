@@ -9,7 +9,12 @@ import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:app_cdi/provider/providers.dart';
 
 class CDI2PalabrasPage extends StatefulWidget {
-  const CDI2PalabrasPage({Key? key}) : super(key: key);
+  const CDI2PalabrasPage({
+    Key? key,
+    required this.cdi2Id,
+  }) : super(key: key);
+
+  final int cdi2Id;
 
   @override
   State<CDI2PalabrasPage> createState() => _CDI2PalabrasPageState();
@@ -27,7 +32,7 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
         context,
         listen: false,
       );
-      await provider.getSeccionesPalabras();
+      await provider.initState(widget.cdi2Id);
     });
   }
 
@@ -57,7 +62,7 @@ class CDI2PageDesktop extends StatefulWidget {
 }
 
 class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
-  int index = 3;
+  int index = 1;
   ScrollController scrollController = ScrollController();
 
   @override
@@ -78,7 +83,7 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
     }
 
     if (provider.seccionesPalabras.isEmpty) {
-      return const CircularProgressIndicator();
+      return const Center(child: CircularProgressIndicator());
     }
 
     final List<FormSection> secciones = [];

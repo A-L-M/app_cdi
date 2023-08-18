@@ -83,6 +83,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     }
 
     _controller.addListener(() {
+      if (_controller.text.isEmpty) return;
       DateTime? date;
       try {
         date = DateFormat('yyyy/MM/dd').parse(_controller.text);
@@ -118,7 +119,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
   @override
   void dispose() {
     _focusNode.dispose();
-    _controller.dispose();
     super.dispose();
   }
 

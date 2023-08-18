@@ -17,7 +17,7 @@ class DatosPersonalesProvider extends ChangeNotifier {
 
   Sexo? sexo;
   DateTime? fechaNacimiento;
-  DateTime? fechaCita;
+  DateTime? fechaCita = DateTime.now();
   String? id;
   Bebe? bebe;
 
@@ -68,6 +68,7 @@ class DatosPersonalesProvider extends ChangeNotifier {
 
   Future<bool> registrarBebe() async {
     try {
+      //TODO: que hacer cuando ya existe el id (actualizar datos o ignorar)
       initBebe();
       if (bebe == null) return false;
       await supabase.from('bebe').insert(bebe!.toMap());
@@ -98,6 +99,20 @@ class DatosPersonalesProvider extends ChangeNotifier {
     }
   }
 
+  Future<int?> registrarCDI2() async {
+    try {
+      if (fechaCita == null || bebe == null) return null;
+      final res = await supabase.rpc('registrar_cdi2', params: {
+        'fecha_cita': fechaCita!.toIso8601String(),
+        'bebe_id': bebe!.bebeId,
+      });
+      return res;
+    } catch (e) {
+      log('Error en registrarCDI2() - $e');
+      return null;
+    }
+  }
+
   @override
   void dispose() {
     numIdentificacionController.dispose();
@@ -106,6 +121,7 @@ class DatosPersonalesProvider extends ChangeNotifier {
     apellidoPaternoController.dispose();
     apellidoMaternoController.dispose();
     buscarController.dispose();
+    fechaNacimientoController.dispose();
     super.dispose();
   }
 }

@@ -28,6 +28,58 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
 
+    Future<void> login() async {
+      //Login
+      try {
+        // Check if user exists
+        //if it doesnt return
+        final userId =
+            await userState.getUserId(userState.emailController.text);
+
+        if (userId == null) {
+          await ApiErrorHandler.callToast('El correo no está registrado');
+          return;
+        }
+
+        await supabase.auth.signInWithPassword(
+          email: userState.emailController.text,
+          password: userState.passwordController.text,
+        );
+
+        if (userState.rememberMe == true) {
+          await userState.setEmail();
+          await userState.setPassword();
+        } else {
+          userState.emailController.text = '';
+          userState.passwordController.text = '';
+          await prefs.remove('email');
+          await prefs.remove('password');
+        }
+
+        if (supabase.auth.currentUser == null) {
+          await ApiErrorHandler.callToast();
+          return;
+        }
+
+        currentUser = await SupabaseQueries.getCurrentUserData();
+
+        if (currentUser == null) {
+          await ApiErrorHandler.callToast();
+          return;
+        }
+
+        if (!mounted) return;
+
+        context.pushReplacement('/usuarios');
+      } catch (e) {
+        if (e is AuthException) {
+          await ApiErrorHandler.callToast('Credenciales inválidas');
+          return;
+        }
+        log('Error al iniciar sesion - $e');
+      }
+    }
+
     return Container(
       height: 230,
       width: 250,
@@ -73,45 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                 if (!formKey.currentState!.validate()) {
                   return;
                 }
-
-                //Login
-                try {
-                  await supabase.auth.signInWithPassword(
-                    email: userState.emailController.text,
-                    password: userState.passwordController.text,
-                  );
-
-                  if (userState.rememberMe == true) {
-                    await userState.setEmail();
-                    await userState.setPassword();
-                  } else {
-                    userState.emailController.text = '';
-                    userState.passwordController.text = '';
-                    await prefs.remove('email');
-                    await prefs.remove('password');
-                  }
-
-                  if (supabase.auth.currentUser == null) {
-                    // await ApiErrorHandler.callToast();
-                    return;
-                  }
-
-                  currentUser = await SupabaseQueries.getCurrentUserData();
-
-                  if (currentUser == null) {
-                    // await ApiErrorHandler.callToast();
-                    return;
-                  }
-
-                  if (!mounted) return;
-                  context.pushReplacement('/formularios');
-                } catch (e) {
-                  if (e is AuthException) {
-                    // await ApiErrorHandler.callToast('Credenciales inválidas');
-                    return;
-                  }
-                  log('Error al iniciar sesión - $e');
-                }
+                await login();
               },
             ),
           ],

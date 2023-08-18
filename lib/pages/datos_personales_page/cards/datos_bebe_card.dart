@@ -229,9 +229,15 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                     }
                     provider.id = provider.numIdentificacionController.text;
 
-                    final res = await provider.registrarBebe();
-                    if (!res) {
+                    final seRegistroBebe = await provider.registrarBebe();
+                    if (!seRegistroBebe) {
                       ApiErrorHandler.callToast('Error al registrar bebé');
+                      // return;
+                    }
+
+                    final cdi2Id = await provider.registrarCDI2();
+                    if (cdi2Id == null) {
+                      ApiErrorHandler.callToast('Error al registrar CDI II');
                       return;
                     }
 
@@ -240,7 +246,7 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                     if (widget.inventario == 'INVENTARIO I') {
                       context.pushReplacement('/cdi-1');
                     } else {
-                      context.pushReplacement('/cdi-2');
+                      context.pushReplacement('/cdi-2', extra: cdi2Id);
                     }
                   },
                 ),

@@ -42,9 +42,7 @@ final GoRouter router = GoRouter(
       path: '/datos-personales',
       name: 'datos_personales',
       builder: (BuildContext context, GoRouterState state) {
-        // if (state.extra == null) return const HomePage();
-        if (state.extra == null)
-          return DatosPersonalesPage(inventario: 'INVENTARIO II');
+        if (state.extra == null) return const HomePage();
         return DatosPersonalesPage(inventario: state.extra as String);
       },
     ),
@@ -59,7 +57,10 @@ final GoRouter router = GoRouter(
       path: '/cdi-2',
       name: 'cdi_2',
       builder: (BuildContext context, GoRouterState state) {
-        return const CDI2PalabrasPage();
+        if (state.extra is int) {
+          return CDI2PalabrasPage(cdi2Id: state.extra as int);
+        }
+        return const HomePage();
       },
       routes: <RouteBase>[
         GoRoute(
@@ -76,6 +77,14 @@ final GoRouter router = GoRouter(
       name: 'gracias',
       builder: (BuildContext context, GoRouterState state) {
         return const GraciasPage();
+      },
+    ),
+    GoRoute(
+      path: '/usuarios',
+      name: 'usuarios',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser == null) return const HomePage();
+        return const UsuariosPage();
       },
     ),
   ],

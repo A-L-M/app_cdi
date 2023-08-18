@@ -8,6 +8,8 @@ import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 class CDI2Provider extends ChangeNotifier {
+  int? cdi2Id;
+
   List<SeccionPalabrasCDI2> seccionesPalabras = [];
   CDI2Comprension comprension = CDI2Comprension.fromMap({});
   CDI2Parte2 parte2 = CDI2Parte2.fromMap({});
@@ -20,6 +22,11 @@ class CDI2Provider extends ChangeNotifier {
     ejemplo1Controller.text = parte2.ejemplo1 ?? '';
     ejemplo2Controller.text = parte2.ejemplo2 ?? '';
     ejemplo3Controller.text = parte2.ejemplo3 ?? '';
+  }
+
+  Future<void> initState(int cdi2Id) async {
+    this.cdi2Id = cdi2Id;
+    await getSeccionesPalabras();
   }
 
   Future<void> getSeccionesPalabras() async {
@@ -38,9 +45,18 @@ class CDI2Provider extends ChangeNotifier {
     }
   }
 
-  void setOpcionPalabra(Opcion opcion, PalabraCDI2 palabra) {
+  void setOpcionPalabra(Opcion opcion, PalabraCDI2 palabra) async {
     palabra.opcion = opcion;
     notifyListeners();
+    try {
+      await supabase.rpc('upsert_palabra_cdi2', params: {
+        'cdi2_id': cdi2Id,
+        'palabra_id': palabra.palabraId,
+        'valor': PalabraCDI2.convertToInt(opcion),
+      });
+    } catch (e) {
+      log('Error en setOpcionPalabra() - $e');
+    }
   }
 
   void setCombinaPalabras(RespuestaComprension opcion) {
