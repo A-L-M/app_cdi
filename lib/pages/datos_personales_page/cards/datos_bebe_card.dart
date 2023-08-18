@@ -230,10 +230,10 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                     provider.id = provider.numIdentificacionController.text;
 
                     final seRegistroBebe = await provider.registrarBebe();
-                    if (!seRegistroBebe) {
-                      ApiErrorHandler.callToast('Error al registrar bebé');
-                      // return;
-                    }
+                    // if (!seRegistroBebe) {
+                    //   ApiErrorHandler.callToast('Error al registrar bebé');
+                    //   // return;
+                    // }
 
                     final cdi2Id = await provider.registrarCDI2();
                     if (cdi2Id == null) {

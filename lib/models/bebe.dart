@@ -23,6 +23,9 @@ class Bebe {
   Sexo sexo;
   DateTime fechaNacimiento;
 
+  String get nombreCompleto =>
+      '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
+
   factory Bebe.fromJson(String str) => Bebe.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());

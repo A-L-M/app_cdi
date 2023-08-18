@@ -36,6 +36,19 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            //TODO: agregar permisos
+            Padding(
+              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+              child: MenuButton(
+                tooltip: 'Bebés',
+                fillColor: AppTheme.of(context).primaryColor,
+                icon: Icons.child_care,
+                isTaped: visualState.isTaped[0],
+                onPressed: () {
+                  context.pushReplacement('/bebes');
+                },
+              ),
+            ),
             userPermissions.administracionDeUsuarios != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
@@ -43,7 +56,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                       tooltip: 'Usuarios',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.group_outlined,
-                      isTaped: visualState.isTaped[0],
+                      isTaped: visualState.isTaped[1],
                       onPressed: () {
                         context.pushReplacement('/usuarios');
                       },

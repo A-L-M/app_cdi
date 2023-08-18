@@ -80,6 +80,14 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
+      path: '/bebes',
+      name: 'bebes',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser == null) return const HomePage();
+        return const BebesPage();
+      },
+    ),
+    GoRoute(
       path: '/usuarios',
       name: 'usuarios',
       builder: (BuildContext context, GoRouterState state) {

@@ -119,8 +119,6 @@ class UserState extends ChangeNotifier {
   Future<void> logout() async {
     await supabase.auth.signOut();
     currentUser = null;
-    await prefs.remove('currentPais');
-    await prefs.remove('currentRol');
     router.pushReplacement('/');
   }
 

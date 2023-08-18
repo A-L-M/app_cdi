@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class VisualStateProvider extends ChangeNotifier {
   //OPCIONES MENU:
   List<bool> isTaped = [
-    true, //Usuarios
+    true, //Bebes
+    false, //Usuarios
   ];
 
   void setTapedOption(int index) {

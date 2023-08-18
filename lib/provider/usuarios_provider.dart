@@ -20,8 +20,6 @@ class UsuariosProvider extends ChangeNotifier {
   TextEditingController apellidosController = TextEditingController();
   TextEditingController telefonoController = TextEditingController();
 
-  String? cuentasDropValue = '';
-
   List<Rol> roles = [];
   List<Usuario> usuarios = [];
 
@@ -138,8 +136,6 @@ class UsuariosProvider extends ChangeNotifier {
       return {'Error': 'Error al registrar usuario'};
     }
   }
-
-  //TODO: agregar registros de sociedades
 
   Future<bool> crearPerfilDeUsuario(String userId) async {
     if (rolSeleccionado == null) {

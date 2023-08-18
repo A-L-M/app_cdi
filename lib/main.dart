@@ -42,6 +42,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => VisualStateProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => BebesProvider(),
+        ),
       ],
       child: const MyApp(),
     ),

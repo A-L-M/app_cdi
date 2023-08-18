@@ -70,7 +70,7 @@ class _LoginFormState extends State<LoginForm> {
 
         if (!mounted) return;
 
-        context.pushReplacement('/usuarios');
+        context.pushReplacement('/bebes');
       } catch (e) {
         if (e is AuthException) {
           await ApiErrorHandler.callToast('Credenciales inválidas');

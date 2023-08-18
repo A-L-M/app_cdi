@@ -23,7 +23,7 @@ class FormSection extends StatefulWidget {
 class _FormSectionState extends State<FormSection> {
   @override
   Widget build(BuildContext context) {
-    final CDI2Provider provider = Provider.of<CDI2Provider>(context);
+    // final CDI2Provider provider = Provider.of<CDI2Provider>(context);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -36,77 +36,77 @@ class _FormSectionState extends State<FormSection> {
             palabras: widget.palabras,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20, right: 10),
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'ICPLIM: Total C = ',
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: const Color(0xFF2B2B2B),
-                      ),
-                    ),
-                    Text(
-                      provider.getTotalC(widget.palabras).toString(),
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF2B2B2B),
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      'Total C/D = ',
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: const Color(0xFF2B2B2B),
-                      ),
-                    ),
-                    Text(
-                      provider.getTotalCD(widget.palabras).toString(),
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF2B2B2B),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'CDI-II: Total Dice = ',
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: const Color(0xFF2B2B2B),
-                      ),
-                    ),
-                    Text(
-                      provider.getTotalD(widget.palabras).toString(),
-                      style: GoogleFonts.robotoSlab(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFF2B2B2B),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(bottom: 20, right: 10),
+        //   child: Align(
+        //     alignment: Alignment.centerRight,
+        //     child: Column(
+        //       mainAxisSize: MainAxisSize.min,
+        //       crossAxisAlignment: CrossAxisAlignment.end,
+        //       children: [
+        //         Row(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: [
+        //             Text(
+        //               'ICPLIM: Total C = ',
+        //               style: GoogleFonts.robotoSlab(
+        //                 fontSize: 14,
+        //                 fontWeight: FontWeight.normal,
+        //                 color: const Color(0xFF2B2B2B),
+        //               ),
+        //             ),
+        //             Text(
+        //               provider.getTotalC(widget.palabras).toString(),
+        //               style: GoogleFonts.robotoSlab(
+        //                 fontSize: 14,
+        //                 fontWeight: FontWeight.w700,
+        //                 color: const Color(0xFF2B2B2B),
+        //               ),
+        //             ),
+        //             const SizedBox(width: 5),
+        //             Text(
+        //               'Total C/D = ',
+        //               style: GoogleFonts.robotoSlab(
+        //                 fontSize: 14,
+        //                 fontWeight: FontWeight.normal,
+        //                 color: const Color(0xFF2B2B2B),
+        //               ),
+        //             ),
+        //             Text(
+        //               provider.getTotalCD(widget.palabras).toString(),
+        //               style: GoogleFonts.robotoSlab(
+        //                 fontSize: 14,
+        //                 fontWeight: FontWeight.bold,
+        //                 color: const Color(0xFF2B2B2B),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //         Row(
+        //           mainAxisSize: MainAxisSize.min,
+        //           children: [
+        //             Text(
+        //               'CDI-II: Total Dice = ',
+        //               style: GoogleFonts.robotoSlab(
+        //                 fontSize: 14,
+        //                 fontWeight: FontWeight.normal,
+        //                 color: const Color(0xFF2B2B2B),
+        //               ),
+        //             ),
+        //             Text(
+        //               provider.getTotalD(widget.palabras).toString(),
+        //               style: GoogleFonts.robotoSlab(
+        //                 fontSize: 14,
+        //                 fontWeight: FontWeight.bold,
+        //                 color: const Color(0xFF2B2B2B),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ],
     );
   }
