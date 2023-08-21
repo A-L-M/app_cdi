@@ -407,12 +407,12 @@ class _VerboWidget extends StatefulWidget {
   const _VerboWidget({
     Key? key,
     required this.verbo,
-    this.valor = false,
+    required this.valor,
     required this.onChanged,
   }) : super(key: key);
 
   final String verbo;
-  final bool? valor;
+  final bool valor;
   final void Function(bool) onChanged;
 
   @override
@@ -424,7 +424,7 @@ class __VerboWidgetState extends State<_VerboWidget> {
 
   @override
   void initState() {
-    isChecked = widget.valor ?? false;
+    isChecked = widget.valor;
     super.initState();
   }
 

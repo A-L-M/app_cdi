@@ -121,8 +121,8 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                   ),
                   const IncisoAWidget(),
                   //TODO: invertir logica
-                  if (!visible) const IncisoBWidget(),
-                  if (!visible) const IncisoCWidget(),
+                  if (visible) const IncisoBWidget(),
+                  if (visible) const IncisoCWidget(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Row(
@@ -132,18 +132,17 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                         FormButton(
                           label: 'Retroceder',
                           onTap: () {
-                            context.pushReplacement('/cdi-2');
+                            //TODO: pop en vez de push
+                            context.pushReplacement(
+                              '/cdi-2',
+                              extra: provider.cdi2Id,
+                            );
                           },
                         ),
                         const SizedBox(width: 10),
                         FormButton(
                           label: 'Continuar',
                           onTap: () async {
-                            final DatosPersonalesProvider datosPersonales =
-                                Provider.of<DatosPersonalesProvider>(context,
-                                    listen: false);
-                            await provider
-                                .generarReporteExcel(datosPersonales.id ?? '');
                             if (!mounted) return;
                             context.pushReplacement('/gracias');
                           },

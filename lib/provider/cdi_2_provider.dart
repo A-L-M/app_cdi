@@ -59,6 +59,19 @@ class CDI2Provider extends ChangeNotifier {
     }
   }
 
+  Future<void> setOpcionComprension(
+    RespuestaComprension valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi2_comprension').update(
+        {'pregunta${indexPregunta + 1}': convertToString(valor)},
+      ).eq('cdi2_id', cdi2Id);
+    } catch (e) {
+      log('Error en setOpcionComprension() - $e');
+    }
+  }
+
   void setCombinaPalabras(RespuestaComprension opcion) {
     parte2.combinaPalabras = opcion;
     notifyListeners();

@@ -79,6 +79,7 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
+                    provider.setOpcionComprension(opcion, index);
                     setState(() {});
                   },
                 ),
@@ -108,6 +109,7 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
+                    provider.setOpcionComprension(opcion, index);
                     setState(() {});
                   },
                 ),
@@ -137,6 +139,7 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
+                    provider.setOpcionComprension(opcion, index);
                     setState(() {});
                   },
                 ),

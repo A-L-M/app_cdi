@@ -73,30 +73,30 @@ class CDI2Parte2 {
   });
 
   int? cdi2Id;
-  bool? acabo = false;
-  bool? acabas = false;
-  bool? acaba = false;
-  bool? acabamos = false;
-  bool? como = false;
-  bool? comes = false;
-  bool? come = false;
-  bool? comemos = false;
-  bool? subo = false;
-  bool? subes = false;
-  bool? sube = false;
-  bool? subimos = false;
-  bool? acabe = false;
-  bool? acabo2 = false;
-  bool? comi = false;
-  bool? comio = false;
-  bool? subi = false;
-  bool? subio = false;
-  bool? acaba2 = false;
-  bool? acabate = false;
-  bool? come2 = false;
-  bool? comete = false;
-  bool? sube2 = false;
-  bool? subete = false;
+  bool acabo = false;
+  bool acabas = false;
+  bool acaba = false;
+  bool acabamos = false;
+  bool como = false;
+  bool comes = false;
+  bool come = false;
+  bool comemos = false;
+  bool subo = false;
+  bool subes = false;
+  bool sube = false;
+  bool subimos = false;
+  bool acabe = false;
+  bool acabo2 = false;
+  bool comi = false;
+  bool comio = false;
+  bool subi = false;
+  bool subio = false;
+  bool acaba2 = false;
+  bool acabate = false;
+  bool come2 = false;
+  bool comete = false;
+  bool sube2 = false;
+  bool subete = false;
   RespuestaComprension? combinaPalabras;
   String? ejemplo1;
   String? ejemplo2;
@@ -147,30 +147,30 @@ class CDI2Parte2 {
   factory CDI2Parte2.fromMap(Map<String, dynamic> json) {
     return CDI2Parte2(
       cdi2Id: json['cdi2_id'],
-      acabo: json['acabo'],
-      acabas: json['acabas'],
-      acaba: json['acaba'],
-      acabamos: json['acabamos'],
-      como: json['como'],
-      comes: json['comes'],
-      come: json['come'],
-      comemos: json['comemos'],
-      subo: json['subo'],
-      subes: json['subes'],
-      sube: json['sube'],
-      subimos: json['subimos'],
-      acabe: json['acabe'],
-      acabo2: json['acabo2'],
-      comi: json['comi'],
-      comio: json['comio'],
-      subi: json['subi'],
-      subio: json['subio'],
-      acaba2: json['acaba2'],
-      acabate: json['acabate'],
-      come2: json['come2'],
-      comete: json['comete'],
-      sube2: json['sube2'],
-      subete: json['subete'],
+      acabo: json['acabo'] ?? false,
+      acabas: json['acabas'] ?? false,
+      acaba: json['acaba'] ?? false,
+      acabamos: json['acabamos'] ?? false,
+      como: json['como'] ?? false,
+      comes: json['comes'] ?? false,
+      come: json['come'] ?? false,
+      comemos: json['comemos'] ?? false,
+      subo: json['subo'] ?? false,
+      subes: json['subes'] ?? false,
+      sube: json['sube'] ?? false,
+      subimos: json['subimos'] ?? false,
+      acabe: json['acabe'] ?? false,
+      acabo2: json['acabo2'] ?? false,
+      comi: json['comi'] ?? false,
+      comio: json['comio'] ?? false,
+      subi: json['subi'] ?? false,
+      subio: json['subio'] ?? false,
+      acaba2: json['acaba2'] ?? false,
+      acabate: json['acabate'] ?? false,
+      come2: json['come2'] ?? false,
+      comete: json['comete'] ?? false,
+      sube2: json['sube2'] ?? false,
+      subete: json['subete'] ?? false,
       combinaPalabras: convertToEnum(json['combina_palabras']),
       ejemplo1: json['ejemplo1'],
       ejemplo2: json['ejemplo2'],
