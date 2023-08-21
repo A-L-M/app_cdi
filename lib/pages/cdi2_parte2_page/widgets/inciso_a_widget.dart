@@ -432,6 +432,8 @@ class __VerboWidgetState extends State<_VerboWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
+    print('Valor inicial - $isChecked');
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
