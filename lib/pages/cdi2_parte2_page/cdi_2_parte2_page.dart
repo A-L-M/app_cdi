@@ -13,7 +13,9 @@ import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:app_cdi/provider/providers.dart';
 
 class CDI2Parte2Page extends StatefulWidget {
-  const CDI2Parte2Page({Key? key}) : super(key: key);
+  const CDI2Parte2Page({Key? key, required this.cdi2Id}) : super(key: key);
+
+  final int cdi2Id;
 
   @override
   State<CDI2Parte2Page> createState() => _CDI2Parte2PageState();
@@ -120,7 +122,6 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                     child: Container(),
                   ),
                   const IncisoAWidget(),
-                  //TODO: invertir logica
                   if (visible) const IncisoBWidget(),
                   if (visible) const IncisoCWidget(),
                   Padding(
@@ -143,6 +144,7 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                         FormButton(
                           label: 'Continuar',
                           onTap: () async {
+                            await provider.guardarFrasesIncisoB();
                             if (!mounted) return;
                             context.pushReplacement('/gracias');
                           },

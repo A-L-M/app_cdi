@@ -149,7 +149,10 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                               return;
                             }
                             index = 1;
-                            context.push('/cdi-2/parte-2');
+                            context.push(
+                              '/cdi-2/parte-2',
+                              extra: provider.cdi2Id,
+                            );
                           },
                         ),
                       ],

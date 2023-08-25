@@ -43,61 +43,73 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
     final List<_VerboWidget> presente = [
       _VerboWidget(
         verbo: 'Acabo',
+        dbName: 'acabo',
         valor: provider.parte2.acabo,
         onChanged: (bool value) => provider.parte2.acabo = value,
       ),
       _VerboWidget(
         verbo: 'Acabas',
+        dbName: 'acabas',
         valor: provider.parte2.acabas,
         onChanged: (bool value) => provider.parte2.acabas = value,
       ),
       _VerboWidget(
         verbo: 'Acaba',
+        dbName: 'acaba',
         valor: provider.parte2.acaba,
         onChanged: (bool value) => provider.parte2.acaba = value,
       ),
       _VerboWidget(
         verbo: 'Acabamos',
+        dbName: 'acabamos',
         valor: provider.parte2.acabamos,
         onChanged: (bool value) => provider.parte2.acabamos = value,
       ),
       _VerboWidget(
         verbo: 'Como',
+        dbName: 'como',
         valor: provider.parte2.como,
         onChanged: (bool value) => provider.parte2.como = value,
       ),
       _VerboWidget(
         verbo: 'Comes',
+        dbName: 'comes',
         valor: provider.parte2.comes,
         onChanged: (bool value) => provider.parte2.comes = value,
       ),
       _VerboWidget(
         verbo: 'Come',
+        dbName: 'come',
         valor: provider.parte2.come,
         onChanged: (bool value) => provider.parte2.come = value,
       ),
       _VerboWidget(
         verbo: 'Comemos',
+        dbName: 'comemos',
         valor: provider.parte2.comemos,
         onChanged: (bool value) => provider.parte2.comemos = value,
       ),
       _VerboWidget(
         verbo: 'Subo',
+        dbName: 'subo',
         valor: provider.parte2.subo,
         onChanged: (bool value) => provider.parte2.subo = value,
       ),
       _VerboWidget(
         verbo: 'Subes',
+        dbName: 'subes',
         valor: provider.parte2.subes,
         onChanged: (bool value) => provider.parte2.subes = value,
       ),
       _VerboWidget(
         verbo: 'Sube',
+        dbName: 'sube',
         valor: provider.parte2.sube,
         onChanged: (bool value) => provider.parte2.sube = value,
       ),
       _VerboWidget(
         verbo: 'Subimos',
+        dbName: 'subimos',
         valor: provider.parte2.subimos,
         onChanged: (bool value) => provider.parte2.subimos = value,
       ),
@@ -121,31 +133,37 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
     final List<_VerboWidget> pasado = [
       _VerboWidget(
         verbo: 'Acabé',
+        dbName: 'acabe',
         valor: provider.parte2.acabe,
         onChanged: (bool value) => provider.parte2.acabe = value,
       ),
       _VerboWidget(
         verbo: 'Acabó',
+        dbName: 'acabo2',
         valor: provider.parte2.acabo2,
         onChanged: (bool value) => provider.parte2.acabo2 = value,
       ),
       _VerboWidget(
         verbo: 'Comí',
+        dbName: 'comi',
         valor: provider.parte2.comi,
         onChanged: (bool value) => provider.parte2.comi = value,
       ),
       _VerboWidget(
         verbo: 'Comió',
+        dbName: 'comio',
         valor: provider.parte2.comio,
         onChanged: (bool value) => provider.parte2.comio = value,
       ),
       _VerboWidget(
         verbo: 'Subí',
+        dbName: 'subi',
         valor: provider.parte2.subi,
         onChanged: (bool value) => provider.parte2.subi = value,
       ),
       _VerboWidget(
         verbo: 'Subió',
+        dbName: 'subio',
         valor: provider.parte2.subio,
         onChanged: (bool value) => provider.parte2.subio = value,
       ),
@@ -169,32 +187,38 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
     final List<_VerboWidget> ordenar = [
       _VerboWidget(
         verbo: 'Acaba',
+        dbName: 'acaba2',
         valor: provider.parte2.acaba2,
         onChanged: (bool value) => provider.parte2.acaba2 = value,
       ),
       _VerboWidget(
         verbo: 'Acábate (la leche)',
+        dbName: 'acabate',
         valor: provider.parte2.acabate,
         onChanged: (bool value) => provider.parte2.acabate = value,
       ),
       _VerboWidget(
         verbo: 'Come',
+        dbName: 'come2',
         valor: provider.parte2.come2,
         onChanged: (bool value) => provider.parte2.come2 = value,
       ),
       _VerboWidget(
         verbo: 'Cómete',
+        dbName: 'comete',
         valor: provider.parte2.comete,
         onChanged: (bool value) => provider.parte2.comete = value,
       ),
       _VerboWidget(
         verbo: 'Sube',
+        dbName: 'sube',
         valor: provider.parte2.sube,
         onChanged: (bool value) => provider.parte2.sube = value,
       ),
       _VerboWidget(
         verbo: 'Súbete',
-        valor: provider.parte2.comes,
+        dbName: 'subete',
+        valor: provider.parte2.subete,
         onChanged: (bool value) => provider.parte2.subete = value,
       ),
     ];
@@ -407,11 +431,13 @@ class _VerboWidget extends StatefulWidget {
   const _VerboWidget({
     Key? key,
     required this.verbo,
+    required this.dbName,
     required this.valor,
     required this.onChanged,
   }) : super(key: key);
 
   final String verbo;
+  final String dbName;
   final bool valor;
   final void Function(bool) onChanged;
 
@@ -432,7 +458,10 @@ class __VerboWidgetState extends State<_VerboWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    print('Valor inicial - $isChecked');
+    final CDI2Provider provider = Provider.of<CDI2Provider>(
+      context,
+      listen: false,
+    );
 
     return Container(
       decoration: BoxDecoration(
@@ -463,6 +492,7 @@ class __VerboWidgetState extends State<_VerboWidget> {
               onChanged: (bool? value) {
                 if (value == null) return;
                 widget.onChanged(value);
+                provider.setVerbo(widget.dbName, value);
                 setState(() {
                   isChecked = value;
                 });

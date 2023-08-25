@@ -72,9 +72,54 @@ class CDI2Provider extends ChangeNotifier {
     }
   }
 
-  void setCombinaPalabras(RespuestaComprension opcion) {
+  Future<void> setVerbo(String dbName, bool value) async {
+    try {
+      await supabase
+          .from('cdi2_parte2')
+          .update({dbName: value}).eq('cdi2_id', cdi2Id);
+    } catch (e) {
+      log('Error en setVerbo() - $e');
+    }
+  }
+
+  Future<void> setCombinaPalabras(RespuestaComprension opcion) async {
     parte2.combinaPalabras = opcion;
     notifyListeners();
+    try {
+      await supabase.from('cdi2_parte2').update(
+        {
+          'combina_palabras': convertToString(opcion),
+        },
+      ).eq('cdi2_id', cdi2Id);
+    } catch (e) {
+      log('Error en setCombinaPalabras() - $e');
+    }
+  }
+
+  Future<void> guardarFrasesIncisoB() async {
+    try {
+      await supabase.from('cdi2_parte2').update(
+        {
+          'ejemplo1': ejemplo1Controller.text,
+          'ejemplo2': ejemplo2Controller.text,
+          'ejemplo3': ejemplo3Controller.text,
+        },
+      ).eq('cdi2_id', cdi2Id);
+    } catch (e) {
+      log('Error en guardarFrasesIncisoB() - $e');
+    }
+  }
+
+  Future<void> setComplejidad(String complejidad, int valor) async {
+    try {
+      await supabase.from('cdi2_parte2').update(
+        {
+          'complejidad$complejidad': valor,
+        },
+      ).eq('cdi2_id', cdi2Id);
+    } catch (e) {
+      log('Error en setComplejidad() - $e');
+    }
   }
 
   int getTotalC(List<PalabraCDI2> palabras) {

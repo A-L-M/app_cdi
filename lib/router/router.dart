@@ -67,7 +67,10 @@ final GoRouter router = GoRouter(
           path: 'parte-2',
           name: 'parte_2',
           builder: (BuildContext context, GoRouterState state) {
-            return const CDI2Parte2Page();
+            if (state.extra is int) {
+              return CDI2Parte2Page(cdi2Id: state.extra as int);
+            }
+            return const HomePage();
           },
         ),
       ],

@@ -371,6 +371,11 @@ class __ComplejidadWidgetState extends State<_ComplejidadWidget> {
     final widgetWidth = size.width > 860 ? 278.0 : 200.0;
     final widgetHeight = size.width > 860 ? 50.0 : 60.0;
 
+    final CDI2Provider provider = Provider.of<CDI2Provider>(
+      context,
+      listen: false,
+    );
+
     return Stack(
       children: [
         Column(
@@ -402,6 +407,7 @@ class __ComplejidadWidgetState extends State<_ComplejidadWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.onChanged(value);
+                    provider.setComplejidad(widget.numero, value);
                     setState(() {
                       localGroupValue = value;
                     });
