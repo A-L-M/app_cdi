@@ -24,8 +24,16 @@ class CDI2Provider extends ChangeNotifier {
     ejemplo3Controller.text = parte2.ejemplo3 ?? '';
   }
 
-  Future<void> initState(int cdi2Id) async {
+  Future<void> initState(int cdi2Id, {bool clear = true}) async {
     this.cdi2Id = cdi2Id;
+    if (clear) {
+      seccionesPalabras = [];
+      comprension = CDI2Comprension.fromMap({});
+      parte2 = CDI2Parte2.fromMap({});
+      ejemplo1Controller.clear();
+      ejemplo2Controller.clear();
+      ejemplo3Controller.clear();
+    }
     await getSeccionesPalabras();
   }
 

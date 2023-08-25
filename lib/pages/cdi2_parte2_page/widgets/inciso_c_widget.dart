@@ -442,6 +442,7 @@ class __ComplejidadWidgetState extends State<_ComplejidadWidget> {
                   onChanged: (value) {
                     if (value == null) return;
                     widget.onChanged(value);
+                    provider.setComplejidad(widget.numero, value);
                     setState(() {
                       localGroupValue = value;
                     });
