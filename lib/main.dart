@@ -45,6 +45,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => BebesProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ListadoCDI2Provider(),
+        ),
       ],
       child: const MyApp(),
     ),

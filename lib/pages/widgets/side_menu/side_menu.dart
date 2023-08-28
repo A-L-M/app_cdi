@@ -49,6 +49,18 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                 },
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+              child: MenuButton(
+                tooltip: 'CDI 2',
+                fillColor: AppTheme.of(context).primaryColor,
+                icon: Icons.list,
+                isTaped: visualState.isTaped[2],
+                onPressed: () {
+                  context.pushReplacement('/listado-cdi2');
+                },
+              ),
+            ),
             userPermissions.administracionDeUsuarios != null
                 ? Padding(
                     padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
@@ -56,7 +68,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
                       tooltip: 'Usuarios',
                       fillColor: AppTheme.of(context).primaryColor,
                       icon: Icons.group_outlined,
-                      isTaped: visualState.isTaped[1],
+                      isTaped: visualState.isTaped[3],
                       onPressed: () {
                         context.pushReplacement('/usuarios');
                       },

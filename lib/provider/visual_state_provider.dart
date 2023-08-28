@@ -4,6 +4,8 @@ class VisualStateProvider extends ChangeNotifier {
   //OPCIONES MENU:
   List<bool> isTaped = [
     true, //Bebes
+    false, //CDI 1
+    false, //CDI 2
     false, //Usuarios
   ];
 
