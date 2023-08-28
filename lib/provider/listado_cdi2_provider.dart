@@ -77,7 +77,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
 
       //Se le asignan valores a las palabras
       for (var palabra in cdi2.palabras) {
-        seccionesPalabras[palabra.seccionFk].setPalabra(
+        seccionesPalabras[palabra.seccionFk - 1].setPalabra(
           palabra.palabraId,
           palabra.opcion,
         );
