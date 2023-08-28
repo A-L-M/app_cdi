@@ -31,7 +31,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
 
       final res = await query
           .like('nombre_bebe', '%${busquedaController.text}%')
-          .order(orden, ascending: true);
+          .order(orden, ascending: false);
 
       if (res == null) {
         log('Error en getListadoCDI2()');
