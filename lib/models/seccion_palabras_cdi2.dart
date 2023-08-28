@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:app_cdi/models/models.dart';
 
@@ -14,6 +15,15 @@ class SeccionPalabrasCDI2 {
   List<PalabraCDI2> palabras;
 
   String get tituloCompleto => '$seccionId.- $nombre';
+
+  void setPalabra(int id, Opcion opcion) {
+    try {
+      int index = palabras.indexWhere((element) => element.palabraId == id);
+      palabras[index].opcion = opcion;
+    } catch (e) {
+      log('Error en setPalabra() - $e');
+    }
+  }
 
   factory SeccionPalabrasCDI2.fromJson(String str) =>
       SeccionPalabrasCDI2.fromMap(json.decode(str));

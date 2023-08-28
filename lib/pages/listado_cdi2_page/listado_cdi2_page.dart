@@ -1,9 +1,11 @@
-import 'package:app_cdi/models/models.dart';
-import 'package:app_cdi/pages/listado_cdi2_page/widgets/header.dart';
+import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/models/models.dart';
+import 'package:app_cdi/pages/listado_cdi2_page/widgets/header.dart';
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
@@ -15,13 +17,15 @@ class ListadoCDI2Page extends StatefulWidget {
   const ListadoCDI2Page({Key? key}) : super(key: key);
 
   @override
-  State<ListadoCDI2Page> createState() => _ListadoCDI2Page();
+  State<ListadoCDI2Page> createState() => _ListadoCDI2PageState();
 }
 
-class _ListadoCDI2Page extends State<ListadoCDI2Page> {
+class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
   TextEditingController searchController = TextEditingController();
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  FToast fToast = FToast();
 
   @override
   void initState() {
@@ -38,6 +42,7 @@ class _ListadoCDI2Page extends State<ListadoCDI2Page> {
 
   @override
   Widget build(BuildContext context) {
+    fToast.init(context);
     final VisualStateProvider visualState =
         Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(2);
@@ -180,17 +185,7 @@ class _ListadoCDI2Page extends State<ListadoCDI2Page> {
                                                     secondaryColor:
                                                         AppTheme.of(context)
                                                             .primaryBackground,
-                                                    onTap: () async {
-                                                      // await provider
-                                                      //     .initEditarUsuario(
-                                                      //   usuario!,
-                                                      // );
-                                                      // if (!mounted) return;
-                                                      // context.pushNamed(
-                                                      //   'editar_usuario',
-                                                      //   extra: usuario,
-                                                      // );
-                                                    },
+                                                    onTap: () async {},
                                                   ),
                                                   const SizedBox(width: 5),
                                                   AnimatedHoverButton(
@@ -226,15 +221,14 @@ class _ListadoCDI2Page extends State<ListadoCDI2Page> {
                                                         AppTheme.of(context)
                                                             .primaryBackground,
                                                     onTap: () async {
-                                                      // await provider
-                                                      //     .initEditarUsuario(
-                                                      //   usuario!,
-                                                      // );
-                                                      // if (!mounted) return;
-                                                      // context.pushNamed(
-                                                      //   'editar_usuario',
-                                                      //   extra: usuario,
-                                                      // );
+                                                      final res = await provider
+                                                          .generarReporteExcel(
+                                                              cdi2!);
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast(
+                                                            'No se pudo generar Excel');
+                                                        return;
+                                                      }
                                                     },
                                                   ),
                                                 ],
