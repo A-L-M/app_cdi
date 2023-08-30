@@ -1,3 +1,4 @@
+import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/respuesta_comprension.dart';
 import 'package:app_cdi/pages/cdi2_parte2_page/widgets/inciso_a_widget.dart';
 import 'package:app_cdi/pages/cdi2_parte2_page/widgets/inciso_b_widget.dart';
@@ -146,6 +147,10 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                           onTap: () async {
                             await provider.guardarFrasesIncisoB();
                             if (!mounted) return;
+                            if (currentUser != null) {
+                              context.pushReplacement('/listado-cdi2');
+                              return;
+                            }
                             context.pushReplacement('/gracias');
                           },
                         ),

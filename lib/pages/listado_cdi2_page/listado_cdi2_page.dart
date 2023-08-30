@@ -1,6 +1,7 @@
 import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -185,13 +186,18 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                     secondaryColor:
                                                         AppTheme.of(context)
                                                             .primaryBackground,
-                                                    onTap: () async {},
+                                                    onTap: () async {
+                                                      context.pushReplacement(
+                                                        '/cdi-2',
+                                                        extra: cdi2,
+                                                      );
+                                                    },
                                                   ),
                                                   const SizedBox(width: 5),
                                                   AnimatedHoverButton(
                                                     icon: Icons
                                                         .assignment_turned_in,
-                                                    tooltip: 'Calificar E3L',
+                                                    tooltip: 'Calificar P3L',
                                                     primaryColor:
                                                         AppTheme.of(context)
                                                             .primaryColor,

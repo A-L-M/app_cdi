@@ -35,6 +35,21 @@ class CDI2Provider extends ChangeNotifier {
     await getSeccionesPalabras();
   }
 
+  void initEditarCDI2(CDI2 cdi2) {
+    //Se le asignan valores a las palabras
+    for (var palabra in cdi2.palabras) {
+      seccionesPalabras[palabra.seccionFk - 1].setPalabra(
+        palabra.palabraId,
+        palabra.opcion,
+      );
+    }
+    comprension = cdi2.comprension;
+    parte2 = cdi2.parte2;
+    ejemplo1Controller.text = cdi2.parte2.ejemplo1 ?? '';
+    ejemplo2Controller.text = cdi2.parte2.ejemplo2 ?? '';
+    ejemplo3Controller.text = cdi2.parte2.ejemplo3 ?? '';
+  }
+
   Future<void> getSeccionesPalabras() async {
     if (seccionesPalabras.isNotEmpty) return;
 

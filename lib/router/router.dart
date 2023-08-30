@@ -1,7 +1,8 @@
-import 'package:app_cdi/helpers/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:app_cdi/helpers/globals.dart';
+import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/pages.dart';
 import 'package:app_cdi/services/navigation_service.dart';
 
@@ -59,6 +60,13 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         if (state.extra is int) {
           return CDI2PalabrasPage(cdi2Id: state.extra as int);
+        }
+        if (state.extra is CDI2) {
+          final cdi2 = (state.extra as CDI2);
+          return CDI2PalabrasPage(
+            cdi2Id: cdi2.cdi2Id,
+            cdi2Editado: cdi2,
+          );
         }
         return const HomePage();
       },

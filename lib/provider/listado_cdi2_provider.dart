@@ -138,6 +138,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       }
 
       sheets[i]!.appendRow(['ID', ...nombresSeccion]);
+      //Agregar edad
       sheets[i]!.appendRow([cdi2.bebeId, ...row]);
     }
 

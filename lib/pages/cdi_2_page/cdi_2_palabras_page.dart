@@ -1,3 +1,4 @@
+import 'package:app_cdi/models/cdi2.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_button.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,11 @@ class CDI2PalabrasPage extends StatefulWidget {
   const CDI2PalabrasPage({
     Key? key,
     required this.cdi2Id,
+    this.cdi2Editado,
   }) : super(key: key);
 
   final int cdi2Id;
+  final CDI2? cdi2Editado;
 
   @override
   State<CDI2PalabrasPage> createState() => _CDI2PalabrasPageState();
@@ -33,6 +36,9 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
         listen: false,
       );
       await provider.initState(widget.cdi2Id);
+      if (widget.cdi2Editado != null) {
+        provider.initEditarCDI2(widget.cdi2Editado!);
+      }
     });
   }
 
