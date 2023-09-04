@@ -10,10 +10,10 @@ import 'package:app_cdi/services/navigation_service.dart';
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
-  initialLocation: '/datos-personales',
+  initialLocation: '/',
   redirect: (BuildContext context, GoRouterState state) {
     final bool loggedIn = currentUser != null;
-    final bool isLoggingIn = state.location == '/login';
+    final bool isLoggingIn = state.location == '/';
 
     if (state.location == '/cambio_contrasena' ||
         state.location == '/cdi-1' ||
@@ -24,7 +24,7 @@ final GoRouter router = GoRouter(
     }
 
     //If user is not logged in and not in the login page
-    // if (!loggedIn && !isLoggingIn) return '/login';
+    if (!loggedIn && !isLoggingIn) return '/';
 
     //if user is logged in and in the login page
     if (loggedIn && isLoggingIn) return '/';

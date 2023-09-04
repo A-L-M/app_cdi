@@ -1,4 +1,6 @@
+import 'package:app_cdi/helpers/globals.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -75,10 +77,15 @@ class TopMenuBodyDesktop extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          CustomDropdownButton(
-            title: 'Iniciar Sesión',
-            onTap: () => provider.changeLoginPortalVisible(),
-          ),
+          currentUser == null
+              ? CustomDropdownButton(
+                  title: 'Iniciar Sesión',
+                  onTap: () => provider.changeLoginPortalVisible(),
+                )
+              : CustomDropdownButton(
+                  title: 'Entrar a panel de control',
+                  onTap: () => context.go('/bebes'),
+                ),
         ],
       ),
     );

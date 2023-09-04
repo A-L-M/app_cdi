@@ -42,6 +42,7 @@ class _LoginInputFieldState extends State<DatosInputField> {
         key: widget.key,
         controller: widget.controller,
         validator: widget.validator,
+        keyboardType: widget.textInputType,
         inputFormatters: widget.inputFormatters,
         decoration: InputDecoration(
           isCollapsed: true,

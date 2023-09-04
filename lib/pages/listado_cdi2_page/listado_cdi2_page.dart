@@ -1,3 +1,4 @@
+import 'package:app_cdi/pages/listado_cdi2_page/widgets/calificar_p3l_widget.dart';
 import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -153,6 +154,7 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                         PlutoColumn(
                                             title: 'Acciones',
                                             field: 'acciones',
+                                            width: 300,
                                             titleTextAlign:
                                                 PlutoColumnTextAlign.center,
                                             textAlign:
@@ -179,7 +181,7 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                 children: [
                                                   AnimatedHoverButton(
                                                     icon: Icons.edit,
-                                                    tooltip: 'Editar CDI 2',
+                                                    tooltip: 'Editar',
                                                     primaryColor:
                                                         AppTheme.of(context)
                                                             .primaryColor,
@@ -205,15 +207,21 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                         AppTheme.of(context)
                                                             .primaryBackground,
                                                     onTap: () async {
-                                                      // await provider
-                                                      //     .initEditarUsuario(
-                                                      //   usuario!,
-                                                      // );
-                                                      // if (!mounted) return;
-                                                      // context.pushNamed(
-                                                      //   'editar_usuario',
-                                                      //   extra: usuario,
-                                                      // );
+                                                      final res =
+                                                          await showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return CalificarP3LWidget(
+                                                            cdi2: cdi2!,
+                                                          );
+                                                        },
+                                                      );
+                                                      if (res is! bool) return;
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast(
+                                                            'Error al calificar P3L');
+                                                        return;
+                                                      }
                                                     },
                                                   ),
                                                   const SizedBox(width: 5),
@@ -232,7 +240,29 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                               cdi2!);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast(
-                                                            'No se pudo generar Excel');
+                                                            'Error al generar Excel');
+                                                        return;
+                                                      }
+                                                    },
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.delete,
+                                                    tooltip: 'Borrar',
+                                                    primaryColor:
+                                                        AppTheme.of(context)
+                                                            .primaryColor,
+                                                    secondaryColor:
+                                                        AppTheme.of(context)
+                                                            .primaryBackground,
+                                                    onTap: () async {
+                                                      final res = await provider
+                                                          .borrarCDI2(
+                                                        cdi2!.cdi2Id,
+                                                      );
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast(
+                                                            'Error al borrar CDI');
                                                         return;
                                                       }
                                                     },

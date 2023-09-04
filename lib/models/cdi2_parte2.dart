@@ -31,8 +31,11 @@ class CDI2Parte2 {
     required this.subete,
     required this.combinaPalabras,
     required this.ejemplo1,
+    required this.ejemplo1Calificacion,
     required this.ejemplo2,
+    required this.ejemplo2Calificacion,
     required this.ejemplo3,
+    required this.ejemplo3Calificacion,
     required this.complejidad1,
     required this.complejidad2,
     required this.complejidad3,
@@ -99,6 +102,9 @@ class CDI2Parte2 {
   bool subete = false;
   RespuestaComprension? combinaPalabras;
   String? ejemplo1;
+  int? ejemplo1Calificacion;
+  int? ejemplo2Calificacion;
+  int? ejemplo3Calificacion;
   String? ejemplo2;
   String? ejemplo3;
   int? complejidad1;
@@ -173,8 +179,11 @@ class CDI2Parte2 {
       subete: json['subete'] ?? false,
       combinaPalabras: convertToEnum(json['combina_palabras']),
       ejemplo1: json['ejemplo1'],
+      ejemplo1Calificacion: json['ejemplo1_calificacion'],
       ejemplo2: json['ejemplo2'],
+      ejemplo2Calificacion: json['ejemplo2_calificacion'],
       ejemplo3: json['ejemplo3'],
+      ejemplo3Calificacion: json['ejemplo3_calificacion'],
       complejidad1: json['complejidad1'],
       complejidad2: json['complejidad2'],
       complejidad3: json['complejidad3'],

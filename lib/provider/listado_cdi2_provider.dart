@@ -65,6 +65,42 @@ class ListadoCDI2Provider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> borrarCDI2(int cdi2id) async {
+    try {
+      final res = await supabase.rpc('borrar_cdi2', params: {
+        'id': cdi2id,
+      });
+      listadoCDI2.removeWhere((element) => element.cdi2Id == cdi2id);
+      rows.removeWhere((element) => element.cells['cdi2_id']?.value == cdi2id);
+      if (stateManager != null) stateManager!.notifyListeners();
+      return res;
+    } catch (e) {
+      log('Error en borrarCDI2() - $e');
+      return false;
+    }
+  }
+
+  Future<bool> calificarP3L(int id, int? cal1, int? cal2, int? cal3) async {
+    try {
+      final index = listadoCDI2.indexWhere((element) => element.cdi2Id == id);
+
+      listadoCDI2[index].parte2.ejemplo1Calificacion = cal1;
+      listadoCDI2[index].parte2.ejemplo2Calificacion = cal2;
+      listadoCDI2[index].parte2.ejemplo3Calificacion = cal3;
+
+      await supabase.from('cdi2_parte2').update({
+        'ejemplo1_calificacion': cal1,
+        'ejemplo2_calificacion': cal2,
+        'ejemplo3_calificacion': cal3,
+      }).eq('cdi2_id', id);
+
+      return true;
+    } catch (e) {
+      log('Error en calificarP3L() - $e');
+      return false;
+    }
+  }
+
   Future<bool> generarReporteExcel(CDI2 cdi2) async {
     List<SeccionPalabrasCDI2> seccionesPalabras = [];
     try {
