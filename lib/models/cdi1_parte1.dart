@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:app_cdi/models/enums.dart';
 
-class CDI2Comprension {
-  CDI2Comprension({
+class CDI1Parte1 {
+  CDI1Parte1({
     required this.cdi2Id,
     required this.preguntas,
   });
@@ -11,19 +11,19 @@ class CDI2Comprension {
   int? cdi2Id;
   List<RespuestaComprension> preguntas = [];
 
-  factory CDI2Comprension.fromJson(String str) =>
-      CDI2Comprension.fromMap(json.decode(str));
+  factory CDI1Parte1.fromJson(String str) =>
+      CDI1Parte1.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory CDI2Comprension.fromMap(Map<String, dynamic> json) {
+  factory CDI1Parte1.fromMap(Map<String, dynamic> json) {
     final List<RespuestaComprension> preguntasTemp = [];
     preguntasTemp.add(convertToEnum(json["pregunta1"]));
     preguntasTemp.add(convertToEnum(json["pregunta2"]));
     preguntasTemp.add(convertToEnum(json["pregunta3"]));
     preguntasTemp.add(convertToEnum(json["pregunta4"]));
     preguntasTemp.add(convertToEnum(json["pregunta5"]));
-    return CDI2Comprension(
+    return CDI1Parte1(
       cdi2Id: json['cdi2_id'],
       preguntas: preguntasTemp,
     );

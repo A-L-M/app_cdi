@@ -34,6 +34,9 @@ void main() async {
           create: (_) => DatosPersonalesProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => CDI1Provider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => CDI2Provider(),
         ),
         ChangeNotifierProvider(

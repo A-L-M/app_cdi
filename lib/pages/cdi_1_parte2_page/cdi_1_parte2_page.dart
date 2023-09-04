@@ -1,29 +1,27 @@
-import 'package:app_cdi/models/cdi2.dart';
-import 'package:app_cdi/pages/widgets/form_button.dart';
-import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_section.dart';
-import 'package:app_cdi/pages/widgets/page_header.dart';
-import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/pages/widgets/form_button.dart';
+import 'package:app_cdi/provider/cdi_1_provider.dart';
 
-class CDI2PalabrasPage extends StatefulWidget {
-  const CDI2PalabrasPage({
+class CDI1Parte2Page extends StatefulWidget {
+  const CDI1Parte2Page({
     Key? key,
-    required this.cdi2Id,
-    this.cdi2Editado,
+    required this.cdi1Id,
+    this.cdi1Editado,
   }) : super(key: key);
 
-  final int cdi2Id;
-  final CDI2? cdi2Editado;
+  final int cdi1Id;
+  final CDI1? cdi1Editado;
 
   @override
-  State<CDI2PalabrasPage> createState() => _CDI2PalabrasPageState();
+  State<CDI1Parte2Page> createState() => _CDI1Parte2PageState();
 }
 
-class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
+class _CDI1Parte2PageState extends State<CDI1Parte2Page> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -31,13 +29,13 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      CDI2Provider provider = Provider.of<CDI2Provider>(
+      CDI1Provider provider = Provider.of<CDI1Provider>(
         context,
         listen: false,
       );
-      await provider.initState(widget.cdi2Id);
-      if (widget.cdi2Editado != null) {
-        provider.initEditarCDI2(widget.cdi2Editado!);
+      await provider.initState(widget.cdi1Id);
+      if (widget.cdi1Editado != null) {
+        provider.initEditarCDI1(widget.cdi1Editado!);
       }
     });
   }
@@ -52,7 +50,7 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
         },
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return const CDI2PageDesktop();
+            return const CDI1Parte2PageDesktop();
           },
         ),
       ),
@@ -60,21 +58,21 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
   }
 }
 
-class CDI2PageDesktop extends StatefulWidget {
-  const CDI2PageDesktop({Key? key}) : super(key: key);
+class CDI1Parte2PageDesktop extends StatefulWidget {
+  const CDI1Parte2PageDesktop({Key? key}) : super(key: key);
 
   @override
-  State<CDI2PageDesktop> createState() => _CDI2PageDesktopState();
+  State<CDI1Parte2PageDesktop> createState() => _CDI2PageDesktopState();
 }
 
-class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
+class _CDI2PageDesktopState extends State<CDI1Parte2PageDesktop> {
   int index = 1;
   ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final CDI2Provider provider = Provider.of<CDI2Provider>(context);
+    final CDI1Provider provider = Provider.of<CDI1Provider>(context);
 
     double formSize = 1145;
 
@@ -94,12 +92,12 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
 
     final List<FormSection> secciones = [];
     for (var seccion in provider.seccionesPalabras) {
-      secciones.add(
-        FormSection(
-          title: seccion.tituloCompleto,
-          palabras: seccion.palabras,
-        ),
-      );
+      // secciones.add(
+      //   FormSection(
+      //     title: seccion.tituloCompleto,
+      //     palabras: seccion.palabras,
+      //   ),
+      // );
     }
 
     List<FormSection> division = [];
@@ -121,14 +119,14 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
-            const PageHeader(),
+            // const PageHeader(),
             SizedBox(
               width: formSize,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...division,
-                  if (index == 3) const PreguntasLenguajeWidget(),
+                  // if (index == 3) const PreguntasLenguajeWidget(),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: Row(
@@ -156,8 +154,8 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                             }
                             index = 1;
                             context.push(
-                              '/cdi-2/parte-2',
-                              extra: provider.cdi2Id,
+                              '/cdi-1/parte-2',
+                              extra: provider.cdi1Id,
                             );
                           },
                         ),

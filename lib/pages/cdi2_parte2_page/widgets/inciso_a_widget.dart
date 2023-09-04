@@ -1,9 +1,9 @@
-import 'package:app_cdi/models/respuesta_comprension.dart';
-import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/models/enums.dart';
+import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/theme/theme.dart';

@@ -1,3 +1,4 @@
+import 'package:app_cdi/pages/cdi_1_palabras_page/cdi1_palabras_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,8 +52,40 @@ final GoRouter router = GoRouter(
       path: '/cdi-1',
       name: 'cdi_1',
       builder: (BuildContext context, GoRouterState state) {
-        return const CDI1Page();
+        if (state.extra is int) {
+          return CDI1Parte1Page(cdi1Id: state.extra as int);
+        }
+        if (state.extra is CDI1) {
+          final cdi1 = (state.extra as CDI1);
+          return CDI1Parte1Page(
+            cdi1Id: cdi1.cdi1Id,
+            cdi1Editado: cdi1,
+          );
+        }
+        return const HomePage();
       },
+      routes: <RouteBase>[
+        GoRoute(
+          path: 'palabras',
+          name: 'palabras',
+          builder: (BuildContext context, GoRouterState state) {
+            if (state.extra is int) {
+              return CDI1PalabrasPage(cdi1Id: state.extra as int);
+            }
+            return const HomePage();
+          },
+        ),
+        GoRoute(
+          path: 'parte-2',
+          name: 'cdi1_parte_2',
+          builder: (BuildContext context, GoRouterState state) {
+            if (state.extra is int) {
+              return CDI1Parte2Page(cdi1Id: state.extra as int);
+            }
+            return const HomePage();
+          },
+        ),
+      ],
     ),
     GoRoute(
       path: '/cdi-2',
@@ -73,7 +106,7 @@ final GoRouter router = GoRouter(
       routes: <RouteBase>[
         GoRoute(
           path: 'parte-2',
-          name: 'parte_2',
+          name: 'cdi2_parte_2',
           builder: (BuildContext context, GoRouterState state) {
             if (state.extra is int) {
               return CDI2Parte2Page(cdi2Id: state.extra as int);

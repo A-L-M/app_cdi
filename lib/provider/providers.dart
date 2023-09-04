@@ -1,3 +1,4 @@
+export 'package:app_cdi/provider/cdi_1_provider.dart';
 export 'package:app_cdi/provider/listado_cdi2_provider.dart';
 export 'package:app_cdi/provider/bebes_provider.dart';
 export 'package:app_cdi/provider/visual_state_provider.dart';

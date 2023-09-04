@@ -73,7 +73,7 @@ class CDI2Provider extends ChangeNotifier {
       await supabase.rpc('upsert_palabra_cdi2', params: {
         'cdi2_id': cdi2Id,
         'palabra_id': palabra.palabraId,
-        'valor': PalabraCDI2.convertToInt(opcion),
+        'valor': convertToInt(opcion),
       });
     } catch (e) {
       log('Error en setOpcionPalabra() - $e');

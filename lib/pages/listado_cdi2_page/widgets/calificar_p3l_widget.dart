@@ -236,7 +236,7 @@ class _CalificarP3LWidgetState extends State<CalificarP3LWidget> {
                         ),
                       ),
                       Text(
-                        promedio.toString(),
+                        promedio.toStringAsFixed(2),
                         style: GoogleFonts.montserrat(
                           color: Colors.black,
                           fontSize: 14,

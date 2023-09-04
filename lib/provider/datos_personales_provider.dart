@@ -99,6 +99,20 @@ class DatosPersonalesProvider extends ChangeNotifier {
     }
   }
 
+  Future<int?> registrarCDI1() async {
+    try {
+      if (fechaCita == null || bebe == null) return null;
+      final res = await supabase.rpc('registrar_cdi1', params: {
+        'fecha_cita': fechaCita!.toIso8601String(),
+        'bebe_id': bebe!.bebeId,
+      });
+      return res;
+    } catch (e) {
+      log('Error en registrarCDI1() - $e');
+      return null;
+    }
+  }
+
   Future<int?> registrarCDI2() async {
     try {
       if (fechaCita == null || bebe == null) return null;

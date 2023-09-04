@@ -1,7 +1,11 @@
+export 'package:app_cdi/models/cdi1.dart';
+export 'package:app_cdi/models/cdi1_parte1.dart';
+export 'package:app_cdi/models/cdi1_parte2.dart';
+export 'package:app_cdi/models/palabra_cdi1.dart';
 export 'package:app_cdi/models/cdi2.dart';
 export 'package:app_cdi/models/bebe.dart';
 export 'package:app_cdi/models/cdi2_parte2.dart';
-export 'package:app_cdi/models/respuesta_comprension.dart';
+export 'package:app_cdi/models/enums.dart';
 export 'package:app_cdi/models/cdi2_comprension.dart';
 export 'package:app_cdi/models/palabra_cdi2.dart';
 export 'package:app_cdi/models/usuario.dart';

@@ -170,7 +170,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       List<dynamic> row = [];
 
       for (var palabra in seccionesPalabras[i].palabras) {
-        row.add(PalabraCDI2.convertToInt(palabra.opcion));
+        row.add(convertToInt(palabra.opcion));
       }
 
       sheets[i]!.appendRow(['ID', ...nombresSeccion]);

@@ -1,10 +1,7 @@
 import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/palabras_section.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
-import 'package:app_cdi/provider/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class FormSection extends StatefulWidget {
   const FormSection({

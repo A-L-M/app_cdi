@@ -1,3 +1,5 @@
+export 'package:app_cdi/pages/cdi_1_parte2_page/cdi_1_parte2_page.dart';
+export 'package:app_cdi/pages/cdi_1_palabras_page/cdi1_palabras_page.dart';
 export 'package:app_cdi/pages/listado_cdi2_page/listado_cdi2_page.dart';
 export 'package:app_cdi/pages/bebes_page/bebes_page.dart';
 export 'package:app_cdi/pages/usuarios_page/usuarios_page.dart';
@@ -6,5 +8,5 @@ export 'package:app_cdi/pages/gracias_page/gracias_page.dart';
 export 'package:app_cdi/pages/page_not_found.dart';
 export 'package:app_cdi/pages/datos_personales_page/datos_personales_page.dart';
 export 'package:app_cdi/pages/home_page/home_page.dart';
-export 'package:app_cdi/pages/cdi_1_page/cdi_1_page.dart';
+export 'package:app_cdi/pages/cdi_1_parte1_page/cdi_1_parte1_page.dart';
 export 'package:app_cdi/pages/cdi_2_page/cdi_2_palabras_page.dart';

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-enum Opcion { comprende, comprendeYDice, ninguna, dejoDeContestar }
+import 'package:app_cdi/models/enums.dart';
 
 class PalabraCDI2 {
   PalabraCDI2({
@@ -25,38 +25,8 @@ class PalabraCDI2 {
         nombre: json["nombre"],
         sombreada: json['sombreada'],
         subrayada: json['subrayada'],
-        opcion: convertToEnum(json['valor']),
+        opcion: convertToEnumOpcion(json['valor']),
       );
-
-  static int convertToInt(Opcion? value) {
-    switch (value) {
-      case Opcion.comprende:
-        return 1;
-      case Opcion.comprendeYDice:
-        return 2;
-      case Opcion.ninguna:
-        return 0;
-      case Opcion.dejoDeContestar:
-        return 9;
-      default:
-        return 3;
-    }
-  }
-
-  static Opcion convertToEnum(int? value) {
-    switch (value) {
-      case 1:
-        return Opcion.comprende;
-      case 2:
-        return Opcion.comprendeYDice;
-      case 0:
-        return Opcion.ninguna;
-      case 9:
-        return Opcion.dejoDeContestar;
-      default:
-        return Opcion.ninguna;
-    }
-  }
 }
 
 class PalabraCDI2Valor {
@@ -77,6 +47,6 @@ class PalabraCDI2Valor {
       PalabraCDI2Valor(
         palabraId: json['palabra_cdi2_inventario_id'],
         seccionFk: json['seccion_fk'],
-        opcion: PalabraCDI2.convertToEnum(json['valor']),
+        opcion: convertToEnumOpcion(json['valor']),
       );
 }
