@@ -1,10 +1,9 @@
+import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_a_widget.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app_cdi/models/models.dart';
-import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/provider/cdi_1_provider.dart';
 
 class CDI1Parte1Page extends StatefulWidget {
@@ -98,9 +97,11 @@ class _CDI2PageDesktopState extends State<CDI1Parte1PageDesktop> {
             const PageHeader(),
             SizedBox(
               width: formSize,
-              child: Column(
+              child: const Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [],
+                children: [
+                  IncisoAWidget(),
+                ],
               ),
             ),
           ],

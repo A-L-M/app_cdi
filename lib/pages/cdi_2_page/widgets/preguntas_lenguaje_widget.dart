@@ -175,16 +175,17 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
 }
 
 class CustomTableCellText extends StatelessWidget {
-  const CustomTableCellText({
-    super.key,
-    required this.label,
-    this.height,
-    this.fontWeight,
-  });
+  const CustomTableCellText(
+      {super.key,
+      required this.label,
+      this.height,
+      this.fontWeight,
+      this.alignment = Alignment.center});
 
   final String label;
   final double? height;
   final FontWeight? fontWeight;
+  final Alignment alignment;
 
   @override
   Widget build(BuildContext context) {
@@ -192,7 +193,7 @@ class CustomTableCellText extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       width: double.infinity,
       height: height,
-      alignment: Alignment.center,
+      alignment: alignment,
       decoration: BoxDecoration(
         border: Border.all(
           color: const Color(0xFFDDDDDD),
@@ -205,6 +206,7 @@ class CustomTableCellText extends StatelessWidget {
           fontWeight: fontWeight,
           color: const Color(0xFF2B2B2B),
         ),
+        // textAlign: TextAlign.right,
       ),
     );
   }
