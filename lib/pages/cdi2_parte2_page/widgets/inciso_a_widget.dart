@@ -487,8 +487,7 @@ class __VerboWidgetState extends State<_VerboWidget> {
           children: [
             Checkbox(
               checkColor: AppTheme.of(context).secondaryColor,
-              fillColor: MaterialStateProperty.resolveWith<Color>(
-                  (_) => AppTheme.of(context).secondaryColor),
+              activeColor: AppTheme.of(context).secondaryColor,
               value: isChecked,
               shape: const CircleBorder(),
               onChanged: (bool? value) {
