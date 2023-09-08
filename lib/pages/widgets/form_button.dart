@@ -26,6 +26,7 @@ class _HomePageButtonState extends State<FormButton> {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: widget.onTap,
+      elevation: 1,
       color: buttonColor,
       child: Container(
         padding: widget.padding,

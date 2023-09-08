@@ -106,4 +106,75 @@ class CDI1Provider extends ChangeNotifier {
       log('Error en setOpcionComprension() - $e');
     }
   }
+
+  //PARTE 2
+  Future<void> setGestosIncisoA(
+    RespuestaComprension valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte2').update(
+        {'gesto${indexPregunta + 1}': convertToString(valor)},
+      ).eq('cdi1_id', cdi1Id);
+      parte2.listaGestos[indexPregunta] = valor;
+    } catch (e) {
+      log('Error en setGestosIncisoA() - $e');
+    }
+  }
+
+  Future<void> setRutinasIncisoB(
+    bool valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte2').update(
+        {'rutinas${indexPregunta + 1}': valor},
+      ).eq('cdi1_id', cdi1Id);
+      parte2.listaRutinas[indexPregunta] = valor;
+    } catch (e) {
+      log('Error en setRutinasIncisoB() - $e');
+    }
+  }
+
+  Future<void> setAccionesIncisoC(
+    bool valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte2').update(
+        {'acciones${indexPregunta + 1}': valor},
+      ).eq('cdi1_id', cdi1Id);
+      parte2.listaAcciones[indexPregunta] = valor;
+    } catch (e) {
+      log('Error en setAccionesIncisoC() - $e');
+    }
+  }
+
+  Future<void> setJuegosIncisoD(
+    bool valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte2').update(
+        {'juegos${indexPregunta + 1}': valor},
+      ).eq('cdi1_id', cdi1Id);
+      parte2.listaJuegos[indexPregunta] = valor;
+    } catch (e) {
+      log('Error en setJuegosIncisoD() - $e');
+    }
+  }
+
+  Future<void> setImitacionesIncisoE(
+    bool valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte2').update(
+        {'imitacion${indexPregunta + 1}': valor},
+      ).eq('cdi1_id', cdi1Id);
+      parte2.listaImitaciones[indexPregunta] = valor;
+    } catch (e) {
+      log('Error en setImitacionesIncisoE() - $e');
+    }
+  }
 }

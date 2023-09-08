@@ -4,21 +4,33 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
-import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/provider/cdi_1_provider.dart';
 import 'package:app_cdi/theme/theme.dart';
 
-class IncisoAWidget extends StatefulWidget {
-  const IncisoAWidget({super.key});
+class IncisoEWidget extends StatefulWidget {
+  const IncisoEWidget({super.key});
 
   @override
-  State<IncisoAWidget> createState() => _IncisoAWidgetState();
+  State<IncisoEWidget> createState() => _IncisoEWidgetState();
 }
 
-class _IncisoAWidgetState extends State<IncisoAWidget> {
+class _IncisoEWidgetState extends State<IncisoEWidget> {
   final List<String> preguntas = [
-    '1. ¿Responde o voltea cuando se le llama por su nombre?',
-    '2. ¿Deja de hacer lo que está haciendo (aunque sea por un momento) cuando se le dice "no"?',
-    '3. ¿Busca a su alrededor cuando escucha que alguien llama a su papá o a su mamá?',
+    '1. Barre o trapea.',
+    '2. Trata de meter la llave en la puerta.',
+    '3. Pega con un martillo.',
+    '4. Reza o se persigna.',
+    '5. Trata de escribir a máquina o computadora.',
+    '6. Juega a que está leyendo.',
+    '7. Fuma un cigarro.',
+    '8. Le echa agua a las plantas.',
+    '9. Trata de tocar un instrumento musical (guitarra, tambor, etc.).',
+    '10. Juega a manejar el coche.',
+    '11. Lava los platos.',
+    '12. Sacude.',
+    '13. Trata de escribir con un lápiz o una pluma.',
+    '14. Trata de hacer un hoyo.',
+    '15. Se pone unos lentes.',
   ];
 
   @override
@@ -49,7 +61,7 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
       ),
     );
 
-    var respuestas = provider.parte1.listaComprension;
+    var respuestas = provider.parte2.listaImitaciones;
 
     final rawBody = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +90,7 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
-                    provider.setComprensionIncisoA(opcion, index);
+                    provider.setImitacionesIncisoE(opcion, index);
                     setState(() {});
                   },
                 ),
@@ -108,7 +120,7 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
-                    provider.setComprensionIncisoA(opcion, index);
+                    provider.setImitacionesIncisoE(opcion, index);
                     setState(() {});
                   },
                 ),
@@ -134,12 +146,12 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
     }
 
     return CustomCard(
-      title: 'A. Comprensión temprana',
+      title: 'E. Imitación de otros tipos de actividades de adultos',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Antes que un niño o niña empiece a decir sus primeras palabras, parece entender el lenguaje. Eso lo sabemos porque responde a palabras y frases. ¿Su hijo(a) hace algunas de las siguientes cosas?',
+            'Su hijo(a) hace o ha tratado de hacer algunas de las siguientes actividades.',
             style: GoogleFonts.robotoSlab(
               fontSize: 14,
               fontWeight: FontWeight.normal,

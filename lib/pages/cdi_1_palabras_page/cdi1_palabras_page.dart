@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/provider/cdi_1_provider.dart';
 
@@ -14,11 +13,9 @@ class CDI1PalabrasPage extends StatefulWidget {
   const CDI1PalabrasPage({
     Key? key,
     required this.cdi1Id,
-    this.cdi1Editado,
   }) : super(key: key);
 
   final int cdi1Id;
-  final CDI1? cdi1Editado;
 
   @override
   State<CDI1PalabrasPage> createState() => _CDI1PalabrasPageState();
@@ -26,22 +23,6 @@ class CDI1PalabrasPage extends StatefulWidget {
 
 class _CDI1PalabrasPageState extends State<CDI1PalabrasPage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      CDI1Provider provider = Provider.of<CDI1Provider>(
-        context,
-        listen: false,
-      );
-      await provider.initState(widget.cdi1Id);
-      if (widget.cdi1Editado != null) {
-        provider.initEditarCDI1(widget.cdi1Editado!);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +130,7 @@ class _CDI2PageDesktopState extends State<CDI1PalabrasPageDesktop> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         FormButton(
+                          key: UniqueKey(),
                           label: 'Retroceder',
                           onTap: () {
                             if (index == 1) {
@@ -162,6 +144,7 @@ class _CDI2PageDesktopState extends State<CDI1PalabrasPageDesktop> {
                         ),
                         const SizedBox(width: 10),
                         FormButton(
+                          key: UniqueKey(),
                           label: 'Continuar',
                           onTap: () {
                             if (index != 2) {

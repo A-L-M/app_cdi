@@ -14,13 +14,15 @@
       "name": "app_cdi (profile mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "args": ["-d", "chrome", "--web-renderer", "html"]
     },
     {
       "name": "app_cdi (release mode)",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      "args": ["-d", "chrome", "--web-renderer", "html"]
     }
   ]
 }

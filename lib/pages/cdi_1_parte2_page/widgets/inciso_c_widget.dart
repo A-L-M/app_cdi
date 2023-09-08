@@ -4,21 +4,33 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
-import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/provider/cdi_1_provider.dart';
 import 'package:app_cdi/theme/theme.dart';
 
-class IncisoAWidget extends StatefulWidget {
-  const IncisoAWidget({super.key});
+class IncisoCWidget extends StatefulWidget {
+  const IncisoCWidget({super.key});
 
   @override
-  State<IncisoAWidget> createState() => _IncisoAWidgetState();
+  State<IncisoCWidget> createState() => _IncisoCWidgetState();
 }
 
-class _IncisoAWidgetState extends State<IncisoAWidget> {
+class _IncisoCWidgetState extends State<IncisoCWidget> {
   final List<String> preguntas = [
-    '1. ¿Responde o voltea cuando se le llama por su nombre?',
-    '2. ¿Deja de hacer lo que está haciendo (aunque sea por un momento) cuando se le dice "no"?',
-    '3. ¿Busca a su alrededor cuando escucha que alguien llama a su papá o a su mamá?',
+    '1. Come con la cuchara o el tenedor.',
+    '2. Toma algún líquido de una taza.',
+    '3. Se peina o se cepilla el pelo.',
+    '4. Se lava los dientes.',
+    '5. Se seca la cara con una toalla.',
+    '6. Se pone un sombrero.',
+    '7. Se pone un zapato o calcetín.',
+    '8. Se pone un collar, pulsera, reloj, etc.',
+    '9. Sopla o sacude la mano para indicar que algo está caliente.',
+    '10. Hace que "vuele" un avión.',
+    '11. Se hace el dormido.',
+    '12. Se pone el teléfono en la oreja.',
+    '13. Huele flores.',
+    '14. Empuja un carro o un camión.',
+    '15. Avienta una pelota.',
   ];
 
   @override
@@ -49,7 +61,7 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
       ),
     );
 
-    var respuestas = provider.parte1.listaComprension;
+    var respuestas = provider.parte2.listaAcciones;
 
     final rawBody = Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +90,7 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
-                    provider.setComprensionIncisoA(opcion, index);
+                    provider.setAccionesIncisoC(opcion, index);
                     setState(() {});
                   },
                 ),
@@ -108,7 +120,7 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
                   onChanged: (opcion) {
                     if (opcion == null) return;
                     respuestas[index] = opcion;
-                    provider.setComprensionIncisoA(opcion, index);
+                    provider.setAccionesIncisoC(opcion, index);
                     setState(() {});
                   },
                 ),
@@ -134,12 +146,12 @@ class _IncisoAWidgetState extends State<IncisoAWidget> {
     }
 
     return CustomCard(
-      title: 'A. Comprensión temprana',
+      title: 'C. Acciones con objetos',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Antes que un niño o niña empiece a decir sus primeras palabras, parece entender el lenguaje. Eso lo sabemos porque responde a palabras y frases. ¿Su hijo(a) hace algunas de las siguientes cosas?',
+            'Su hijo(a) trata de hacer o hace algunas de las siguientes actividades?',
             style: GoogleFonts.robotoSlab(
               fontSize: 14,
               fontWeight: FontWeight.normal,
