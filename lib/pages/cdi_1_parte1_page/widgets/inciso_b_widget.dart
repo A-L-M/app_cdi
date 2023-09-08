@@ -73,6 +73,11 @@ class _IncisoBWidgetState extends State<IncisoBWidget> {
           index: index,
           frase: frasesCompletas[index],
           valor: provider.parte1.listaFrases[index],
+          onChanged: (value) {
+            setState(() {
+              provider.parte1.listaFrases[index] = value;
+            });
+          },
         );
       },
     );
@@ -121,29 +126,31 @@ class _FraseWidget extends StatefulWidget {
     Key? key,
     required this.index,
     required this.frase,
-    required this.valor,
+    this.valor = false,
+    required this.onChanged,
   }) : super(key: key);
 
   final int index;
   final String frase;
   final bool valor;
+  final Function(bool) onChanged;
 
   @override
   State<_FraseWidget> createState() => __FraseWidgetState();
 }
 
 class __FraseWidgetState extends State<_FraseWidget> {
-  bool isChecked = false;
+  // bool isChecked = false;
 
-  @override
-  void initState() {
-    isChecked = widget.valor;
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   isChecked = widget.valor;
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    print('isChecked = $isChecked');
+    // print('isChecked = $isChecked');
     print('valor = ${widget.valor}');
     final size = MediaQuery.of(context).size;
 
@@ -169,24 +176,20 @@ class __FraseWidgetState extends State<_FraseWidget> {
             color: const Color(0xFF2B2B2B),
           ),
         ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Checkbox(
-              checkColor: AppTheme.of(context).secondaryColor,
-              fillColor: MaterialStateProperty.resolveWith<Color>(
-                  (_) => AppTheme.of(context).secondaryColor),
-              value: isChecked,
-              shape: const CircleBorder(),
-              onChanged: (bool? value) {
-                if (value == null) return;
-                provider.setFraseIncisoB(widget.index, value);
-                setState(() {
-                  isChecked = value;
-                });
-              },
-            ),
-          ],
+        trailing: Checkbox(
+          checkColor: AppTheme.of(context).secondaryColor,
+          fillColor: MaterialStateProperty.resolveWith<Color>(
+              (_) => AppTheme.of(context).secondaryColor),
+          value: widget.valor,
+          shape: const CircleBorder(),
+          onChanged: (bool? value) {
+            if (value == null) return;
+            provider.setFraseIncisoB(widget.index, value);
+            widget.onChanged(value);
+            // setState(() {
+            //   isChecked = value;
+            // });
+          },
         ),
       ),
     );
