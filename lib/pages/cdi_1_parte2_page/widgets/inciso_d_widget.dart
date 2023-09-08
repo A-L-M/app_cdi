@@ -22,7 +22,7 @@ class _IncisoDWidgetState extends State<IncisoDWidget> {
     '5. Peinarlo.',
     '6. Sacarle el aire con palmaditas en la espalda.',
     '7. Empujarlo en un carrito.',
-    '8. Mecerlo o arrullarlo',
+    '8. Mecerlo o arrullarlo.',
     '9. Darle besitos.',
     '10. Tratar de vestirlo.',
     '11. Limpiarle la cara.',

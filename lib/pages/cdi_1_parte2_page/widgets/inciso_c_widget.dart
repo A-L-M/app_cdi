@@ -151,7 +151,7 @@ class _IncisoCWidgetState extends State<IncisoCWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Su hijo(a) trata de hacer o hace algunas de las siguientes actividades?',
+            '¿Su hijo(a) trata de hacer o hace algunas de las siguientes actividades?',
             style: GoogleFonts.robotoSlab(
               fontSize: 14,
               fontWeight: FontWeight.normal,
