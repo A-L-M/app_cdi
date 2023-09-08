@@ -143,8 +143,6 @@ class __FraseWidgetState extends State<_FraseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('isChecked = $isChecked');
-    print('valor = ${widget.valor}');
     final size = MediaQuery.of(context).size;
 
     final CDI1Provider provider = Provider.of<CDI1Provider>(
@@ -171,8 +169,8 @@ class __FraseWidgetState extends State<_FraseWidget> {
         ),
         trailing: Checkbox(
           checkColor: AppTheme.of(context).secondaryColor,
-          // fillColor: MaterialStateProperty.resolveWith<Color>(
-          //     (_) => AppTheme.of(context).secondaryColor),
+          fillColor: MaterialStateProperty.resolveWith<Color>(
+              (_) => AppTheme.of(context).secondaryColor),
           value: isChecked,
           shape: const CircleBorder(),
           onChanged: (bool? value) {
