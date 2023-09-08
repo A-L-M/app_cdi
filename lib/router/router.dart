@@ -111,6 +111,14 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
+      path: '/listado-cdi1',
+      name: 'listado_cdi1',
+      builder: (BuildContext context, GoRouterState state) {
+        if (currentUser == null) return const HomePage();
+        return const ListadoCDI1Page();
+      },
+    ),
+    GoRoute(
       path: '/listado-cdi2',
       name: 'listado_cdi2',
       builder: (BuildContext context, GoRouterState state) {

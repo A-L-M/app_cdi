@@ -52,6 +52,18 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
             Padding(
               padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
               child: MenuButton(
+                tooltip: 'CDI 1',
+                fillColor: AppTheme.of(context).primaryColor,
+                icon: Icons.list,
+                isTaped: visualState.isTaped[1],
+                onPressed: () {
+                  context.pushReplacement('/listado-cdi1');
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+              child: MenuButton(
                 tooltip: 'CDI 2',
                 fillColor: AppTheme.of(context).primaryColor,
                 icon: Icons.list,

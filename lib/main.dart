@@ -49,6 +49,9 @@ void main() async {
           create: (_) => BebesProvider(),
         ),
         ChangeNotifierProvider(
+          create: (_) => ListadoCDI1Provider(),
+        ),
+        ChangeNotifierProvider(
           create: (_) => ListadoCDI2Provider(),
         ),
       ],

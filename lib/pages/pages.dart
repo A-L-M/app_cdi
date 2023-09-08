@@ -1,3 +1,4 @@
+export 'package:app_cdi/pages/listado_cdi1_page/listado_cdi1_page.dart';
 export 'package:app_cdi/pages/cdi_1_parte2_page/cdi_1_parte2_page.dart';
 export 'package:app_cdi/pages/cdi_1_palabras_page/cdi1_palabras_page.dart';
 export 'package:app_cdi/pages/listado_cdi2_page/listado_cdi2_page.dart';
