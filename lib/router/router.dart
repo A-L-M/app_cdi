@@ -10,7 +10,7 @@ import 'package:app_cdi/services/navigation_service.dart';
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
-  initialLocation: '/cdi-1/parte-2',
+  initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -31,8 +31,6 @@ final GoRouter router = GoRouter(
       path: '/cdi-1',
       name: 'cdi_1',
       builder: (BuildContext context, GoRouterState state) {
-        //TODO: quitar (debug)
-        return const CDI1Parte1Page(cdi1Id: 1);
         if (state.extra is int) {
           return CDI1Parte1Page(cdi1Id: state.extra as int);
         }
@@ -60,8 +58,6 @@ final GoRouter router = GoRouter(
           path: 'parte-2',
           name: 'cdi1_parte_2',
           builder: (BuildContext context, GoRouterState state) {
-            //TODO: quitar (debug)
-            return const CDI1Parte2Page(cdi1Id: 1);
             if (state.extra is int) {
               return CDI1Parte2Page(cdi1Id: state.extra as int);
             }

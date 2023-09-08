@@ -7,8 +7,7 @@ import 'package:app_cdi/models/seccion_palabras_cdi1.dart';
 import 'package:flutter/material.dart';
 
 class CDI1Provider extends ChangeNotifier {
-  //TODO: cambiar (debug)
-  int? cdi1Id = 1;
+  int? cdi1Id;
 
   List<SeccionPalabrasCDI1> seccionesPalabras = [];
   CDI1Parte1 parte1 = CDI1Parte1.fromMap({});
