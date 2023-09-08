@@ -169,8 +169,13 @@ class __FraseWidgetState extends State<_FraseWidget> {
         ),
         trailing: Checkbox(
           checkColor: AppTheme.of(context).secondaryColor,
-          fillColor: MaterialStateProperty.resolveWith<Color>(
-              (_) => AppTheme.of(context).secondaryColor),
+          activeColor: AppTheme.of(context).secondaryColor,
+          // fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+          //   if (states.contains(MaterialState.selected)) {
+          //     return AppTheme.of(context).secondaryColor;
+          //   }
+          //   MaterialState.
+          // }),
           value: isChecked,
           shape: const CircleBorder(),
           onChanged: (bool? value) {
