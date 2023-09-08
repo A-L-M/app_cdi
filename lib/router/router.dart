@@ -1,4 +1,3 @@
-import 'package:app_cdi/pages/cdi_1_palabras_page/cdi1_palabras_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,26 +11,6 @@ final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
   initialLocation: '/cdi-1',
-  redirect: (BuildContext context, GoRouterState state) {
-    final bool loggedIn = currentUser != null;
-    final bool isLoggingIn = state.location == '/';
-
-    if (state.location == '/cambio_contrasena' ||
-        state.location == '/cdi-1' ||
-        state.location == '/cdi-2' ||
-        state.location == '/datos-personales' ||
-        state.location == '/gracias') {
-      return null;
-    }
-
-    //If user is not logged in and not in the login page
-    if (!loggedIn && !isLoggingIn) return '/';
-
-    //if user is logged in and in the login page
-    if (loggedIn && isLoggingIn) return '/';
-
-    return null;
-  },
   routes: <RouteBase>[
     GoRoute(
       path: '/',

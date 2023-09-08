@@ -1,11 +1,11 @@
-import 'package:app_cdi/models/enums.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
 import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/theme/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class IncisoAWidget extends StatefulWidget {
   const IncisoAWidget({super.key});
@@ -16,9 +16,9 @@ class IncisoAWidget extends StatefulWidget {
 
 class _IncisoAWidgetState extends State<IncisoAWidget> {
   final List<String> preguntas = [
-    '¿Responde o voltea cuando se le llama por su nombre?',
-    '¿Deja de hacer lo que está haciendo (aunque sea por un momento) cuando se le dice "no"?',
-    '¿Busca a su alrededor cuando escucha que alguien llama a su papá o a su mamá?',
+    '1. ¿Responde o voltea cuando se le llama por su nombre?',
+    '2. ¿Deja de hacer lo que está haciendo (aunque sea por un momento) cuando se le dice "no"?',
+    '3. ¿Busca a su alrededor cuando escucha que alguien llama a su papá o a su mamá?',
   ];
 
   @override

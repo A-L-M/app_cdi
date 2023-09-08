@@ -1,6 +1,10 @@
 import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_a_widget.dart';
+import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_b_widget.dart';
+import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_c_widget.dart';
+import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app_cdi/models/models.dart';
@@ -65,7 +69,6 @@ class CDI1Parte1PageDesktop extends StatefulWidget {
 }
 
 class _CDI2PageDesktopState extends State<CDI1Parte1PageDesktop> {
-  int index = 1;
   ScrollController scrollController = ScrollController();
 
   @override
@@ -97,10 +100,32 @@ class _CDI2PageDesktopState extends State<CDI1Parte1PageDesktop> {
             const PageHeader(),
             SizedBox(
               width: formSize,
-              child: const Column(
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  IncisoAWidget(),
+                  const IncisoAWidget(),
+                  const IncisoBWidget(),
+                  const IncisoCWidget(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FormButton(
+                          label: 'Continuar',
+                          onTap: () {
+                            scrollController.jumpTo(0.0);
+
+                            context.push(
+                              '/cdi-1/palabras',
+                              extra: provider.cdi1Id,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

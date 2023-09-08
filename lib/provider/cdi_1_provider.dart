@@ -74,6 +74,34 @@ class CDI1Provider extends ChangeNotifier {
       await supabase.from('cdi1_parte1').update(
         {'comprension${indexPregunta + 1}': valor},
       ).eq('cdi1_id', cdi1Id);
+      parte1.listaComprension[indexPregunta] = valor;
+    } catch (e) {
+      log('Error en setOpcionComprension() - $e');
+    }
+  }
+
+  Future<void> setFraseIncisoB(
+    int index,
+    bool valor,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte1').update(
+        {'primera_frase${index + 1}': valor},
+      ).eq('cdi1_id', cdi1Id);
+      parte1.listaFrases[index] = valor;
+    } catch (e) {
+      log('Error en setOpcionComprension() - $e');
+    }
+  }
+
+  Future<void> setManeraHablarIncisoC(
+    RespuestaComprension valor,
+    int indexPregunta,
+  ) async {
+    try {
+      await supabase.from('cdi1_parte1').update(
+        {'hablar${indexPregunta + 1}': convertToString(valor)},
+      ).eq('cdi1_id', cdi1Id);
     } catch (e) {
       log('Error en setOpcionComprension() - $e');
     }
