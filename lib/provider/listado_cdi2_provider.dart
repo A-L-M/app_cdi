@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:universal_html/html.dart';
 
 import 'package:app_cdi/helpers/datetime_extension.dart';
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/models.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
 class ListadoCDI2Provider extends ChangeNotifier {
   PlutoGridStateManager? stateManager;
@@ -101,7 +102,92 @@ class ListadoCDI2Provider extends ChangeNotifier {
     }
   }
 
-  Future<bool> generarReporteExcel(CDI2 cdi2) async {
+  Workbook crearArchivoExcel({bool multiple = false}) {
+    List<Map<String, String>> nombreSheets = [
+      {'nombre': 'ONOMATOPEYAS', 'color': '#FF9900'},
+      {'nombre': 'ANIMALES', 'color': '#CCCCCC'},
+      {'nombre': 'VEHICULOS', 'color': '#FFFF99'},
+      {'nombre': 'ALIMENTOS', 'color': '#99CCFF'},
+      {'nombre': 'ROPA', 'color': '#FF99CC'},
+      {'nombre': 'CUERPO', 'color': '#FFCC99'},
+      {'nombre': 'JUGUETES', 'color': '#9966CC'},
+      {'nombre': 'ART. HOGAR', 'color': '#33CCFF'},
+      {'nombre': 'MUEBLES', 'color': '#CC0066'},
+      {'nombre': 'EXTERIOR', 'color': '#009900'},
+      {'nombre': 'LUGARES', 'color': '#669933'},
+      {'nombre': 'PERSONAS', 'color': '#0033CC'},
+      {'nombre': 'JUEGOS Y RUTINAS', 'color': '#CCFFCC'},
+      {'nombre': 'ACCION', 'color': '#006666'},
+      {'nombre': 'ESTADO', 'color': '#CCCC99'},
+      {'nombre': 'TIEMPO', 'color': '#CC0000'},
+      {'nombre': 'DESCRIPTIVAS', 'color': '#339966'},
+      {'nombre': 'PRONOMBRES', 'color': '#33CCCC'},
+      {'nombre': 'INTERROGATIVAS', 'color': '#FF6600'},
+      {'nombre': 'ARTICULOS', 'color': '#660099'},
+      {'nombre': 'CUANTIFICADORES', 'color': '#FFCC00'},
+      {'nombre': 'LOCATIVOS', 'color': '#CCCCCC'},
+      {'nombre': 'PREPOSICIONES', 'color': '#993366'},
+      {'nombre': 'CONECTIVOS', 'color': '#CCCCCC'},
+      {'nombre': 'RESULTADOS POR ID', 'color': '#FF0000'},
+      if (multiple) {'nombre': 'RESULTADOS POR PALABRA', 'color': '#FF0000'},
+      {'nombre': 'TOTALES', 'color': '#FF0000'},
+    ];
+
+    // Create a new Excel document.
+    final Workbook workbook = Workbook(nombreSheets.length);
+
+    for (var i = 0; i < nombreSheets.length; i++) {
+      final currentSheet = workbook.worksheets[i];
+      currentSheet.name = nombreSheets[i]['nombre'] ?? 'Sheet$i';
+      currentSheet.tabColor = nombreSheets[i]['color'] ?? '#FF9900';
+    }
+
+    //Se agregan estilos de celda
+    final CellStyle styleBold = CellStyle(workbook, 'StyleBold');
+    styleBold.fontName = 'Arial';
+    styleBold.fontSize = 12;
+    styleBold.bold = true;
+    styleBold.hAlign = HAlignType.center;
+    styleBold.wrapText = true;
+
+    final CellStyle styleSubrayada = CellStyle(workbook, 'StyleSubrayada');
+    styleSubrayada.fontName = 'Arial';
+    styleSubrayada.fontSize = 12;
+    styleSubrayada.bold = true;
+    styleSubrayada.underline = true;
+    styleSubrayada.hAlign = HAlignType.center;
+    styleSubrayada.wrapText = true;
+
+    final CellStyle styleSombreada = CellStyle(workbook, 'StyleSombreada');
+    styleSombreada.fontName = 'Arial';
+    styleSombreada.fontSize = 12;
+    styleSombreada.bold = true;
+    styleSombreada.underline = true;
+    styleSombreada.backColor = '#66CCCC';
+    styleSombreada.hAlign = HAlignType.center;
+    styleSombreada.wrapText = true;
+
+    workbook.styles.addStyle(styleBold);
+    workbook.styles.addStyle(styleSubrayada);
+    workbook.styles.addStyle(styleSombreada);
+
+    return workbook;
+  }
+
+  void guardarArchivoExcel(Workbook excel) {
+    final List<int> bytes = excel.saveSync();
+
+    excel.dispose();
+
+    //Download the output file in web.
+    AnchorElement(
+        href:
+            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+      ..setAttribute("download", "resultados.xlsx")
+      ..click();
+  }
+
+  Future<void> llenarArchivoExcelIndividual(Workbook excel, CDI2 cdi2) async {
     List<SeccionPalabrasCDI2> seccionesPalabras = [];
     try {
       //Se obtienen todas las palabras divididas por seccion
@@ -118,69 +204,52 @@ class ListadoCDI2Provider extends ChangeNotifier {
           palabra.opcion,
         );
       }
-    } catch (e) {
-      log('Error al generar archivo Excel');
-      return false;
-    }
-    //Crear excel
-    Excel excel = Excel.createExcel();
 
-    List<String> nombreSheets = [
-      'ONOMATOPEYAS',
-      'ANIMALES',
-      'VEHICULOS',
-      'ALIMENTOS',
-      'ROPA',
-      'CUERPO',
-      'JUGUETES',
-      'ART. HOGAR',
-      'MUEBLES',
-      'EXTERIOR',
-      'LUGARES',
-      'PERSONAS',
-      'JUEGOS Y RUTINAS',
-      'ACCION',
-      'ESTADO',
-      'TIEMPO',
-      'DESCRIPTIVAS',
-      'PRONOMBRES',
-      'INTERROGATIVAS',
-      'ARTICULOS',
-      'CUANTIFICADORES',
-      'LOCATIVOS',
-      'PREPOSICIONES',
-      'CONECTIVOS',
-    ];
+      for (var i = 0; i < seccionesPalabras.length; i++) {
+        final palabras = seccionesPalabras[i].palabras;
+        List<int> row = [];
 
-    for (var nombre in nombreSheets) {
-      excel.copy(excel.getDefaultSheet() ?? 'Sheet1', nombre);
-    }
+        final idCell = excel.worksheets[i].getRangeByIndex(1, 1);
+        idCell.setValue('ID');
+        idCell.cellStyle = excel.styles.innerList
+            .singleWhere((style) => style.name == 'StyleBold');
 
-    List<Sheet?> sheets = [];
+        //TODO: Mover a la otra funcion (llenado de titulos de columna)
+        for (var j = 0; j < palabras.length; j++) {
+          //se busca la celda
+          final cell = excel.worksheets[i].getRangeByIndex(1, j + 2);
+          cell.setValue(palabras[j].nombre);
+          if (palabras[j].sombreada) {
+            cell.cellStyle = excel.styles.innerList
+                .singleWhere((style) => style.name == 'StyleSombreada');
+          } else if (palabras[j].subrayada && !palabras[j].sombreada) {
+            cell.cellStyle = excel.styles.innerList
+                .singleWhere((style) => style.name == 'StyleSubrayada');
+          } else {
+            cell.cellStyle = excel.styles.innerList
+                .singleWhere((style) => style.name == 'StyleBold');
+          }
+        }
+        for (var palabra in palabras) {
+          row.add(convertToInt(palabra.opcion));
+        }
 
-    excel.delete(excel.getDefaultSheet() ?? 'Sheet1');
-
-    for (var nombre in nombreSheets) {
-      sheets.add(excel.sheets[nombre]);
-    }
-
-    for (var i = 0; i < seccionesPalabras.length; i++) {
-      List<String> nombresSeccion =
-          seccionesPalabras[i].palabras.map((e) => e.nombre).toList();
-      List<dynamic> row = [];
-
-      for (var palabra in seccionesPalabras[i].palabras) {
-        row.add(convertToInt(palabra.opcion));
+        excel.worksheets[i].importList([cdi2.bebeId, ...row], 2, 1, false);
       }
-
-      sheets[i]!.appendRow(['ID', ...nombresSeccion]);
-      //Agregar edad
-      sheets[i]!.appendRow([cdi2.bebeId, ...row]);
+    } catch (e) {
+      log('Error al generar archivo Excel - $e');
     }
+  }
 
-    //Descargar
-    final List<int>? fileBytes = excel.save(fileName: "resultados.xlsx");
-    if (fileBytes == null) return false;
+  Future<bool> generarReporteExcel(CDI2 cdi2) async {
+    //TODO: agregar multiple
+    final excel = crearArchivoExcel();
+
+    await llenarArchivoExcelIndividual(excel, cdi2);
+
+    guardarArchivoExcel(excel);
+
+    excel.dispose();
 
     return true;
   }

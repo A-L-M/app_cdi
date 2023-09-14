@@ -30,7 +30,6 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.2
   email_validator: ^2.1.17
-  excel: ^2.1.0
   flutter:
     sdk: flutter
   flutter_secure_storage: ^8.0.0
@@ -46,6 +45,8 @@ dependencies:
   random_password_generator: ^0.2.1
   shared_preferences: ^2.1.0
   supabase_flutter: ^1.7.0
+  syncfusion_flutter_xlsio: ^22.2.12
+  universal_html: ^2.2.4
   url_strategy: ^0.2.0
   uuid: ^3.0.7
 
