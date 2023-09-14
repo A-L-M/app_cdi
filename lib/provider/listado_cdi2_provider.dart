@@ -190,7 +190,6 @@ class ListadoCDI2Provider extends ChangeNotifier {
       idCell.cellStyle = workbook.styles.innerList
           .singleWhere((style) => style.name == 'StyleBold');
 
-      //TODO: Mover a la otra funcion (llenado de titulos de columna)
       for (var j = 0; j < palabras.length; j++) {
         //se busca la celda
         final cell = workbook.worksheets[i].getRangeByIndex(1, j + 2);
@@ -226,23 +225,35 @@ class ListadoCDI2Provider extends ChangeNotifier {
       ..click();
   }
 
-  Future<void> llenarArchivoExcelIndividual(
+  void llenarArchivoExcel(
     Workbook excel,
-    CDI2 cdi2,
+    List<CDI2> listaCDI2,
     List<SeccionPalabrasCDI2> seccionesPalabras,
-  ) async {
+  ) {
     for (var i = 0; i < seccionesPalabras.length; i++) {
       final palabras = seccionesPalabras[i].palabras;
       List<int> row = [];
 
-      for (var palabra in palabras) {
-        row.add(convertToInt(palabra.opcion));
+      for (var j = 0; j < listaCDI2.length; j++) {
+        //Se le asignan valores a las palabras
+        for (var palabra in listaCDI2[j].palabras) {
+          seccionesPalabras[palabra.seccionFk - 1].setPalabra(
+            palabra.palabraId,
+            palabra.opcion,
+          );
+        }
+        for (var palabra in palabras) {
+          row.add(convertToInt(palabra.opcion));
+        }
+        excel.worksheets[i]
+            .importList([listaCDI2[j].bebeId, ...row], j + 2, 1, false);
+        row.clear();
       }
-      excel.worksheets[i].importList([cdi2.bebeId, ...row], 2, 1, false);
+
       final datosRange = excel.worksheets[i].getRangeByIndex(
         2,
         1,
-        2,
+        listaCDI2.length + 1,
         palabras.length + 2,
       );
       datosRange.cellStyle = excel.styles.innerList
@@ -267,23 +278,16 @@ class ListadoCDI2Provider extends ChangeNotifier {
     }
   }
 
-  Future<bool> generarReporteExcel(CDI2 cdi2) async {
+  Future<bool> generarReporteExcel(List<CDI2> listaCDI2) async {
     List<SeccionPalabrasCDI2> seccionesPalabras = [];
 
     seccionesPalabras = await getSeccionesPalabras();
 
-    //TODO: agregar multiple
     final excel = crearArchivoExcel(seccionesPalabras);
 
-    //Se le asignan valores a las palabras
-    for (var palabra in cdi2.palabras) {
-      seccionesPalabras[palabra.seccionFk - 1].setPalabra(
-        palabra.palabraId,
-        palabra.opcion,
-      );
-    }
+    //TODO: ver como ir cambiando los valores (poner en la otra funcion)
 
-    await llenarArchivoExcelIndividual(excel, cdi2, seccionesPalabras);
+    llenarArchivoExcel(excel, listaCDI2, seccionesPalabras);
 
     guardarArchivoExcel(excel);
 

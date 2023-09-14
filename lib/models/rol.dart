@@ -36,6 +36,9 @@ class Permisos {
   });
 
   String? home;
+  String? administracionBebes;
+  String? administracionCDI1;
+  String? administracionCDI2;
   String? administracionDeUsuarios;
 
   factory Permisos.fromJson(String str) => Permisos.fromMap(json.decode(str));

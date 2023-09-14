@@ -1,10 +1,9 @@
-import 'package:app_cdi/helpers/globals.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
 import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/theme/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class CDI2ListadoHeader extends StatefulWidget {
   const CDI2ListadoHeader({
@@ -18,26 +17,23 @@ class CDI2ListadoHeader extends StatefulWidget {
 class _CDI2ListadoHeaderState extends State<CDI2ListadoHeader> {
   @override
   Widget build(BuildContext context) {
-    final BebesProvider provider = Provider.of<BebesProvider>(context);
-    final bool permisoCaptura =
-        currentUser!.rol.permisos.administracionDeUsuarios == 'C';
+    final ListadoCDI2Provider provider =
+        Provider.of<ListadoCDI2Provider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        if (permisoCaptura)
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: AnimatedHoverButton(
-              tooltip: 'Agregar',
-              primaryColor: AppTheme.of(context).primaryColor,
-              secondaryColor: AppTheme.of(context).primaryBackground,
-              icon: Icons.person_add,
-              onTap: () async {
-                // if (!mounted) return;
-                // context.pushNamed('alta_usuario');
-              },
-            ),
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: AnimatedHoverButton(
+            tooltip: 'Descargar datos',
+            primaryColor: AppTheme.of(context).primaryColor,
+            secondaryColor: AppTheme.of(context).primaryBackground,
+            icon: Icons.download_outlined,
+            onTap: () async {
+              await provider.generarReporteExcel(provider.listadoCDI2);
+            },
           ),
+        ),
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 15, 0),
           child: Container(
@@ -98,7 +94,7 @@ class _CDI2ListadoHeaderState extends State<CDI2ListadoHeader> {
                               useGoogleFonts: false,
                             ),
                         onChanged: (value) async {
-                          await provider.getBebes();
+                          await provider.getListadoCDI2();
                         },
                       ),
                     ),

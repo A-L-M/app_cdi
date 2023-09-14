@@ -237,7 +237,7 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                     onTap: () async {
                                                       final res = await provider
                                                           .generarReporteExcel(
-                                                              cdi2!);
+                                                              [cdi2!]);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast(
                                                             'Error al generar Excel');
