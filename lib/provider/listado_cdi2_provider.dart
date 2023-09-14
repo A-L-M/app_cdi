@@ -102,7 +102,10 @@ class ListadoCDI2Provider extends ChangeNotifier {
     }
   }
 
-  Workbook crearArchivoExcel({bool multiple = false}) {
+  Workbook crearArchivoExcel(
+    List<SeccionPalabrasCDI2> seccionesPalabras, {
+    bool multiple = false,
+  }) {
     List<Map<String, String>> nombreSheets = [
       {'nombre': 'ONOMATOPEYAS', 'color': '#FF9900'},
       {'nombre': 'ANIMALES', 'color': '#CCCCCC'},
@@ -167,9 +170,45 @@ class ListadoCDI2Provider extends ChangeNotifier {
     styleSombreada.hAlign = HAlignType.center;
     styleSombreada.wrapText = true;
 
+    final CellStyle styleDatos = CellStyle(workbook, 'StyleDatos');
+    styleDatos.fontName = 'Arial';
+    styleDatos.fontSize = 12;
+    styleDatos.hAlign = HAlignType.center;
+    styleDatos.wrapText = true;
+
     workbook.styles.addStyle(styleBold);
     workbook.styles.addStyle(styleSubrayada);
     workbook.styles.addStyle(styleSombreada);
+    workbook.styles.addStyle(styleDatos);
+
+    //Agregar titulos de columnas
+    for (var i = 0; i < seccionesPalabras.length; i++) {
+      final palabras = seccionesPalabras[i].palabras;
+
+      final idCell = workbook.worksheets[i].getRangeByIndex(1, 1);
+      idCell.setValue('ID');
+      idCell.cellStyle = workbook.styles.innerList
+          .singleWhere((style) => style.name == 'StyleBold');
+
+      //TODO: Mover a la otra funcion (llenado de titulos de columna)
+      for (var j = 0; j < palabras.length; j++) {
+        //se busca la celda
+        final cell = workbook.worksheets[i].getRangeByIndex(1, j + 2);
+        cell.setValue(palabras[j].nombre);
+        cell.autoFitColumns();
+        cell.autoFitRows();
+        if (palabras[j].sombreada) {
+          cell.cellStyle = workbook.styles.innerList
+              .singleWhere((style) => style.name == 'StyleSombreada');
+        } else if (palabras[j].subrayada && !palabras[j].sombreada) {
+          cell.cellStyle = workbook.styles.innerList
+              .singleWhere((style) => style.name == 'StyleSubrayada');
+        } else {
+          cell.cellStyle = workbook.styles.innerList
+              .singleWhere((style) => style.name == 'StyleBold');
+        }
+      }
+    }
 
     return workbook;
   }
@@ -187,7 +226,31 @@ class ListadoCDI2Provider extends ChangeNotifier {
       ..click();
   }
 
-  Future<void> llenarArchivoExcelIndividual(Workbook excel, CDI2 cdi2) async {
+  Future<void> llenarArchivoExcelIndividual(
+    Workbook excel,
+    CDI2 cdi2,
+    List<SeccionPalabrasCDI2> seccionesPalabras,
+  ) async {
+    for (var i = 0; i < seccionesPalabras.length; i++) {
+      final palabras = seccionesPalabras[i].palabras;
+      List<int> row = [];
+
+      for (var palabra in palabras) {
+        row.add(convertToInt(palabra.opcion));
+      }
+      excel.worksheets[i].importList([cdi2.bebeId, ...row], 2, 1, false);
+      final datosRange = excel.worksheets[i].getRangeByIndex(
+        2,
+        1,
+        2,
+        palabras.length + 2,
+      );
+      datosRange.cellStyle = excel.styles.innerList
+          .singleWhere((style) => style.name == 'StyleDatos');
+    }
+  }
+
+  Future<List<SeccionPalabrasCDI2>> getSeccionesPalabras() async {
     List<SeccionPalabrasCDI2> seccionesPalabras = [];
     try {
       //Se obtienen todas las palabras divididas por seccion
@@ -197,55 +260,30 @@ class ListadoCDI2Provider extends ChangeNotifier {
           .map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra)))
           .toList();
 
-      //Se le asignan valores a las palabras
-      for (var palabra in cdi2.palabras) {
-        seccionesPalabras[palabra.seccionFk - 1].setPalabra(
-          palabra.palabraId,
-          palabra.opcion,
-        );
-      }
-
-      for (var i = 0; i < seccionesPalabras.length; i++) {
-        final palabras = seccionesPalabras[i].palabras;
-        List<int> row = [];
-
-        final idCell = excel.worksheets[i].getRangeByIndex(1, 1);
-        idCell.setValue('ID');
-        idCell.cellStyle = excel.styles.innerList
-            .singleWhere((style) => style.name == 'StyleBold');
-
-        //TODO: Mover a la otra funcion (llenado de titulos de columna)
-        for (var j = 0; j < palabras.length; j++) {
-          //se busca la celda
-          final cell = excel.worksheets[i].getRangeByIndex(1, j + 2);
-          cell.setValue(palabras[j].nombre);
-          if (palabras[j].sombreada) {
-            cell.cellStyle = excel.styles.innerList
-                .singleWhere((style) => style.name == 'StyleSombreada');
-          } else if (palabras[j].subrayada && !palabras[j].sombreada) {
-            cell.cellStyle = excel.styles.innerList
-                .singleWhere((style) => style.name == 'StyleSubrayada');
-          } else {
-            cell.cellStyle = excel.styles.innerList
-                .singleWhere((style) => style.name == 'StyleBold');
-          }
-        }
-        for (var palabra in palabras) {
-          row.add(convertToInt(palabra.opcion));
-        }
-
-        excel.worksheets[i].importList([cdi2.bebeId, ...row], 2, 1, false);
-      }
+      return seccionesPalabras;
     } catch (e) {
       log('Error al generar archivo Excel - $e');
+      return [];
     }
   }
 
   Future<bool> generarReporteExcel(CDI2 cdi2) async {
-    //TODO: agregar multiple
-    final excel = crearArchivoExcel();
+    List<SeccionPalabrasCDI2> seccionesPalabras = [];
 
-    await llenarArchivoExcelIndividual(excel, cdi2);
+    seccionesPalabras = await getSeccionesPalabras();
+
+    //TODO: agregar multiple
+    final excel = crearArchivoExcel(seccionesPalabras);
+
+    //Se le asignan valores a las palabras
+    for (var palabra in cdi2.palabras) {
+      seccionesPalabras[palabra.seccionFk - 1].setPalabra(
+        palabra.palabraId,
+        palabra.opcion,
+      );
+    }
+
+    await llenarArchivoExcelIndividual(excel, cdi2, seccionesPalabras);
 
     guardarArchivoExcel(excel);
 
