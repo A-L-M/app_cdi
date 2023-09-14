@@ -230,18 +230,15 @@ class ListadoCDI2Provider extends ChangeNotifier {
     List<CDI2> listaCDI2,
     List<SeccionPalabrasCDI2> seccionesPalabras,
   ) {
-    for (var i = 0; i < seccionesPalabras.length; i++) {
-      final palabras = seccionesPalabras[i].palabras;
-      List<int> row = [];
+    for (var j = 0; j < listaCDI2.length; j++) {
+      for (var seccion in seccionesPalabras) {
+        seccion.asignarValores(listaCDI2[j].palabras);
+      }
 
-      for (var j = 0; j < listaCDI2.length; j++) {
-        //Se le asignan valores a las palabras
-        for (var palabra in listaCDI2[j].palabras) {
-          seccionesPalabras[palabra.seccionFk - 1].setPalabra(
-            palabra.palabraId,
-            palabra.opcion,
-          );
-        }
+      for (var i = 0; i < seccionesPalabras.length; i++) {
+        final palabras = seccionesPalabras[i].palabras;
+        List<int> row = [];
+
         for (var palabra in palabras) {
           row.add(convertToInt(palabra.opcion));
         }
@@ -249,7 +246,9 @@ class ListadoCDI2Provider extends ChangeNotifier {
             .importList([listaCDI2[j].bebeId, ...row], j + 2, 1, false);
         row.clear();
       }
-
+    }
+    for (var i = 0; i < seccionesPalabras.length; i++) {
+      final palabras = seccionesPalabras[i].palabras;
       final datosRange = excel.worksheets[i].getRangeByIndex(
         2,
         1,
@@ -284,8 +283,6 @@ class ListadoCDI2Provider extends ChangeNotifier {
     seccionesPalabras = await getSeccionesPalabras();
 
     final excel = crearArchivoExcel(seccionesPalabras);
-
-    //TODO: ver como ir cambiando los valores (poner en la otra funcion)
 
     llenarArchivoExcel(excel, listaCDI2, seccionesPalabras);
 

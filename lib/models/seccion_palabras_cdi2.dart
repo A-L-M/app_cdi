@@ -25,6 +25,18 @@ class SeccionPalabrasCDI2 {
     }
   }
 
+  void asignarValores(List<PalabraCDI2Valor> valores) {
+    for (var palabra in palabras) {
+      final index =
+          valores.indexWhere((valor) => valor.palabraId == palabra.palabraId);
+      if (index == -1) {
+        palabra.opcion = Opcion.ninguna;
+      } else {
+        palabra.opcion = valores[index].opcion;
+      }
+    }
+  }
+
   factory SeccionPalabrasCDI2.fromJson(String str) =>
       SeccionPalabrasCDI2.fromMap(json.decode(str));
 
