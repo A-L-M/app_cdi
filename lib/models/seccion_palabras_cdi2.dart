@@ -37,6 +37,22 @@ class SeccionPalabrasCDI2 {
     }
   }
 
+  int getTotalComprende() {
+    int total = 0;
+    for (var palabra in palabras) {
+      if (palabra.opcion == Opcion.comprende) total += 1;
+    }
+    return total;
+  }
+
+  int getTotalComprendeYDice() {
+    int total = 0;
+    for (var palabra in palabras) {
+      if (palabra.opcion == Opcion.comprendeYDice) total += 1;
+    }
+    return total;
+  }
+
   factory SeccionPalabrasCDI2.fromJson(String str) =>
       SeccionPalabrasCDI2.fromMap(json.decode(str));
 

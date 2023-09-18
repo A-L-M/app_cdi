@@ -129,7 +129,6 @@ class ListadoCDI2Provider extends ChangeNotifier {
       {'nombre': 'ARTICULOS', 'color': '#660099'},
       {'nombre': 'CUANTIFICADORES', 'color': '#FFCC00'},
       {'nombre': 'LOCATIVOS', 'color': '#CCCCCC'},
-      {'nombre': 'PREPOSICIONES', 'color': '#993366'},
       {'nombre': 'CONECTIVOS', 'color': '#CCCCCC'},
       {'nombre': 'RESULTADOS POR ID', 'color': '#FF0000'},
       if (multiple) {'nombre': 'RESULTADOS POR PALABRA', 'color': '#FF0000'},
@@ -209,7 +208,44 @@ class ListadoCDI2Provider extends ChangeNotifier {
       }
     }
 
+    initColumnasResultadosPorId(workbook, nombreSheets);
     return workbook;
+  }
+
+  void initColumnasResultadosPorId(
+    Workbook excel,
+    List<Map<String, String>> nombreSheets,
+  ) {
+    final sheet = excel.worksheets['RESULTADOS POR ID'];
+    final copy = [
+      {'nombre': '   ID   ', 'color': '#FFFFFF'},
+      ...nombreSheets,
+      {'nombre': 'TOTAL X NIÑO', 'color': '#CCCCCC'},
+      {'nombre': 'TOTAL C+C/D', 'color': '#FFFFFF'},
+    ];
+    copy.removeWhere((element) => element['nombre'] == 'RESULTADOS POR ID');
+    copy.removeWhere(
+        (element) => element['nombre'] == 'RESULTADOS POR PALABRA');
+    copy.removeWhere((element) => element['nombre'] == 'TOTALES');
+
+    for (var i = 0; i < copy.length; i++) {
+      Range cell;
+      if (i == 0) {
+        cell = sheet.getRangeByIndex(1, i + 1);
+      } else {
+        cell = sheet.getRangeByIndex(1, i * 2, 1, (i * 2) + 1);
+      }
+      cell.merge();
+      cell.setValue(copy[i]['nombre']);
+      cell.cellStyle.backColor = copy[i]['color']!;
+      cell.cellStyle.fontName = 'Arial';
+      cell.cellStyle.fontSize = 12;
+      cell.cellStyle.bold = true;
+      cell.cellStyle.hAlign = HAlignType.center;
+      cell.cellStyle.borders.all.lineStyle = LineStyle.medium;
+      cell.autoFitColumns();
+      cell.autoFitRows();
+    }
   }
 
   void guardarArchivoExcel(Workbook excel) {
@@ -246,7 +282,15 @@ class ListadoCDI2Provider extends ChangeNotifier {
             .importList([listaCDI2[j].bebeId, ...row], j + 2, 1, false);
         row.clear();
       }
+
+      llenarResultadosPorId(
+        excel,
+        seccionesPalabras,
+        listaCDI2[j].bebeId,
+        j + 2,
+      );
     }
+
     for (var i = 0; i < seccionesPalabras.length; i++) {
       final palabras = seccionesPalabras[i].palabras;
       final datosRange = excel.worksheets[i].getRangeByIndex(
@@ -258,6 +302,41 @@ class ListadoCDI2Provider extends ChangeNotifier {
       datosRange.cellStyle = excel.styles.innerList
           .singleWhere((style) => style.name == 'StyleDatos');
     }
+
+    //Estilo de Resultados Por Id
+    final resultadosPorIdRange =
+        excel.worksheets['RESULTADOS POR ID'].getRangeByIndex(
+      2,
+      1,
+      listaCDI2.length + 1,
+      seccionesPalabras.length * 2 + 4,
+    );
+    resultadosPorIdRange.cellStyle = excel.styles.innerList
+        .singleWhere((style) => style.name == 'StyleDatos');
+  }
+
+  void llenarResultadosPorId(
+    Workbook excel,
+    List<SeccionPalabrasCDI2> seccionesPalabras,
+    int bebeId,
+    int rowIndex,
+  ) {
+    final sheet = excel.worksheets['RESULTADOS POR ID'];
+    final List<int> resultados = [];
+    int totalComprende = 0;
+    int totalComprendeYDice = 0;
+    for (var seccion in seccionesPalabras) {
+      int tempTotal = seccion.getTotalComprende();
+      totalComprende += tempTotal;
+      resultados.add(tempTotal);
+      tempTotal = seccion.getTotalComprendeYDice();
+      totalComprendeYDice += tempTotal;
+      resultados.add(tempTotal);
+    }
+    resultados.add(totalComprende);
+    resultados.add(totalComprendeYDice);
+    resultados.add(totalComprende + totalComprendeYDice);
+    sheet.importList([bebeId, ...resultados], rowIndex, 1, false);
   }
 
   Future<List<SeccionPalabrasCDI2>> getSeccionesPalabras() async {
@@ -278,11 +357,12 @@ class ListadoCDI2Provider extends ChangeNotifier {
   }
 
   Future<bool> generarReporteExcel(List<CDI2> listaCDI2) async {
+    final bool multiple = listaCDI2.length > 1;
     List<SeccionPalabrasCDI2> seccionesPalabras = [];
 
     seccionesPalabras = await getSeccionesPalabras();
 
-    final excel = crearArchivoExcel(seccionesPalabras);
+    final excel = crearArchivoExcel(seccionesPalabras, multiple: multiple);
 
     llenarArchivoExcel(excel, listaCDI2, seccionesPalabras);
 
