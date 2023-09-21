@@ -1,3 +1,4 @@
+import 'package:app_cdi/helpers/tablas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -67,8 +68,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) =>
-      context.findAncestorStateOfType<_MyAppState>()!;
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>()!;
 }
 
 class _MyAppState extends State<MyApp> {
@@ -83,6 +83,13 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    print(
+      Tablas.calcularPercentil(
+        tabla: Tablas.produccionPalabrasCDI2,
+        edad: 23,
+        numPalabras: 10,
+      ),
+    );
     return MaterialApp.router(
       title: 'CDI',
       debugShowCheckedModeBanner: false,
