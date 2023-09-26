@@ -1,4 +1,5 @@
 import 'package:app_cdi/pages/listado_cdi2_page/widgets/calificar_p3l_widget.dart';
+import 'package:app_cdi/pages/widgets/confirmacion_popup.dart';
 import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -219,9 +220,15 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                     primaryColor: AppTheme.of(context).primaryColor,
                                                     secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
-                                                      final res = await provider.borrarCDI2(
-                                                        cdi2!.cdi2Id,
+                                                      final popupResult = await showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return const ConfirmacionPopup();
+                                                        },
                                                       );
+                                                      if (popupResult == null || popupResult is! bool) return;
+                                                      if (popupResult == false) return;
+                                                      final res = await provider.borrarCDI2(cdi2!.cdi2Id);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast('Error al borrar CDI');
                                                         return;

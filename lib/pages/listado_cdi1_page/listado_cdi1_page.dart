@@ -1,3 +1,4 @@
+import 'package:app_cdi/pages/widgets/confirmacion_popup.dart';
 import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -196,6 +197,14 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                                     primaryColor: AppTheme.of(context).primaryColor,
                                                     secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
+                                                      final popupResult = await showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return const ConfirmacionPopup();
+                                                        },
+                                                      );
+                                                      if (popupResult == null || popupResult is! bool) return;
+                                                      if (popupResult == false) return;
                                                       final res = await provider.borrarCDI1(
                                                         cdi1!.cdi1Id,
                                                       );
