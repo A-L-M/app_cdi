@@ -30,18 +30,14 @@ class ListadoCDI2Provider extends ChangeNotifier {
     try {
       final query = supabase.from('cdi2_completo').select();
 
-      final res = await query
-          .like('nombre_bebe', '%${busquedaController.text}%')
-          .order(orden, ascending: false);
+      final res = await query.like('nombre_bebe', '%${busquedaController.text}%').order(orden, ascending: false);
 
       if (res == null) {
         log('Error en getListadoCDI2()');
         return;
       }
 
-      listadoCDI2 = (res as List<dynamic>)
-          .map((usuario) => CDI2.fromJson(jsonEncode(usuario)))
-          .toList();
+      listadoCDI2 = (res as List<dynamic>).map((usuario) => CDI2.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (CDI2 cdi2 in listadoCDI2) {
@@ -51,8 +47,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
               'cdi2_id': PlutoCell(value: cdi2.cdi2Id),
               'bebe_id': PlutoCell(value: cdi2.bebeId),
               'nombre_bebe': PlutoCell(value: cdi2.nombreBebe),
-              'created_at':
-                  PlutoCell(value: cdi2.createdAt.parseToString('yyyy-MM-dd')),
+              'edad': PlutoCell(value: cdi2.edad.toString()),
+              'created_at': PlutoCell(value: cdi2.createdAt.parseToString('yyyy-MM-dd')),
               'acciones': PlutoCell(value: cdi2.cdi2Id.toString()),
             },
           ),
@@ -186,8 +182,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
 
       final idCell = workbook.worksheets[i].getRangeByIndex(1, 1);
       idCell.setValue('ID');
-      idCell.cellStyle = workbook.styles.innerList
-          .singleWhere((style) => style.name == 'StyleBold');
+      idCell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
 
       for (var j = 0; j < palabras.length; j++) {
         //se busca la celda
@@ -196,14 +191,11 @@ class ListadoCDI2Provider extends ChangeNotifier {
         cell.autoFitColumns();
         cell.autoFitRows();
         if (palabras[j].sombreada) {
-          cell.cellStyle = workbook.styles.innerList
-              .singleWhere((style) => style.name == 'StyleSombreada');
+          cell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleSombreada');
         } else if (palabras[j].subrayada && !palabras[j].sombreada) {
-          cell.cellStyle = workbook.styles.innerList
-              .singleWhere((style) => style.name == 'StyleSubrayada');
+          cell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleSubrayada');
         } else {
-          cell.cellStyle = workbook.styles.innerList
-              .singleWhere((style) => style.name == 'StyleBold');
+          cell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
         }
       }
     }
@@ -224,8 +216,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       {'nombre': 'TOTAL C+C/D', 'color': '#FFFFFF'},
     ];
     copy.removeWhere((element) => element['nombre'] == 'RESULTADOS POR ID');
-    copy.removeWhere(
-        (element) => element['nombre'] == 'RESULTADOS POR PALABRA');
+    copy.removeWhere((element) => element['nombre'] == 'RESULTADOS POR PALABRA');
     copy.removeWhere((element) => element['nombre'] == 'TOTALES');
 
     for (var i = 0; i < copy.length; i++) {
@@ -254,9 +245,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
     excel.dispose();
 
     //Download the output file in web.
-    AnchorElement(
-        href:
-            "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
+    AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
       ..setAttribute("download", "resultados.xlsx")
       ..click();
   }
@@ -278,8 +267,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
         for (var palabra in palabras) {
           row.add(convertToInt(palabra.opcion));
         }
-        excel.worksheets[i]
-            .importList([listaCDI2[j].bebeId, ...row], j + 2, 1, false);
+        excel.worksheets[i].importList([listaCDI2[j].bebeId, ...row], j + 2, 1, false);
         row.clear();
       }
 
@@ -299,20 +287,17 @@ class ListadoCDI2Provider extends ChangeNotifier {
         listaCDI2.length + 1,
         palabras.length + 2,
       );
-      datosRange.cellStyle = excel.styles.innerList
-          .singleWhere((style) => style.name == 'StyleDatos');
+      datosRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
     }
 
     //Estilo de Resultados Por Id
-    final resultadosPorIdRange =
-        excel.worksheets['RESULTADOS POR ID'].getRangeByIndex(
+    final resultadosPorIdRange = excel.worksheets['RESULTADOS POR ID'].getRangeByIndex(
       2,
       1,
       listaCDI2.length + 1,
       seccionesPalabras.length * 2 + 4,
     );
-    resultadosPorIdRange.cellStyle = excel.styles.innerList
-        .singleWhere((style) => style.name == 'StyleDatos');
+    resultadosPorIdRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
   }
 
   void llenarResultadosPorId(
@@ -345,9 +330,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
       //Se obtienen todas las palabras divididas por seccion
       final res = await supabase.from('secciones_palabras_cdi2').select();
 
-      seccionesPalabras = (res as List<dynamic>)
-          .map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra)))
-          .toList();
+      seccionesPalabras =
+          (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra))).toList();
 
       return seccionesPalabras;
     } catch (e) {

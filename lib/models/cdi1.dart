@@ -8,6 +8,7 @@ class CDI1 {
     required this.cdi1Id,
     required this.bebeId,
     required this.nombreBebe,
+    required this.fechaNacimiento,
     required this.createdAt,
     required this.palabras,
     required this.parte1,
@@ -17,10 +18,13 @@ class CDI1 {
   int cdi1Id;
   int bebeId;
   String nombreBebe;
+  DateTime fechaNacimiento;
   DateTime createdAt;
   List<PalabraCDI1Valor> palabras;
   CDI1Parte1 parte1;
   CDI1Parte2 parte2;
+
+  int get edad => createdAt.difference(fechaNacimiento).inDays ~/ 30;
 
   factory CDI1.fromJson(String str) => CDI1.fromMap(json.decode(str));
 
@@ -31,11 +35,10 @@ class CDI1 {
       cdi1Id: json['cdi1_id'],
       bebeId: json['bebe_id'],
       nombreBebe: json['nombre_bebe'],
+      fechaNacimiento: DateTime.parse(json['fecha_nacimiento']),
       createdAt: DateTime.parse(json['created_at']),
       palabras: json['palabras'] != null
-          ? (json['palabras'] as List)
-              .map((palabra) => PalabraCDI1Valor.fromJson(jsonEncode(palabra)))
-              .toList()
+          ? (json['palabras'] as List).map((palabra) => PalabraCDI1Valor.fromJson(jsonEncode(palabra))).toList()
           : [],
       parte1: CDI1Parte1.fromJson(jsonEncode(json)),
       parte2: CDI1Parte2.fromJson(jsonEncode(json)),

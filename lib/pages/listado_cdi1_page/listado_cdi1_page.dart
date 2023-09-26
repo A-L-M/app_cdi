@@ -44,12 +44,10 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(1);
 
-    final ListadoCDI1Provider provider =
-        Provider.of<ListadoCDI1Provider>(context);
+    final ListadoCDI1Provider provider = Provider.of<ListadoCDI1Provider>(context);
 
     return Scaffold(
       key: scaffoldKey,
@@ -71,8 +69,7 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                     const SideMenuWidget(),
                     Expanded(
                       child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                         child: Column(
                           children: [
                             //HEADER
@@ -87,21 +84,15 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                     child: PlutoGrid(
                                       key: UniqueKey(),
                                       configuration: PlutoGridConfiguration(
-                                        localeText:
-                                            const PlutoGridLocaleText.spanish(),
-                                        scrollbar:
-                                            plutoGridScrollbarConfig(context),
+                                        localeText: const PlutoGridLocaleText.spanish(),
+                                        scrollbar: plutoGridScrollbarConfig(context),
                                         style: plutoGridStyleConfig(context),
-                                        columnFilter:
-                                            PlutoGridColumnFilterConfig(
+                                        columnFilter: PlutoGridColumnFilterConfig(
                                           filters: const [
                                             ...FilterHelper.defaultFilters,
                                           ],
-                                          resolveDefaultColumnFilter:
-                                              (column, resolver) {
-                                            return resolver<
-                                                    PlutoFilterTypeContains>()
-                                                as PlutoFilterType;
+                                          resolveDefaultColumnFilter: (column, resolver) {
+                                            return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                           },
                                         ),
                                       ),
@@ -110,10 +101,8 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                           title: 'CDI 1 ID',
                                           field: 'cdi1_id',
                                           width: 150,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -121,10 +110,8 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                           title: 'Bebé ID',
                                           field: 'bebe_id',
                                           width: 225,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -132,10 +119,17 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                           title: 'Nombre Bebé',
                                           field: 'nombre_bebe',
                                           width: 250,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
+                                          type: PlutoColumnType.text(),
+                                          enableEditingMode: false,
+                                        ),
+                                        PlutoColumn(
+                                          title: 'Edad Bebé',
+                                          field: 'edad',
+                                          width: 250,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -143,10 +137,8 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                           title: 'Fecha de la cita',
                                           field: 'created_at',
                                           width: 200,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -154,39 +146,28 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                             title: 'Acciones',
                                             field: 'acciones',
                                             width: 300,
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
+                                            titleTextAlign: PlutoColumnTextAlign.center,
+                                            textAlign: PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
                                             renderer: (rendererContext) {
-                                              final String id =
-                                                  rendererContext.cell.value;
+                                              final String id = rendererContext.cell.value;
                                               CDI1? cdi1;
                                               try {
                                                 cdi1 = provider.listadoCDI1
-                                                    .firstWhere((element) =>
-                                                        element.cdi1Id
-                                                            .toString() ==
-                                                        id);
+                                                    .firstWhere((element) => element.cdi1Id.toString() == id);
                                               } catch (e) {
                                                 cdi1 = null;
                                               }
                                               return Row(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
                                                   AnimatedHoverButton(
                                                     icon: Icons.edit,
                                                     tooltip: 'Editar',
-                                                    primaryColor:
-                                                        AppTheme.of(context)
-                                                            .primaryColor,
-                                                    secondaryColor:
-                                                        AppTheme.of(context)
-                                                            .primaryBackground,
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
                                                       context.pushReplacement(
                                                         '/cdi-1',
@@ -198,19 +179,12 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                                   AnimatedHoverButton(
                                                     icon: Icons.add_chart,
                                                     tooltip: 'Generar Excel',
-                                                    primaryColor:
-                                                        AppTheme.of(context)
-                                                            .primaryColor,
-                                                    secondaryColor:
-                                                        AppTheme.of(context)
-                                                            .primaryBackground,
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
-                                                      final res = await provider
-                                                          .generarReporteExcel(
-                                                              cdi1!);
+                                                      final res = await provider.generarReporteExcel(cdi1!);
                                                       if (!res) {
-                                                        ApiErrorHandler.callToast(
-                                                            'Error al generar Excel');
+                                                        ApiErrorHandler.callToast('Error al generar Excel');
                                                         return;
                                                       }
                                                     },
@@ -219,20 +193,14 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                                   AnimatedHoverButton(
                                                     icon: Icons.delete,
                                                     tooltip: 'Borrar',
-                                                    primaryColor:
-                                                        AppTheme.of(context)
-                                                            .primaryColor,
-                                                    secondaryColor:
-                                                        AppTheme.of(context)
-                                                            .primaryBackground,
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
-                                                      final res = await provider
-                                                          .borrarCDI1(
+                                                      final res = await provider.borrarCDI1(
                                                         cdi1!.cdi1Id,
                                                       );
                                                       if (!res) {
-                                                        ApiErrorHandler.callToast(
-                                                            'Error al borrar CDI');
+                                                        ApiErrorHandler.callToast('Error al borrar CDI');
                                                         return;
                                                       }
                                                     },
@@ -250,8 +218,7 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                         return PlutoPagination(stateManager);
                                       },
                                       onLoaded: (event) {
-                                        provider.stateManager =
-                                            event.stateManager;
+                                        provider.stateManager = event.stateManager;
                                       },
                                       onRowChecked: (event) {},
                                     ),

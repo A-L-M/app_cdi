@@ -28,18 +28,14 @@ class ListadoCDI1Provider extends ChangeNotifier {
     try {
       final query = supabase.from('cdi1_completo').select();
 
-      final res = await query
-          .like('nombre_bebe', '%${busquedaController.text}%')
-          .order(orden, ascending: false);
+      final res = await query.like('nombre_bebe', '%${busquedaController.text}%').order(orden, ascending: false);
 
       if (res == null) {
         log('Error en getListadoCDI1()');
         return;
       }
 
-      listadoCDI1 = (res as List<dynamic>)
-          .map((usuario) => CDI1.fromJson(jsonEncode(usuario)))
-          .toList();
+      listadoCDI1 = (res as List<dynamic>).map((usuario) => CDI1.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (CDI1 cdi1 in listadoCDI1) {
@@ -49,8 +45,8 @@ class ListadoCDI1Provider extends ChangeNotifier {
               'cdi1_id': PlutoCell(value: cdi1.cdi1Id),
               'bebe_id': PlutoCell(value: cdi1.bebeId),
               'nombre_bebe': PlutoCell(value: cdi1.nombreBebe),
-              'created_at':
-                  PlutoCell(value: cdi1.createdAt.parseToString('yyyy-MM-dd')),
+              'edad': PlutoCell(value: cdi1.edad.toString()),
+              'created_at': PlutoCell(value: cdi1.createdAt.parseToString('yyyy-MM-dd')),
               'acciones': PlutoCell(value: cdi1.cdi1Id.toString()),
             },
           ),
