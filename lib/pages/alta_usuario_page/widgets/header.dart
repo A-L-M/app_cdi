@@ -8,13 +8,17 @@ import 'package:app_cdi/pages/widgets/toasts/success_toast.dart';
 import 'package:app_cdi/provider/usuarios_provider.dart';
 import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:app_cdi/theme/theme.dart';
+import 'package:app_cdi/models/usuario.dart';
 
 class AltaUsuarioHeader extends StatefulWidget {
   const AltaUsuarioHeader({
     Key? key,
     required this.formKey,
+    this.usuario,
   }) : super(key: key);
+
   final GlobalKey<FormState> formKey;
+  final Usuario? usuario;
 
   @override
   State<AltaUsuarioHeader> createState() => _AltaUsuarioHeaderState();
@@ -66,6 +70,28 @@ class _AltaUsuarioHeaderState extends State<AltaUsuarioHeader> {
                   return;
                 }
 
+                if (widget.usuario != null) {
+                  //Editar usuario
+                  bool res = await provider.editarPerfilDeUsuario(widget.usuario!.id);
+
+                  if (!res) {
+                    await ApiErrorHandler.callToast('Error al editar perfil de usuario');
+                    return;
+                  }
+
+                  if (!mounted) return;
+                  fToast.showToast(
+                    child: const SuccessToast(
+                      message: 'Usuario creado',
+                    ),
+                    gravity: ToastGravity.BOTTOM,
+                    toastDuration: const Duration(seconds: 2),
+                  );
+
+                  context.pushReplacement('/usuarios');
+                  return;
+                }
+
                 //Registrar usuario
                 final Map<String, String>? result = await provider.registrarUsuario();
 
@@ -97,7 +123,7 @@ class _AltaUsuarioHeaderState extends State<AltaUsuarioHeader> {
                 if (!mounted) return;
                 fToast.showToast(
                   child: const SuccessToast(
-                    message: 'Usuario creado',
+                    message: 'Usuario editado',
                   ),
                   gravity: ToastGravity.BOTTOM,
                   toastDuration: const Duration(seconds: 2),

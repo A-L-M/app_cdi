@@ -39,7 +39,7 @@ class _RolDropDownState extends State<RolDropDown> {
         initialOption: nombreRolSeleccionado,
         onChanged: (val) async {
           if (val == null) return;
-          await provider.setRolSeleccionado(val);
+          provider.setRolSeleccionado(val);
         },
         validator: (value) {
           if (value == null || value.isEmpty) {

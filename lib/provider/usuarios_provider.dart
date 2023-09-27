@@ -46,7 +46,7 @@ class UsuariosProvider extends ChangeNotifier {
     if (notify) notifyListeners();
   }
 
-  Future<void> setRolSeleccionado(String rol) async {
+  void setRolSeleccionado(String rol) async {
     rolSeleccionado = roles.firstWhere((element) => element.nombre == rol);
     notifyListeners();
   }
@@ -163,12 +163,13 @@ class UsuariosProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> initEditarUsuario(Usuario usuario) async {
+  void initEditarUsuario(Usuario usuario) async {
     usuarioEditado = usuario;
     nombreController.text = usuario.nombre;
     apellidosController.text = usuario.apellidos;
     correoController.text = usuario.email;
     rolSeleccionado = usuario.rol;
+    notifyListeners();
   }
 
   Future<bool> borrarUsuario(String userId) async {

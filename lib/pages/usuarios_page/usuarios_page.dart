@@ -168,10 +168,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                                     tooltip: 'Editar Usuario',
                                                     primaryColor: AppTheme.of(context).primaryColor,
                                                     secondaryColor: AppTheme.of(context).primaryBackground,
-                                                    onTap: () async {
-                                                      await provider.initEditarUsuario(
-                                                        usuario!,
-                                                      );
+                                                    onTap: () {
+                                                      provider.initEditarUsuario(usuario!);
                                                       if (!mounted) return;
                                                       context.pushNamed(
                                                         'editar_usuario',
@@ -196,7 +194,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                                       if (popupResult == false) return;
                                                       final res = await provider.borrarUsuario(usuario!.id);
                                                       if (!res) {
-                                                        ApiErrorHandler.callToast('Error al usuario');
+                                                        ApiErrorHandler.callToast('Error borrar al usuario');
                                                         return;
                                                       }
                                                     },

@@ -1,3 +1,4 @@
+import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/alta_usuario_page/widgets/header.dart';
 import 'package:app_cdi/pages/alta_usuario_page/widgets/input_field_label.dart';
 import 'package:app_cdi/pages/alta_usuario_page/widgets/rol_dropdown.dart';
@@ -12,7 +13,12 @@ import 'package:app_cdi/provider/usuarios_provider.dart';
 import 'package:app_cdi/theme/theme.dart';
 
 class AltaUsuarioPage extends StatefulWidget {
-  const AltaUsuarioPage({Key? key}) : super(key: key);
+  const AltaUsuarioPage({
+    Key? key,
+    this.usuario,
+  }) : super(key: key);
+
+  final Usuario? usuario;
 
   @override
   State<AltaUsuarioPage> createState() => _AltaUsuarioPageState();
@@ -24,6 +30,8 @@ class _AltaUsuarioPageState extends State<AltaUsuarioPage> {
 
   @override
   Widget build(BuildContext context) {
+    final editar = widget.usuario != null;
+
     final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
     return Scaffold(
       key: scaffoldKey,
@@ -37,8 +45,8 @@ class _AltaUsuarioPageState extends State<AltaUsuarioPage> {
             child: Column(
               children: [
                 //MENU
-                const TopMenuWidget(
-                  title: 'Alta de Usuario',
+                TopMenuWidget(
+                  title: editar ? 'Editar usuario' : 'Alta de Usuario',
                 ),
 
                 Expanded(
@@ -52,7 +60,10 @@ class _AltaUsuarioPageState extends State<AltaUsuarioPage> {
                           child: Column(
                             children: [
                               //HEADER ALTA DE USUARIOS
-                              AltaUsuarioHeader(formKey: formKey),
+                              AltaUsuarioHeader(
+                                formKey: formKey,
+                                usuario: widget.usuario,
+                              ),
 
                               //Formulario
                               Padding(

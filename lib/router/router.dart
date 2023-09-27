@@ -145,17 +145,17 @@ final GoRouter router = GoRouter(
             return const AltaUsuarioPage();
           },
         ),
-        // GoRoute(
-        //   path: 'editar-usuario',
-        //   name: 'editar_usuario',
-        //   builder: (BuildContext context, GoRouterState state) {
-        //     if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
-        //       return const PageNotFoundPage();
-        //     }
-        //     if (state.extra == null) return const UsuariosPage();
-        //     return EditarUsuarioPage(usuario: state.extra as Usuario);
-        //   },
-        // ),
+        GoRoute(
+          path: 'editar-usuario',
+          name: 'editar_usuario',
+          builder: (BuildContext context, GoRouterState state) {
+            if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
+              return const PageNotFoundPage();
+            }
+            if (state.extra == null) return const UsuariosPage();
+            return AltaUsuarioPage(usuario: state.extra as Usuario);
+          },
+        ),
       ],
     ),
   ],
