@@ -31,11 +31,12 @@ class Rol {
 
 class Permisos {
   Permisos({
-    required this.home,
+    required this.administracionBebes,
+    required this.administracionCDI1,
+    required this.administracionCDI2,
     required this.administracionDeUsuarios,
   });
 
-  String? home;
   String? administracionBebes;
   String? administracionCDI1;
   String? administracionCDI2;
@@ -44,7 +45,9 @@ class Permisos {
   factory Permisos.fromJson(String str) => Permisos.fromMap(json.decode(str));
 
   factory Permisos.fromMap(Map<String, dynamic> json) => Permisos(
-        home: json['Home'],
+        administracionBebes: json["Administración de Bebés"],
+        administracionCDI1: json["CDI 1"],
+        administracionCDI2: json["CDI 2"],
         administracionDeUsuarios: json["Administración de Usuarios"],
       );
 }

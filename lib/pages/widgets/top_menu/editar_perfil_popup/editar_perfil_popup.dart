@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -94,8 +93,7 @@ class _EditarPerfilPopupState extends State<EditarPerfilPopup> {
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor:
-                                      AppTheme.of(context).primaryBackground,
+                                  fillColor: AppTheme.of(context).primaryBackground,
                                   labelText: 'Nombre',
                                   labelStyle: const TextStyle(
                                     color: Color.fromARGB(255, 135, 132, 132),
@@ -139,8 +137,7 @@ class _EditarPerfilPopupState extends State<EditarPerfilPopup> {
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor:
-                                      AppTheme.of(context).primaryBackground,
+                                  fillColor: AppTheme.of(context).primaryBackground,
                                   labelText: 'Apellidos',
                                   labelStyle: const TextStyle(
                                     color: Color.fromARGB(255, 135, 132, 132),
@@ -179,63 +176,8 @@ class _EditarPerfilPopupState extends State<EditarPerfilPopup> {
                                 readOnly: true,
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor:
-                                      AppTheme.of(context).primaryBackground,
+                                  fillColor: AppTheme.of(context).primaryBackground,
                                   labelText: 'Correo',
-                                  labelStyle: const TextStyle(
-                                    color: Color.fromARGB(255, 135, 132, 132),
-                                    fontSize: 15,
-                                  ),
-                                  focusColor: Colors.black,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppTheme.of(context).primaryColor,
-                                      width: 2.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppTheme.of(context).primaryColor,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: AppTheme.of(context).primaryColor,
-                                      width: 2.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            //TELEFONO
-                            SizedBox(
-                              width: 200,
-                              child: TextFormField(
-                                controller: provider.telefonoPerfil,
-                                maxLines: 1,
-                                keyboardType: TextInputType.phone,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                    RegExp(r'[0-9]'),
-                                  )
-                                ],
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'El teléfono es obligatorio';
-                                  }
-                                  if (value.length != 10) {
-                                    return 'El teléfono debe tener 10 dígitos';
-                                  }
-                                  return null;
-                                },
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor:
-                                      AppTheme.of(context).primaryBackground,
-                                  labelText: 'Teléfono',
                                   labelStyle: const TextStyle(
                                     color: Color.fromARGB(255, 135, 132, 132),
                                     fontSize: 15,
@@ -306,8 +248,7 @@ class _EditarPerfilPopupState extends State<EditarPerfilPopup> {
                           bool res = await provider.editarPerfilDeUsuario();
 
                           if (!res) {
-                            await ApiErrorHandler.callToast(
-                                'Error al editar perfil de usuario');
+                            await ApiErrorHandler.callToast('Error al editar perfil de usuario');
                             return;
                           }
 

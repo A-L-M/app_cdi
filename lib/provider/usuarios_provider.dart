@@ -18,7 +18,6 @@ class UsuariosProvider extends ChangeNotifier {
   TextEditingController nombreController = TextEditingController();
   TextEditingController correoController = TextEditingController();
   TextEditingController apellidosController = TextEditingController();
-  TextEditingController telefonoController = TextEditingController();
 
   List<Rol> roles = [];
   List<Usuario> usuarios = [];
@@ -33,6 +32,7 @@ class UsuariosProvider extends ChangeNotifier {
   String orden = "id_secuencial";
 
   Future<void> updateState() async {
+    busquedaController.clear();
     await getRoles(notify: false);
     await getUsuarios();
   }
@@ -41,7 +41,6 @@ class UsuariosProvider extends ChangeNotifier {
     nombreController.clear();
     if (clearEmail) correoController.clear();
     apellidosController.clear();
-    telefonoController.clear();
     rolSeleccionado = null;
 
     if (notify) notifyListeners();
@@ -54,15 +53,12 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<void> getRoles({bool notify = true}) async {
     if (roles.isNotEmpty) return;
-    final res =
-        await supabase.from('rol').select('rol_id, nombre, permisos').order(
-              'nombre',
-              ascending: true,
-            );
+    final res = await supabase.from('rol').select('rol_id, nombre, permisos').order(
+          'nombre',
+          ascending: true,
+        );
 
-    roles = (res as List<dynamic>)
-        .map((rol) => Rol.fromJson(jsonEncode(rol)))
-        .toList();
+    roles = (res as List<dynamic>).map((rol) => Rol.fromJson(jsonEncode(rol))).toList();
 
     if (notify) notifyListeners();
   }
@@ -71,17 +67,13 @@ class UsuariosProvider extends ChangeNotifier {
     try {
       final query = supabase.from('users').select();
 
-      final res = await query
-          .like('nombre', '%${busquedaController.text}%')
-          .order(orden, ascending: true);
+      final res = await query.like('nombre', '%${busquedaController.text}%').order(orden, ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
-      usuarios = (res as List<dynamic>)
-          .map((usuario) => Usuario.fromJson(jsonEncode(usuario)))
-          .toList();
+      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
 
       rows.clear();
       for (Usuario usuario in usuarios) {
@@ -89,11 +81,9 @@ class UsuariosProvider extends ChangeNotifier {
           PlutoRow(
             cells: {
               'id_secuencial': PlutoCell(value: usuario.idSecuencial),
-              'nombre':
-                  PlutoCell(value: "${usuario.nombre} ${usuario.apellidos}"),
+              'nombre': PlutoCell(value: "${usuario.nombre} ${usuario.apellidos}"),
               'rol': PlutoCell(value: usuario.rol.nombre),
               'email': PlutoCell(value: usuario.email),
-              'telefono': PlutoCell(value: usuario.telefono ?? ''),
               'acciones': PlutoCell(value: usuario.id),
             },
           ),
@@ -147,7 +137,6 @@ class UsuariosProvider extends ChangeNotifier {
           'perfil_usuario_id': userId,
           'nombre': nombreController.text,
           'apellidos': apellidosController.text,
-          'telefono': telefonoController.text,
           'rol_fk': rolSeleccionado!.rolId,
         },
       );
@@ -164,7 +153,6 @@ class UsuariosProvider extends ChangeNotifier {
         {
           'nombre': nombreController.text,
           'apellidos': apellidosController.text,
-          'telefono': telefonoController.text,
           'rol_fk': rolSeleccionado!.rolId,
         },
       ).eq('perfil_usuario_id', userId);
@@ -180,8 +168,25 @@ class UsuariosProvider extends ChangeNotifier {
     nombreController.text = usuario.nombre;
     apellidosController.text = usuario.apellidos;
     correoController.text = usuario.email;
-    telefonoController.text = usuario.telefono ?? '';
     rolSeleccionado = usuario.rol;
+  }
+
+  Future<bool> borrarUsuario(String userId) async {
+    try {
+      final res = await supabase.rpc('borrar_usuario', params: {
+        'user_id': userId,
+      });
+      final index = usuarios.indexWhere((user) => user.id == userId);
+      if (index == -1) return false;
+      final usuario = usuarios[index];
+      rows.removeWhere((element) => element.cells['id_secuencial']?.value == usuario.idSecuencial);
+      usuarios.removeAt(index);
+      if (stateManager != null) stateManager!.notifyListeners();
+      return res;
+    } catch (e) {
+      log('Error en borrarUsuario() - $e');
+      return false;
+    }
   }
 
   String generatePassword() {
@@ -202,7 +207,6 @@ class UsuariosProvider extends ChangeNotifier {
     nombreController.dispose();
     correoController.dispose();
     apellidosController.dispose();
-    telefonoController.dispose();
     super.dispose();
   }
 }

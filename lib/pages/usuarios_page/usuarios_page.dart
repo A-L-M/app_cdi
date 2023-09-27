@@ -1,18 +1,19 @@
-import 'package:app_cdi/helpers/functions/phone_format.dart';
-import 'package:app_cdi/helpers/globals.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pluto_grid/pluto_grid.dart';
-import 'package:provider/provider.dart';
 
+import 'package:app_cdi/theme/theme.dart';
+import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/usuario.dart';
+import 'package:app_cdi/pages/widgets/confirmacion_popup.dart';
+import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:app_cdi/pages/usuarios_page/widgets/header.dart';
 import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
 import 'package:app_cdi/pages/widgets/side_menu/side_menu.dart';
 import 'package:app_cdi/pages/widgets/top_menu/top_menu.dart';
 import 'package:app_cdi/provider/usuarios_provider.dart';
 import 'package:app_cdi/provider/visual_state_provider.dart';
-import 'package:app_cdi/theme/theme.dart';
 
 class UsuariosPage extends StatefulWidget {
   const UsuariosPage({Key? key}) : super(key: key);
@@ -41,8 +42,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
 
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(3);
 
     final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
@@ -67,8 +67,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                     const SideMenuWidget(),
                     Expanded(
                       child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                         child: Column(
                           children: [
                             //HEADER
@@ -83,21 +82,15 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                     child: PlutoGrid(
                                       key: UniqueKey(),
                                       configuration: PlutoGridConfiguration(
-                                        localeText:
-                                            const PlutoGridLocaleText.spanish(),
-                                        scrollbar:
-                                            plutoGridScrollbarConfig(context),
+                                        localeText: const PlutoGridLocaleText.spanish(),
+                                        scrollbar: plutoGridScrollbarConfig(context),
                                         style: plutoGridStyleConfig(context),
-                                        columnFilter:
-                                            PlutoGridColumnFilterConfig(
+                                        columnFilter: PlutoGridColumnFilterConfig(
                                           filters: const [
                                             ...FilterHelper.defaultFilters,
                                           ],
-                                          resolveDefaultColumnFilter:
-                                              (column, resolver) {
-                                            return resolver<
-                                                    PlutoFilterTypeContains>()
-                                                as PlutoFilterType;
+                                          resolveDefaultColumnFilter: (column, resolver) {
+                                            return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                           },
                                         ),
                                       ),
@@ -106,10 +99,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           title: 'ID',
                                           field: 'id_secuencial',
                                           width: 80,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.number(),
                                           enableEditingMode: false,
                                         ),
@@ -117,10 +108,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           title: 'Usuario',
                                           field: 'nombre',
                                           width: 300,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -128,10 +117,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           title: 'Rol',
                                           field: 'rol',
                                           width: 250,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                           renderer: (rendererContext) {
@@ -141,9 +128,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontFamily: 'Gotham-Bold',
-                                                fontWeight: rendererContext
-                                                            .cell.value ==
-                                                        "Administrador"
+                                                fontWeight: rendererContext.cell.value == "Administrador"
                                                     ? FontWeight.w700
                                                     : FontWeight.w500,
                                               ),
@@ -154,81 +139,69 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                           title: 'Correo',
                                           field: 'email',
                                           width: 250,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
-                                        ),
-                                        PlutoColumn(
-                                          title: 'Telefono',
-                                          field: 'telefono',
-                                          width: 200,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
-                                          type: PlutoColumnType.text(),
-                                          enableEditingMode: false,
-                                          renderer: (rendererContext) {
-                                            return Text(
-                                              formatPhone(
-                                                rendererContext.cell.value,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontFamily: 'Gotham-Bold',
-                                                fontWeight: rendererContext
-                                                            .cell.value ==
-                                                        "Administrador"
-                                                    ? FontWeight.w700
-                                                    : FontWeight.w500,
-                                              ),
-                                            );
-                                          },
                                         ),
                                         PlutoColumn(
                                             title: 'Acciones',
                                             field: 'acciones',
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
+                                            titleTextAlign: PlutoColumnTextAlign.center,
+                                            textAlign: PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
                                             renderer: (rendererContext) {
-                                              final String id =
-                                                  rendererContext.cell.value;
+                                              final String id = rendererContext.cell.value;
                                               Usuario? usuario;
                                               try {
-                                                usuario = provider.usuarios
-                                                    .firstWhere((element) =>
-                                                        element.id == id);
+                                                usuario = provider.usuarios.firstWhere((element) => element.id == id);
                                               } catch (e) {
                                                 usuario = null;
                                               }
-                                              return AnimatedHoverButton(
-                                                icon: Icons.edit,
-                                                tooltip: 'Editar Usuario',
-                                                primaryColor:
-                                                    AppTheme.of(context)
-                                                        .primaryColor,
-                                                secondaryColor:
-                                                    AppTheme.of(context)
-                                                        .primaryBackground,
-                                                onTap: () async {
-                                                  await provider
-                                                      .initEditarUsuario(
-                                                    usuario!,
-                                                  );
-                                                  if (!mounted) return;
-                                                  context.pushNamed(
-                                                    'editar_usuario',
-                                                    extra: usuario,
-                                                  );
-                                                },
+                                              return Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.edit,
+                                                    tooltip: 'Editar Usuario',
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
+                                                    onTap: () async {
+                                                      await provider.initEditarUsuario(
+                                                        usuario!,
+                                                      );
+                                                      if (!mounted) return;
+                                                      context.pushNamed(
+                                                        'editar_usuario',
+                                                        extra: usuario,
+                                                      );
+                                                    },
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.delete,
+                                                    tooltip: 'Borrar',
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
+                                                    onTap: () async {
+                                                      final popupResult = await showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return const ConfirmacionPopup();
+                                                        },
+                                                      );
+                                                      if (popupResult == null || popupResult is! bool) return;
+                                                      if (popupResult == false) return;
+                                                      final res = await provider.borrarUsuario(usuario!.id);
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast('Error al usuario');
+                                                        return;
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
                                               );
                                             }),
                                       ],
@@ -241,8 +214,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                         return PlutoPagination(stateManager);
                                       },
                                       onLoaded: (event) {
-                                        provider.stateManager =
-                                            event.stateManager;
+                                        provider.stateManager = event.stateManager;
                                       },
                                       onRowChecked: (event) {},
                                     ),

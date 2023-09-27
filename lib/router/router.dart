@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:app_cdi/pages/alta_usuario_page/alta_usuario_page.dart';
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/pages/pages.dart';
@@ -133,6 +134,29 @@ final GoRouter router = GoRouter(
         if (currentUser == null) return const HomePage();
         return const UsuariosPage();
       },
+      routes: [
+        GoRoute(
+          path: 'alta-usuario',
+          name: 'alta_usuario',
+          builder: (BuildContext context, GoRouterState state) {
+            if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
+              return const PageNotFoundPage();
+            }
+            return const AltaUsuarioPage();
+          },
+        ),
+        // GoRoute(
+        //   path: 'editar-usuario',
+        //   name: 'editar_usuario',
+        //   builder: (BuildContext context, GoRouterState state) {
+        //     if (currentUser!.rol.permisos.administracionDeUsuarios == null) {
+        //       return const PageNotFoundPage();
+        //     }
+        //     if (state.extra == null) return const UsuariosPage();
+        //     return EditarUsuarioPage(usuario: state.extra as Usuario);
+        //   },
+        // ),
+      ],
     ),
   ],
 );

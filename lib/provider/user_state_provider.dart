@@ -74,7 +74,6 @@ class UserState extends ChangeNotifier {
     if (currentUser == null) return;
     nombrePerfil.text = currentUser!.nombre;
     apellidosPerfil.text = currentUser!.apellidos;
-    telefonoPerfil.text = currentUser!.telefono ?? '';
     emailPerfil.text = currentUser!.email;
     contrasenaPerfil.clear();
     contrasenaAnteriorPerfil.clear();

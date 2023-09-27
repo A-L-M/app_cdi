@@ -9,8 +9,6 @@ class Usuario {
     required this.email,
     required this.nombre,
     required this.apellidos,
-    this.imagen,
-    this.telefono,
     required this.rol,
   });
 
@@ -19,8 +17,6 @@ class Usuario {
   String email;
   String nombre;
   String apellidos;
-  String? imagen;
-  String? telefono;
   Rol rol;
 
   String get nombreCompleto => '$nombre $apellidos';
@@ -34,8 +30,6 @@ class Usuario {
       email: json["email"],
       nombre: json["nombre"],
       apellidos: json["apellidos"],
-      imagen: json['imagen'],
-      telefono: json["telefono"],
       rol: Rol.fromJson(jsonEncode(json['rol'])),
     );
     return usuario;
