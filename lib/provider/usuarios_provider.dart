@@ -24,9 +24,6 @@ class UsuariosProvider extends ChangeNotifier {
 
   Rol? rolSeleccionado;
 
-  //EDITAR USUARIOS
-  Usuario? usuarioEditado;
-
   //PANTALLA USUARIOS
   final busquedaController = TextEditingController();
   String orden = "id_secuencial";
@@ -164,7 +161,6 @@ class UsuariosProvider extends ChangeNotifier {
   }
 
   void initEditarUsuario(Usuario usuario) async {
-    usuarioEditado = usuario;
     nombreController.text = usuario.nombre;
     apellidosController.text = usuario.apellidos;
     correoController.text = usuario.email;

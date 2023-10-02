@@ -1,15 +1,18 @@
-import 'package:app_cdi/models/models.dart';
-import 'package:app_cdi/pages/bebes_page/widgets/header.dart';
+import 'package:app_cdi/pages/bebes_page/widgets/alta_bebe_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/theme/theme.dart';
+import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/pages/widgets/confirmacion_popup.dart';
+import 'package:app_cdi/pages/bebes_page/widgets/header.dart';
+import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
 import 'package:app_cdi/pages/widgets/side_menu/side_menu.dart';
 import 'package:app_cdi/pages/widgets/top_menu/top_menu.dart';
-import 'package:app_cdi/theme/theme.dart';
 
 class BebesPage extends StatefulWidget {
   const BebesPage({Key? key}) : super(key: key);
@@ -38,8 +41,7 @@ class _BebesPageState extends State<BebesPage> {
 
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
     visualState.setTapedOption(0);
 
     final BebesProvider provider = Provider.of<BebesProvider>(context);
@@ -64,8 +66,7 @@ class _BebesPageState extends State<BebesPage> {
                     const SideMenuWidget(),
                     Expanded(
                       child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
                         child: Column(
                           children: [
                             //HEADER
@@ -80,21 +81,15 @@ class _BebesPageState extends State<BebesPage> {
                                     child: PlutoGrid(
                                       key: UniqueKey(),
                                       configuration: PlutoGridConfiguration(
-                                        localeText:
-                                            const PlutoGridLocaleText.spanish(),
-                                        scrollbar:
-                                            plutoGridScrollbarConfig(context),
+                                        localeText: const PlutoGridLocaleText.spanish(),
+                                        scrollbar: plutoGridScrollbarConfig(context),
                                         style: plutoGridStyleConfig(context),
-                                        columnFilter:
-                                            PlutoGridColumnFilterConfig(
+                                        columnFilter: PlutoGridColumnFilterConfig(
                                           filters: const [
                                             ...FilterHelper.defaultFilters,
                                           ],
-                                          resolveDefaultColumnFilter:
-                                              (column, resolver) {
-                                            return resolver<
-                                                    PlutoFilterTypeContains>()
-                                                as PlutoFilterType;
+                                          resolveDefaultColumnFilter: (column, resolver) {
+                                            return resolver<PlutoFilterTypeContains>() as PlutoFilterType;
                                           },
                                         ),
                                       ),
@@ -103,10 +98,8 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'ID',
                                           field: 'id',
                                           width: 100,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -114,10 +107,8 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'Cuidador',
                                           field: 'cuidador',
                                           width: 225,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -125,10 +116,8 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'Nombre',
                                           field: 'nombre',
                                           width: 150,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -136,10 +125,8 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'Apellido Paterno',
                                           field: 'apellido_paterno',
                                           width: 200,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -147,10 +134,8 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'Apellido Materno',
                                           field: 'apellido_materno',
                                           width: 200,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -158,10 +143,8 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'Sexo',
                                           field: 'sexo',
                                           width: 100,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
@@ -169,55 +152,70 @@ class _BebesPageState extends State<BebesPage> {
                                           title: 'Fecha de Nacimiento',
                                           field: 'fecha_nacimiento',
                                           width: 200,
-                                          titleTextAlign:
-                                              PlutoColumnTextAlign.center,
-                                          textAlign:
-                                              PlutoColumnTextAlign.center,
+                                          titleTextAlign: PlutoColumnTextAlign.center,
+                                          textAlign: PlutoColumnTextAlign.center,
                                           type: PlutoColumnType.text(),
                                           enableEditingMode: false,
                                         ),
                                         PlutoColumn(
                                             title: 'Acciones',
                                             field: 'acciones',
-                                            titleTextAlign:
-                                                PlutoColumnTextAlign.center,
-                                            textAlign:
-                                                PlutoColumnTextAlign.center,
+                                            titleTextAlign: PlutoColumnTextAlign.center,
+                                            textAlign: PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
                                             enableEditingMode: false,
                                             renderer: (rendererContext) {
-                                              final String id =
-                                                  rendererContext.cell.value;
+                                              final String id = rendererContext.cell.value;
                                               Bebe? bebe;
                                               try {
                                                 bebe = provider.bebes
-                                                    .firstWhere((element) =>
-                                                        element.bebeId
-                                                            .toString() ==
-                                                        id);
+                                                    .firstWhere((element) => element.bebeId.toString() == id);
                                               } catch (e) {
                                                 bebe = null;
                                               }
-                                              return AnimatedHoverButton(
-                                                icon: Icons.edit,
-                                                tooltip: 'Editar bebé',
-                                                primaryColor:
-                                                    AppTheme.of(context)
-                                                        .primaryColor,
-                                                secondaryColor:
-                                                    AppTheme.of(context)
-                                                        .primaryBackground,
-                                                onTap: () async {
-                                                  // await provider
-                                                  //     .initEditarUsuario(
-                                                  //   usuario!,
-                                                  // );
-                                                  // if (!mounted) return;
-                                                  // context.pushNamed(
-                                                  //   'editar_usuario',
-                                                  //   extra: usuario,
-                                                  // );
-                                                },
+                                              return Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.edit,
+                                                    tooltip: 'Editar bebé',
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
+                                                    onTap: () async {
+                                                      provider.initEditarBebe(bebe!);
+                                                      await showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AltaBebePopup(
+                                                              bebeEditado: bebe!,
+                                                            );
+                                                          });
+                                                    },
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.delete,
+                                                    tooltip: 'Borrar',
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
+                                                    onTap: () async {
+                                                      final popupResult = await showDialog(
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return const ConfirmacionPopup();
+                                                        },
+                                                      );
+                                                      if (popupResult == null || popupResult is! bool) return;
+                                                      if (popupResult == false) return;
+                                                      final res = await provider.borrarBebe(bebe!.bebeId);
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast('Error al borrar bebé');
+                                                        return;
+                                                      }
+                                                    },
+                                                  ),
+                                                ],
                                               );
                                             }),
                                       ],
@@ -230,8 +228,7 @@ class _BebesPageState extends State<BebesPage> {
                                         return PlutoPagination(stateManager);
                                       },
                                       onLoaded: (event) {
-                                        provider.stateManager =
-                                            event.stateManager;
+                                        provider.stateManager = event.stateManager;
                                       },
                                       onRowChecked: (event) {},
                                     ),

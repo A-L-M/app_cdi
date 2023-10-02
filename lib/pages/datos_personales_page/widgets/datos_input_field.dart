@@ -12,6 +12,7 @@ class DatosInputField extends StatefulWidget {
     this.unfocusedTextColor = const Color(0xFFBfbfbf),
     required this.textInputType,
     required this.inputFormatters,
+    this.readOnly = false,
   }) : super(key: key);
 
   final String label;
@@ -20,6 +21,7 @@ class DatosInputField extends StatefulWidget {
   final Color unfocusedTextColor;
   final TextInputType textInputType;
   final List<TextInputFormatter>? inputFormatters;
+  final bool readOnly;
 
   @override
   State<DatosInputField> createState() => _LoginInputFieldState();
@@ -44,6 +46,7 @@ class _LoginInputFieldState extends State<DatosInputField> {
         validator: widget.validator,
         keyboardType: widget.textInputType,
         inputFormatters: widget.inputFormatters,
+        readOnly: widget.readOnly,
         decoration: InputDecoration(
           isCollapsed: true,
           isDense: true,

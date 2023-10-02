@@ -1,10 +1,10 @@
-import 'package:app_cdi/models/cdi2.dart';
-import 'package:app_cdi/pages/widgets/form_button.dart';
-import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/models/cdi2.dart';
+import 'package:app_cdi/pages/widgets/form_button.dart';
+import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_section.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:app_cdi/provider/providers.dart';

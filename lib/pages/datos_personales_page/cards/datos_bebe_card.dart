@@ -1,6 +1,3 @@
-import 'package:app_cdi/models/bebe.dart';
-import 'package:app_cdi/services/api_error_handler.dart';
-import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'package:app_cdi/models/bebe.dart';
+import 'package:app_cdi/theme/theme.dart';
 import 'package:app_cdi/pages/widgets/custom_card.dart';
+import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/custom_date_picker.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_button.dart';
 import 'package:app_cdi/pages/datos_personales_page/widgets/datos_input_field.dart';
@@ -35,8 +35,7 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
   @override
   Widget build(BuildContext context) {
     fToast.init(context);
-    final DatosPersonalesProvider provider =
-        Provider.of<DatosPersonalesProvider>(context);
+    final DatosPersonalesProvider provider = Provider.of<DatosPersonalesProvider>(context);
 
     return CustomCard(
       title: 'Datos del bebé',

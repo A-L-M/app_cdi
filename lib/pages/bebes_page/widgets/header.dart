@@ -1,9 +1,9 @@
 import 'package:app_cdi/helpers/globals.dart';
+import 'package:app_cdi/pages/bebes_page/widgets/alta_bebe_popup.dart';
 import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
 import 'package:app_cdi/provider/providers.dart';
 import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class BebesPageHeader extends StatefulWidget {
@@ -19,8 +19,7 @@ class _BebesPageHeaderState extends State<BebesPageHeader> {
   @override
   Widget build(BuildContext context) {
     final BebesProvider provider = Provider.of<BebesProvider>(context);
-    final bool permisoCaptura =
-        currentUser!.rol.permisos.administracionDeUsuarios == 'C';
+    final bool permisoCaptura = currentUser!.rol.permisos.administracionDeUsuarios == 'C';
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -33,8 +32,12 @@ class _BebesPageHeaderState extends State<BebesPageHeader> {
               secondaryColor: AppTheme.of(context).primaryBackground,
               icon: Icons.person_add,
               onTap: () async {
-                // if (!mounted) return;
-                // context.pushNamed('alta_usuario');
+                provider.clearAll(notify: false);
+                await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const AltaBebePopup();
+                    });
               },
             ),
           ),
