@@ -23,8 +23,7 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final VisualStateProvider visualState =
-        Provider.of<VisualStateProvider>(context);
+    final VisualStateProvider visualState = Provider.of<VisualStateProvider>(context);
 
     final userPermissions = currentUser!.rol.permisos;
 
@@ -36,57 +35,58 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            //TODO: agregar permisos
-            Padding(
-              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-              child: MenuButton(
-                tooltip: 'Bebés',
-                fillColor: AppTheme.of(context).primaryColor,
-                icon: Icons.child_care,
-                isTaped: visualState.isTaped[0],
-                onPressed: () {
-                  context.pushReplacement('/bebes');
-                },
+            if (userPermissions.administracionBebes != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: MenuButton(
+                  tooltip: 'Bebés',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.child_care,
+                  isTaped: visualState.isTaped[0],
+                  onPressed: () {
+                    context.pushReplacement('/bebes');
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-              child: MenuButton(
-                tooltip: 'CDI 1',
-                fillColor: AppTheme.of(context).primaryColor,
-                icon: Icons.list,
-                isTaped: visualState.isTaped[1],
-                onPressed: () {
-                  context.pushReplacement('/listado-cdi1');
-                },
+            if (userPermissions.administracionCDI1 != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: MenuButton(
+                  tooltip: 'CDI 1',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.list,
+                  isTaped: visualState.isTaped[1],
+                  onPressed: () {
+                    context.pushReplacement('/listado-cdi1');
+                  },
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-              child: MenuButton(
-                tooltip: 'CDI 2',
-                fillColor: AppTheme.of(context).primaryColor,
-                icon: Icons.list,
-                isTaped: visualState.isTaped[2],
-                onPressed: () {
-                  context.pushReplacement('/listado-cdi2');
-                },
+            if (userPermissions.administracionCDI2 != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: MenuButton(
+                  tooltip: 'CDI 2',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.list,
+                  isTaped: visualState.isTaped[2],
+                  onPressed: () {
+                    context.pushReplacement('/listado-cdi2');
+                  },
+                ),
               ),
-            ),
-            userPermissions.administracionDeUsuarios != null
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
-                    child: MenuButton(
-                      tooltip: 'Usuarios',
-                      fillColor: AppTheme.of(context).primaryColor,
-                      icon: Icons.group_outlined,
-                      isTaped: visualState.isTaped[3],
-                      onPressed: () {
-                        context.pushReplacement('/usuarios');
-                      },
-                    ),
-                  )
-                : Container(),
+            if (userPermissions.administracionDeUsuarios != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+                child: MenuButton(
+                  tooltip: 'Usuarios',
+                  fillColor: AppTheme.of(context).primaryColor,
+                  icon: Icons.group_outlined,
+                  isTaped: visualState.isTaped[3],
+                  onPressed: () {
+                    context.pushReplacement('/usuarios');
+                  },
+                ),
+              )
           ],
         ),
       ),

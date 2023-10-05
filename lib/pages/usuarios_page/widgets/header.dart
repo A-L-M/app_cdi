@@ -19,8 +19,8 @@ class _UsuariosPageHeaderState extends State<UsuariosPageHeader> {
   @override
   Widget build(BuildContext context) {
     final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
-    final bool permisoCaptura =
-        currentUser!.rol.permisos.administracionDeUsuarios == 'C';
+    final bool permisoCaptura = currentUser!.rol.permisos.administracionDeUsuarios == 'C';
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

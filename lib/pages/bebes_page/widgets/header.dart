@@ -20,6 +20,7 @@ class _BebesPageHeaderState extends State<BebesPageHeader> {
   Widget build(BuildContext context) {
     final BebesProvider provider = Provider.of<BebesProvider>(context);
     final bool permisoCaptura = currentUser!.rol.permisos.administracionDeUsuarios == 'C';
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [

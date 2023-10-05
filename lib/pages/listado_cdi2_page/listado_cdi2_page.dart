@@ -51,6 +51,8 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
 
     final ListadoCDI2Provider provider = Provider.of<ListadoCDI2Provider>(context);
 
+    final bool permisoCaptura = currentUser!.rol.permisos.administracionCDI1 == 'C';
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: AppTheme.of(context).primaryBackground,
@@ -165,19 +167,20 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  AnimatedHoverButton(
-                                                    icon: Icons.edit,
-                                                    tooltip: 'Editar',
-                                                    primaryColor: AppTheme.of(context).primaryColor,
-                                                    secondaryColor: AppTheme.of(context).primaryBackground,
-                                                    onTap: () async {
-                                                      context.pushReplacement(
-                                                        '/cdi-2',
-                                                        extra: cdi2,
-                                                      );
-                                                    },
-                                                  ),
-                                                  const SizedBox(width: 5),
+                                                  if (permisoCaptura)
+                                                    AnimatedHoverButton(
+                                                      icon: Icons.edit,
+                                                      tooltip: 'Editar',
+                                                      primaryColor: AppTheme.of(context).primaryColor,
+                                                      secondaryColor: AppTheme.of(context).primaryBackground,
+                                                      onTap: () async {
+                                                        context.pushReplacement(
+                                                          '/cdi-2',
+                                                          extra: cdi2,
+                                                        );
+                                                      },
+                                                    ),
+                                                  if (permisoCaptura) const SizedBox(width: 5),
                                                   AnimatedHoverButton(
                                                     icon: Icons.assignment_turned_in,
                                                     tooltip: 'Calificar P3L',
@@ -213,28 +216,29 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                       }
                                                     },
                                                   ),
-                                                  const SizedBox(width: 5),
-                                                  AnimatedHoverButton(
-                                                    icon: Icons.delete,
-                                                    tooltip: 'Borrar',
-                                                    primaryColor: AppTheme.of(context).primaryColor,
-                                                    secondaryColor: AppTheme.of(context).primaryBackground,
-                                                    onTap: () async {
-                                                      final popupResult = await showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return const ConfirmacionPopup();
-                                                        },
-                                                      );
-                                                      if (popupResult == null || popupResult is! bool) return;
-                                                      if (popupResult == false) return;
-                                                      final res = await provider.borrarCDI2(cdi2!.cdi2Id);
-                                                      if (!res) {
-                                                        ApiErrorHandler.callToast('Error al borrar CDI');
-                                                        return;
-                                                      }
-                                                    },
-                                                  ),
+                                                  if (permisoCaptura) const SizedBox(width: 5),
+                                                  if (permisoCaptura)
+                                                    AnimatedHoverButton(
+                                                      icon: Icons.delete,
+                                                      tooltip: 'Borrar',
+                                                      primaryColor: AppTheme.of(context).primaryColor,
+                                                      secondaryColor: AppTheme.of(context).primaryBackground,
+                                                      onTap: () async {
+                                                        final popupResult = await showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return const ConfirmacionPopup();
+                                                          },
+                                                        );
+                                                        if (popupResult == null || popupResult is! bool) return;
+                                                        if (popupResult == false) return;
+                                                        final res = await provider.borrarCDI2(cdi2!.cdi2Id);
+                                                        if (!res) {
+                                                          ApiErrorHandler.callToast('Error al borrar CDI');
+                                                          return;
+                                                        }
+                                                      },
+                                                    ),
                                                 ],
                                               );
                                             }),

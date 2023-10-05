@@ -378,6 +378,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
       ];
       sheet.importList([cdi2.bebeId, ...row], i + 3, 1, false);
     }
+    final range = sheet.getRangeByIndex(3, 1, listaCDI2.length + 2, 7);
+    range.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
   }
 
   Future<List<SeccionPalabrasCDI2>> getSeccionesPalabras() async {

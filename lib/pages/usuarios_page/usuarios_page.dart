@@ -47,6 +47,8 @@ class _UsuariosPageState extends State<UsuariosPage> {
 
     final UsuariosProvider provider = Provider.of<UsuariosProvider>(context);
 
+    final bool permisoCaptura = currentUser!.rol.permisos.administracionDeUsuarios == 'C';
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: AppTheme.of(context).primaryBackground,
@@ -163,42 +165,44 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                                 mainAxisSize: MainAxisSize.min,
                                                 mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  AnimatedHoverButton(
-                                                    icon: Icons.edit,
-                                                    tooltip: 'Editar Usuario',
-                                                    primaryColor: AppTheme.of(context).primaryColor,
-                                                    secondaryColor: AppTheme.of(context).primaryBackground,
-                                                    onTap: () {
-                                                      provider.initEditarUsuario(usuario!);
-                                                      if (!mounted) return;
-                                                      context.pushNamed(
-                                                        'editar_usuario',
-                                                        extra: usuario,
-                                                      );
-                                                    },
-                                                  ),
-                                                  const SizedBox(width: 5),
-                                                  AnimatedHoverButton(
-                                                    icon: Icons.delete,
-                                                    tooltip: 'Borrar',
-                                                    primaryColor: AppTheme.of(context).primaryColor,
-                                                    secondaryColor: AppTheme.of(context).primaryBackground,
-                                                    onTap: () async {
-                                                      final popupResult = await showDialog(
-                                                        context: context,
-                                                        builder: (context) {
-                                                          return const ConfirmacionPopup();
-                                                        },
-                                                      );
-                                                      if (popupResult == null || popupResult is! bool) return;
-                                                      if (popupResult == false) return;
-                                                      final res = await provider.borrarUsuario(usuario!.id);
-                                                      if (!res) {
-                                                        ApiErrorHandler.callToast('Error borrar al usuario');
-                                                        return;
-                                                      }
-                                                    },
-                                                  ),
+                                                  if (permisoCaptura)
+                                                    AnimatedHoverButton(
+                                                      icon: Icons.edit,
+                                                      tooltip: 'Editar Usuario',
+                                                      primaryColor: AppTheme.of(context).primaryColor,
+                                                      secondaryColor: AppTheme.of(context).primaryBackground,
+                                                      onTap: () {
+                                                        provider.initEditarUsuario(usuario!);
+                                                        if (!mounted) return;
+                                                        context.pushNamed(
+                                                          'editar_usuario',
+                                                          extra: usuario,
+                                                        );
+                                                      },
+                                                    ),
+                                                  if (permisoCaptura) const SizedBox(width: 5),
+                                                  if (permisoCaptura)
+                                                    AnimatedHoverButton(
+                                                      icon: Icons.delete,
+                                                      tooltip: 'Borrar',
+                                                      primaryColor: AppTheme.of(context).primaryColor,
+                                                      secondaryColor: AppTheme.of(context).primaryBackground,
+                                                      onTap: () async {
+                                                        final popupResult = await showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return const ConfirmacionPopup();
+                                                          },
+                                                        );
+                                                        if (popupResult == null || popupResult is! bool) return;
+                                                        if (popupResult == false) return;
+                                                        final res = await provider.borrarUsuario(usuario!.id);
+                                                        if (!res) {
+                                                          ApiErrorHandler.callToast('Error borrar al usuario');
+                                                          return;
+                                                        }
+                                                      },
+                                                    ),
                                                 ],
                                               );
                                             }),
