@@ -145,10 +145,84 @@ class CDI2Parte2 {
   int? complejidad36;
   int? complejidad37;
 
-  factory CDI2Parte2.fromJson(String str) =>
-      CDI2Parte2.fromMap(json.decode(str));
+  factory CDI2Parte2.fromJson(String str) => CDI2Parte2.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
+
+  double get promedioP3L {
+    double numEjemplos = 0;
+    double promedio = 0;
+
+    if (ejemplo1 != null || ejemplo1 != '') {
+      numEjemplos += 1;
+    }
+
+    if (ejemplo2 != null || ejemplo2 != '') {
+      numEjemplos += 1;
+    }
+
+    if (ejemplo3 != null || ejemplo3 != '') {
+      numEjemplos += 1;
+    }
+
+    if (numEjemplos != 0) {
+      promedio = ((ejemplo1Calificacion?.toDouble() ?? 0.0) +
+              (ejemplo2Calificacion?.toDouble() ?? 0.0) +
+              (ejemplo3Calificacion?.toDouble() ?? 0.0)) /
+          numEjemplos;
+    }
+    return promedio;
+  }
+
+  List<int?> get listaComplejidad {
+    return [
+      complejidad1,
+      complejidad2,
+      complejidad3,
+      complejidad4,
+      complejidad5,
+      complejidad6,
+      complejidad7,
+      complejidad8,
+      complejidad9,
+      complejidad10,
+      complejidad11,
+      complejidad12,
+      complejidad13,
+      complejidad14,
+      complejidad15,
+      complejidad16,
+      complejidad17,
+      complejidad18,
+      complejidad19,
+      complejidad20,
+      complejidad21,
+      complejidad22,
+      complejidad23,
+      complejidad24,
+      complejidad25,
+      complejidad26,
+      complejidad27,
+      complejidad28,
+      complejidad29,
+      complejidad30,
+      complejidad31,
+      complejidad32,
+      complejidad33,
+      complejidad34,
+      complejidad35,
+      complejidad36,
+      complejidad37,
+    ];
+  }
+
+  int calcularP3L() {
+    if (combinaPalabras == RespuestaComprension.muchasVeces || combinaPalabras == RespuestaComprension.deVezEnCuando) {
+      return promedioP3L.round();
+    } else {
+      return 0;
+    }
+  }
 
   factory CDI2Parte2.fromMap(Map<String, dynamic> json) {
     return CDI2Parte2(

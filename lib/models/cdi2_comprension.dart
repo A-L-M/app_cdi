@@ -11,8 +11,7 @@ class CDI2Comprension {
   int? cdi2Id;
   List<RespuestaComprension> preguntas = [];
 
-  factory CDI2Comprension.fromJson(String str) =>
-      CDI2Comprension.fromMap(json.decode(str));
+  factory CDI2Comprension.fromJson(String str) => CDI2Comprension.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 

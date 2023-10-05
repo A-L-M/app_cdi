@@ -85,9 +85,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     print(
       Tablas.calcularPercentil(
-        tabla: Tablas.produccionPalabrasCDI2,
-        edad: 23,
-        numPalabras: 10,
+        tabla: Tablas.p3lPalabrasCDI2,
+        edad: 18,
+        numPalabras: 0,
       ),
     );
     return MaterialApp.router(

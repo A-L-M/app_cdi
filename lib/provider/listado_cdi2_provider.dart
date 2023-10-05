@@ -201,6 +201,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
     }
 
     initColumnasResultadosPorId(workbook, nombreSheets);
+    initTotales(workbook);
     return workbook;
   }
 
@@ -237,6 +238,38 @@ class ListadoCDI2Provider extends ChangeNotifier {
       cell.autoFitColumns();
       cell.autoFitRows();
     }
+  }
+
+  void initTotales(Workbook excel) {
+    final sheet = excel.worksheets['TOTALES'];
+
+    //Produccion
+    final Range produccionRange = sheet.getRangeByName('B1:C1');
+    produccionRange.merge();
+    produccionRange.setValue('Producción');
+
+    //P3L
+    final Range p3LRange = sheet.getRangeByName('D1:E1');
+    p3LRange.merge();
+    p3LRange.setValue('P3L');
+
+    //Complejidad
+    final Range complejidadRange = sheet.getRangeByName('F1:G1');
+    complejidadRange.merge();
+    complejidadRange.setValue('Complejidad');
+
+    //Puntaje
+    sheet.getRangeByName('A2').setValue('ID');
+    sheet.getRangeByName('B2').setValue('Natural');
+    sheet.getRangeByName('C2').setValue(' Percentil ');
+    sheet.getRangeByName('D2').setValue('Natural');
+    sheet.getRangeByName('E2').setValue(' Percentil ');
+    sheet.getRangeByName('F2').setValue('Natural');
+    sheet.getRangeByName('G2').setValue(' Percentil ');
+
+    final completeRange = sheet.getRangeByName('A1:G2');
+    completeRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
+    complejidadRange.cellStyle.wrapText = false;
   }
 
   void guardarArchivoExcel(Workbook excel) {
@@ -279,6 +312,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       );
     }
 
+    //Estilos Sheets
     for (var i = 0; i < seccionesPalabras.length; i++) {
       final palabras = seccionesPalabras[i].palabras;
       final datosRange = excel.worksheets[i].getRangeByIndex(
@@ -324,6 +358,28 @@ class ListadoCDI2Provider extends ChangeNotifier {
     sheet.importList([bebeId, ...resultados], rowIndex, 1, false);
   }
 
+  void llenarTotales(
+    Workbook excel,
+    List<CDI2> listaCDI2,
+  ) {
+    final sheet = excel.worksheets['TOTALES'];
+    for (var i = 0; i < listaCDI2.length; i++) {
+      final cdi2 = listaCDI2[i];
+      final puntajesProduccion = cdi2.calcularProduccion();
+      final puntajesP3L = cdi2.calcularP3L();
+      final puntajesComplejidad = cdi2.calcularComplejidad();
+      final row = [
+        puntajesProduccion.natural,
+        puntajesProduccion.percentil,
+        puntajesP3L.natural,
+        puntajesP3L.percentil,
+        puntajesComplejidad.natural,
+        puntajesComplejidad.percentil,
+      ];
+      sheet.importList([cdi2.bebeId, ...row], i + 3, 1, false);
+    }
+  }
+
   Future<List<SeccionPalabrasCDI2>> getSeccionesPalabras() async {
     List<SeccionPalabrasCDI2> seccionesPalabras = [];
     try {
@@ -349,6 +405,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
     final excel = crearArchivoExcel(seccionesPalabras, multiple: multiple);
 
     llenarArchivoExcel(excel, listaCDI2, seccionesPalabras);
+
+    llenarTotales(excel, listaCDI2);
 
     guardarArchivoExcel(excel);
 
