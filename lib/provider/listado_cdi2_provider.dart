@@ -346,8 +346,12 @@ class ListadoCDI2Provider extends ChangeNotifier {
     int totalComprende = 0;
     int totalComprendeYDice = 0;
     for (var seccion in seccionesPalabras) {
-      totalComprende += seccion.getTotalComprende();
-      totalComprendeYDice += seccion.getTotalComprendeYDice();
+      int tempTotal = seccion.getTotalComprende();
+      totalComprende += tempTotal;
+      resultados.add(tempTotal);
+      tempTotal = seccion.getTotalComprendeYDice();
+      totalComprendeYDice += tempTotal;
+      resultados.add(tempTotal);
     }
     resultados.add(totalComprende);
     resultados.add(totalComprendeYDice);
