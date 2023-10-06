@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/models.dart';
-import 'package:app_cdi/models/seccion_palabras_cdi1.dart';
 import 'package:flutter/material.dart';
 
 class CDI1Provider extends ChangeNotifier {
@@ -41,9 +40,8 @@ class CDI1Provider extends ChangeNotifier {
     try {
       final res = await supabase.from('secciones_palabras_cdi1').select();
 
-      seccionesPalabras = (res as List<dynamic>)
-          .map((palabra) => SeccionPalabrasCDI1.fromJson(jsonEncode(palabra)))
-          .toList();
+      seccionesPalabras =
+          (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI1.fromJson(jsonEncode(palabra))).toList();
 
       notifyListeners();
     } catch (e) {
