@@ -15,8 +15,7 @@ class CDI1Parte1 {
   List<bool> listaFrases = [];
   List<RespuestaComprension> listaHablar = [];
 
-  factory CDI1Parte1.fromJson(String str) =>
-      CDI1Parte1.fromMap(json.decode(str));
+  factory CDI1Parte1.fromJson(String str) => CDI1Parte1.fromMap(json.decode(str));
 
   factory CDI1Parte1.fromMap(Map<String, dynamic> json) {
     final List<bool?> comprensionTemp = [];

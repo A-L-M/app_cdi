@@ -13,14 +13,58 @@ class CDI1Parte2 {
   });
 
   int? cdi1Id;
-  List<RespuestaComprension> listaGestos = [];
-  List<bool?> listaRutinas = [];
-  List<bool?> listaAcciones = [];
-  List<bool?> listaJuegos = [];
-  List<bool?> listaImitaciones = [];
+  List<RespuestaComprension> listaGestos = []; //A
+  List<bool?> listaRutinas = []; //B
+  List<bool?> listaAcciones = []; //C
+  List<bool?> listaJuegos = []; //D
+  List<bool?> listaImitaciones = []; //E
 
-  factory CDI1Parte2.fromJson(String str) =>
-      CDI1Parte2.fromMap(json.decode(str));
+  int get totalGestos {
+    int total = 0;
+    for (RespuestaComprension element in listaGestos) {
+      if (element == RespuestaComprension.deVezEnCuando || element == RespuestaComprension.muchasVeces) total += 1;
+    }
+    for (var element in listaRutinas) {
+      if (element == true) total += 1;
+    }
+    for (var element in listaAcciones) {
+      if (element == true) total += 1;
+    }
+    for (var element in listaJuegos) {
+      if (element == true) total += 1;
+    }
+    for (var element in listaImitaciones) {
+      if (element == true) total += 1;
+    }
+    return total;
+  }
+
+  int get gestosTempranos {
+    int total = 0;
+    for (RespuestaComprension element in listaGestos) {
+      if (element == RespuestaComprension.deVezEnCuando || element == RespuestaComprension.muchasVeces) total += 1;
+    }
+    for (var element in listaRutinas) {
+      if (element == true) total += 1;
+    }
+    return total;
+  }
+
+  int get gestosTardios {
+    int total = 0;
+    for (var element in listaAcciones) {
+      if (element == true) total += 1;
+    }
+    for (var element in listaJuegos) {
+      if (element == true) total += 1;
+    }
+    for (var element in listaImitaciones) {
+      if (element == true) total += 1;
+    }
+    return total;
+  }
+
+  factory CDI1Parte2.fromJson(String str) => CDI1Parte2.fromMap(json.decode(str));
 
   factory CDI1Parte2.fromMap(Map<String, dynamic> json) {
     final List<RespuestaComprension> listaGestosTemp = [];

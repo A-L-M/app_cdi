@@ -1,5 +1,3 @@
-import 'package:app_cdi/pages/widgets/confirmacion_popup.dart';
-import 'package:app_cdi/services/api_error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -7,9 +5,11 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app_cdi/models/models.dart';
-import 'package:app_cdi/pages/listado_cdi2_page/widgets/header.dart';
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/pages/widgets/confirmacion_popup.dart';
+import 'package:app_cdi/services/api_error_handler.dart';
+import 'package:app_cdi/pages/listado_cdi1_page/widgets/header.dart';
 import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
 import 'package:app_cdi/pages/widgets/side_menu/side_menu.dart';
 import 'package:app_cdi/pages/widgets/top_menu/top_menu.dart';
@@ -76,7 +76,7 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                         child: Column(
                           children: [
                             //HEADER
-                            const CDI2ListadoHeader(),
+                            const CDI1ListadoHeader(),
                             //ESTATUS STEPPER
                             const SizedBox(
                               height: 10,
@@ -186,7 +186,7 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                                     primaryColor: AppTheme.of(context).primaryColor,
                                                     secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
-                                                      final res = await provider.generarReporteExcel(cdi1!);
+                                                      final res = await provider.generarReporteExcel([cdi1!]);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast('Error al generar Excel');
                                                         return;

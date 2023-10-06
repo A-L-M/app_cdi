@@ -1,3 +1,4 @@
+export 'package:app_cdi/models/seccion_palabras_cdi1.dart';
 export 'package:app_cdi/models/cdi1.dart';
 export 'package:app_cdi/models/cdi1_parte1.dart';
 export 'package:app_cdi/models/cdi1_parte2.dart';
