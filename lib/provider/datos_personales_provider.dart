@@ -62,15 +62,16 @@ class DatosPersonalesProvider extends ChangeNotifier {
     apellidoMaternoController.text = bebe!.apellidoMaterno ?? '';
     sexo = bebe!.sexo;
     fechaNacimiento = bebe!.fechaNacimiento;
-    fechaNacimientoController.text =
-        fechaNacimiento.parseToString('yyyy/MM/dd');
+    fechaNacimientoController.text = fechaNacimiento.parseToString('yyyy/MM/dd');
   }
 
   Future<bool> registrarBebe() async {
     try {
-      //TODO: que hacer cuando ya existe el id (actualizar datos o ignorar)
       initBebe();
       if (bebe == null) return false;
+      final res = await supabase.from('bebe').select('bebe_id').eq('bebe_id', bebe!.bebeId);
+      final bool bebeExiste = (res as List).isNotEmpty;
+      if (bebeExiste) return true;
       await supabase.from('bebe').insert(bebe!.toMap());
       return true;
     } catch (e) {
@@ -81,10 +82,7 @@ class DatosPersonalesProvider extends ChangeNotifier {
 
   Future<bool> buscarBebe() async {
     try {
-      final res = await supabase
-          .from('bebe')
-          .select()
-          .eq('bebe_id', buscarController.text);
+      final res = await supabase.from('bebe').select().eq('bebe_id', buscarController.text);
 
       if ((res as List).isEmpty) return false;
 

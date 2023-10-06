@@ -1,4 +1,3 @@
-import 'package:app_cdi/helpers/tablas.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -83,13 +82,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-      Tablas.calcularPercentil(
-        tabla: Tablas.p3lPalabrasCDI2,
-        edad: 18,
-        numPalabras: 0,
-      ),
-    );
     return MaterialApp.router(
       title: 'CDI',
       debugShowCheckedModeBanner: false,

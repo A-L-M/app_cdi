@@ -456,8 +456,6 @@ class __VerboWidgetState extends State<_VerboWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('isChecked = $isChecked');
-    print('valor = ${widget.valor}');
     final size = MediaQuery.of(context).size;
 
     final CDI2Provider provider = Provider.of<CDI2Provider>(

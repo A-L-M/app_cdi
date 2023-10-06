@@ -127,7 +127,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
       {'nombre': 'LOCATIVOS', 'color': '#CCCCCC'},
       {'nombre': 'CONECTIVOS', 'color': '#CCCCCC'},
       {'nombre': 'RESULTADOS POR ID', 'color': '#FF0000'},
-      if (multiple) {'nombre': 'RESULTADOS POR PALABRA', 'color': '#FF0000'},
+      //TODO: agregar
+      // if (multiple) {'nombre': 'RESULTADOS POR PALABRA', 'color': '#FF0000'},
       {'nombre': 'TOTALES', 'color': '#FF0000'},
     ];
 
