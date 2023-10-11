@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:app_cdi/helpers/functions/remove_diacritics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:random_password_generator/random_password_generator.dart';
@@ -21,6 +22,7 @@ class UsuariosProvider extends ChangeNotifier {
 
   List<Rol> roles = [];
   List<Usuario> usuarios = [];
+  List<Usuario> usuariosFiltrados = [];
 
   Rol? rolSeleccionado;
 
@@ -62,36 +64,66 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<void> getUsuarios() async {
     try {
-      final query = supabase.from('users').select();
-
-      final res = await query.like('nombre', '%${busquedaController.text}%').order(orden, ascending: true);
+      final res = await supabase.from('users').select().order(orden, ascending: true);
 
       if (res == null) {
         log('Error en getUsuarios()');
         return;
       }
       usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
+      usuariosFiltrados = [...usuarios];
 
-      rows.clear();
-      for (Usuario usuario in usuarios) {
-        rows.add(
-          PlutoRow(
-            cells: {
-              'id_secuencial': PlutoCell(value: usuario.idSecuencial),
-              'nombre': PlutoCell(value: "${usuario.nombre} ${usuario.apellidos}"),
-              'rol': PlutoCell(value: usuario.rol.nombre),
-              'email': PlutoCell(value: usuario.email),
-              'acciones': PlutoCell(value: usuario.id),
-            },
-          ),
-        );
-      }
-      if (stateManager != null) stateManager!.notifyListeners();
+      llenarPlutoGrid(usuarios);
     } catch (e) {
       log('Error en getUsuarios() - $e');
     }
+  }
 
+  void llenarPlutoGrid(List<Usuario> usuarios) {
+    rows.clear();
+    for (Usuario usuario in usuarios) {
+      rows.add(
+        PlutoRow(
+          cells: {
+            'id_secuencial': PlutoCell(value: usuario.idSecuencial),
+            'nombre': PlutoCell(value: "${usuario.nombre} ${usuario.apellidos}"),
+            'rol': PlutoCell(value: usuario.rol.nombre),
+            'email': PlutoCell(value: usuario.email),
+            'acciones': PlutoCell(value: usuario.id),
+          },
+        ),
+      );
+    }
+    if (stateManager != null) stateManager!.notifyListeners();
     notifyListeners();
+  }
+
+  void filtrarUsuarios() {
+    //Revisar que exista busqueda
+    if (busquedaController.text.isEmpty) {
+      usuariosFiltrados = [...usuarios];
+      llenarPlutoGrid(usuariosFiltrados);
+      return;
+    }
+
+    //Revisar que se este buscando un id
+    final int? id = int.tryParse(busquedaController.text);
+    if (id != null) {
+      usuariosFiltrados =
+          usuarios.where((registro) => registro.idSecuencial.toString().contains(id.toString())).toList();
+      llenarPlutoGrid(usuariosFiltrados);
+      return;
+    }
+
+    //Revisar que se este buscando un nombre
+    final String busqueda = removeDiacritics(busquedaController.text).toLowerCase();
+    usuariosFiltrados = usuarios.where((registro) {
+      final String nombreUsuario = removeDiacritics(registro.nombreCompleto).toLowerCase();
+      if (nombreUsuario.contains(busqueda)) return true;
+      return false;
+    }).toList();
+
+    llenarPlutoGrid(usuariosFiltrados);
   }
 
   Future<Map<String, String>?> registrarUsuario() async {

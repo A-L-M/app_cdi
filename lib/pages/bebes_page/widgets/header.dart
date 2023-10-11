@@ -101,8 +101,8 @@ class _BebesPageHeaderState extends State<BebesPageHeader> {
                               fontWeight: FontWeight.normal,
                               useGoogleFonts: false,
                             ),
-                        onChanged: (value) async {
-                          await provider.getBebes();
+                        onChanged: (value) {
+                          provider.filtrarBebes();
                         },
                       ),
                     ),

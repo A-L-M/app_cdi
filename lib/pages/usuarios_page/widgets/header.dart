@@ -98,8 +98,8 @@ class _UsuariosPageHeaderState extends State<UsuariosPageHeader> {
                               fontWeight: FontWeight.normal,
                               useGoogleFonts: false,
                             ),
-                        onChanged: (value) async {
-                          await provider.getUsuarios();
+                        onChanged: (value) {
+                          provider.filtrarUsuarios();
                         },
                       ),
                     ),

@@ -23,8 +23,7 @@ class Bebe {
   Sexo sexo;
   DateTime fechaNacimiento;
 
-  String get nombreCompleto =>
-      '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
+  String get nombreCompleto => '$nombre $apellidoPaterno ${apellidoMaterno ?? ''}';
 
   factory Bebe.fromJson(String str) => Bebe.fromMap(json.decode(str));
 
@@ -44,10 +43,10 @@ class Bebe {
 
   Map<String, dynamic> toMap() => {
         'bebe_id': bebeId,
-        'cuidador': nombreCuidador,
-        'nombre': nombre,
-        'apellido_paterno': apellidoPaterno,
-        'apellido_materno': apellidoMaterno,
+        'cuidador': nombreCuidador.trim(),
+        'nombre': nombre.trim(),
+        'apellido_paterno': apellidoPaterno.trim(),
+        'apellido_materno': apellidoMaterno?.trim(),
         'sexo': convertToString(sexo),
         'fecha_nacimiento': fechaNacimiento.parseToString('yyyy-MM-dd'),
       };

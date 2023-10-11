@@ -17,8 +17,7 @@ class CDI2ListadoHeader extends StatefulWidget {
 class _CDI2ListadoHeaderState extends State<CDI2ListadoHeader> {
   @override
   Widget build(BuildContext context) {
-    final ListadoCDI2Provider provider =
-        Provider.of<ListadoCDI2Provider>(context);
+    final ListadoCDI2Provider provider = Provider.of<ListadoCDI2Provider>(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
@@ -93,8 +92,8 @@ class _CDI2ListadoHeaderState extends State<CDI2ListadoHeader> {
                               fontWeight: FontWeight.normal,
                               useGoogleFonts: false,
                             ),
-                        onChanged: (value) async {
-                          await provider.getListadoCDI2();
+                        onChanged: (value) {
+                          provider.filtrarCDI2();
                         },
                       ),
                     ),

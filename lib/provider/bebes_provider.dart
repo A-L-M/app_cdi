@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app_cdi/helpers/datetime_extension.dart';
+import 'package:app_cdi/helpers/functions/remove_diacritics.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
@@ -13,6 +14,7 @@ class BebesProvider extends ChangeNotifier {
   List<PlutoRow> rows = [];
 
   List<Bebe> bebes = [];
+  List<Bebe> bebesFiltrados = [];
 
   //EDITAR USUARIOS
   Bebe? bebeEditado;
@@ -37,9 +39,7 @@ class BebesProvider extends ChangeNotifier {
 
   Future<void> getBebes() async {
     try {
-      final query = supabase.from('bebe').select();
-
-      final res = await query.like('nombre', '%${busquedaController.text}%').order(orden, ascending: true);
+      final res = await supabase.from('bebe').select().order(orden, ascending: true);
 
       if (res == null) {
         log('Error en getBebes()');
@@ -48,29 +48,61 @@ class BebesProvider extends ChangeNotifier {
 
       bebes = (res as List<dynamic>).map((usuario) => Bebe.fromJson(jsonEncode(usuario))).toList();
 
-      rows.clear();
-      for (Bebe bebe in bebes) {
-        rows.add(
-          PlutoRow(
-            cells: {
-              'id': PlutoCell(value: bebe.bebeId),
-              'cuidador': PlutoCell(value: bebe.nombreCuidador),
-              'nombre': PlutoCell(value: bebe.nombre),
-              'apellido_paterno': PlutoCell(value: bebe.apellidoPaterno),
-              'apellido_materno': PlutoCell(value: bebe.apellidoMaterno ?? ''),
-              'sexo': PlutoCell(value: Bebe.convertToString(bebe.sexo)),
-              'fecha_nacimiento': PlutoCell(value: bebe.fechaNacimiento.parseToString('yyyy/MM/dd')),
-              'acciones': PlutoCell(value: bebe.bebeId.toString()),
-            },
-          ),
-        );
-      }
-      if (stateManager != null) stateManager!.notifyListeners();
+      bebesFiltrados = [...bebes];
+
+      llenarPlutoGrid(bebes);
     } catch (e) {
       log('Error en getBebes() - $e');
     }
+  }
 
+  void llenarPlutoGrid(List<Bebe> bebes) {
+    rows.clear();
+    for (Bebe bebe in bebes) {
+      rows.add(
+        PlutoRow(
+          cells: {
+            'id': PlutoCell(value: bebe.bebeId),
+            'cuidador': PlutoCell(value: bebe.nombreCuidador),
+            'nombre': PlutoCell(value: bebe.nombre),
+            'apellido_paterno': PlutoCell(value: bebe.apellidoPaterno),
+            'apellido_materno': PlutoCell(value: bebe.apellidoMaterno ?? ''),
+            'sexo': PlutoCell(value: Bebe.convertToString(bebe.sexo)),
+            'fecha_nacimiento': PlutoCell(value: bebe.fechaNacimiento.parseToString('yyyy/MM/dd')),
+            'acciones': PlutoCell(value: bebe.bebeId.toString()),
+          },
+        ),
+      );
+    }
+    if (stateManager != null) stateManager!.notifyListeners();
     notifyListeners();
+  }
+
+  void filtrarBebes() {
+    //Revisar que exista busqueda
+    if (busquedaController.text.isEmpty) {
+      bebesFiltrados = [...bebes];
+      llenarPlutoGrid(bebesFiltrados);
+      return;
+    }
+
+    //Revisar que se este buscando un id
+    final int? id = int.tryParse(busquedaController.text);
+    if (id != null) {
+      bebesFiltrados = bebes.where((bebe) => bebe.bebeId.toString().contains(id.toString())).toList();
+      llenarPlutoGrid(bebesFiltrados);
+      return;
+    }
+
+    //Revisar que se este buscando un nombre
+    final String busqueda = removeDiacritics(busquedaController.text).toLowerCase();
+    bebesFiltrados = bebes.where((bebe) {
+      final String nombreBebe = removeDiacritics(bebe.nombreCompleto).toLowerCase();
+      if (nombreBebe.contains(busqueda)) return true;
+      return false;
+    }).toList();
+
+    llenarPlutoGrid(bebesFiltrados);
   }
 
   Bebe? initBebe() {
@@ -136,12 +168,8 @@ class BebesProvider extends ChangeNotifier {
   Future<bool> borrarBebe(int bebeId) async {
     try {
       final res = await supabase.rpc('borrar_bebe', params: {'id': bebeId});
-      final index = bebes.indexWhere((bebe) => bebe.bebeId == bebeId);
-      if (index == -1) return false;
-      final bebe = bebes[index];
-      rows.removeWhere((element) => element.cells['id']?.value == bebe.bebeId);
-      bebes.removeAt(index);
-      if (stateManager != null) stateManager!.notifyListeners();
+      bebes.removeWhere((bebe) => bebe.bebeId == bebeId);
+      llenarPlutoGrid(bebes);
       return res;
     } catch (e) {
       log('Error en borrarBebe() - $e');

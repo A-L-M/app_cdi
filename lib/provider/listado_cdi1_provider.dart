@@ -6,6 +6,7 @@ import 'package:pluto_grid/pluto_grid.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 import 'package:universal_html/html.dart';
 
+import 'package:app_cdi/helpers/functions/remove_diacritics.dart';
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/helpers/datetime_extension.dart';
@@ -15,6 +16,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
   List<PlutoRow> rows = [];
 
   List<CDI1> listadoCDI1 = [];
+  List<CDI1> listadoCDI1Filtrado = [];
 
   CDI2? cdi1Editado;
 
@@ -28,9 +30,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
 
   Future<void> getListadoCDI1() async {
     try {
-      final query = supabase.from('cdi1_completo').select();
-
-      final res = await query.like('nombre_bebe', '%${busquedaController.text}%').order(orden, ascending: false);
+      final res = await supabase.from('cdi1_completo').select().order(orden, ascending: false);
 
       if (res == null) {
         log('Error en getListadoCDI1()');
@@ -38,28 +38,60 @@ class ListadoCDI1Provider extends ChangeNotifier {
       }
 
       listadoCDI1 = (res as List<dynamic>).map((usuario) => CDI1.fromJson(jsonEncode(usuario))).toList();
+      listadoCDI1Filtrado = [...listadoCDI1];
 
-      rows.clear();
-      for (CDI1 cdi1 in listadoCDI1) {
-        rows.add(
-          PlutoRow(
-            cells: {
-              'cdi1_id': PlutoCell(value: cdi1.cdi1Id),
-              'bebe_id': PlutoCell(value: cdi1.bebeId),
-              'nombre_bebe': PlutoCell(value: cdi1.nombreBebe),
-              'edad': PlutoCell(value: cdi1.edad.toString()),
-              'created_at': PlutoCell(value: cdi1.createdAt.parseToString('yyyy-MM-dd')),
-              'acciones': PlutoCell(value: cdi1.cdi1Id.toString()),
-            },
-          ),
-        );
-      }
-      if (stateManager != null) stateManager!.notifyListeners();
+      llenarPlutoGrid(listadoCDI1);
     } catch (e) {
       log('Error en getListadoCDI1() - $e');
     }
+  }
 
+  void llenarPlutoGrid(List<CDI1> listadoCDI1) {
+    rows.clear();
+    for (CDI1 cdi1 in listadoCDI1) {
+      rows.add(
+        PlutoRow(
+          cells: {
+            'cdi1_id': PlutoCell(value: cdi1.cdi1Id),
+            'bebe_id': PlutoCell(value: cdi1.bebeId),
+            'nombre_bebe': PlutoCell(value: cdi1.nombreBebe),
+            'edad': PlutoCell(value: cdi1.edad.toString()),
+            'created_at': PlutoCell(value: cdi1.createdAt.parseToString('yyyy-MM-dd')),
+            'acciones': PlutoCell(value: cdi1.cdi1Id.toString()),
+          },
+        ),
+      );
+    }
+    if (stateManager != null) stateManager!.notifyListeners();
     notifyListeners();
+  }
+
+  void filtrarCDI1() {
+    //Revisar que exista busqueda
+    if (busquedaController.text.isEmpty) {
+      listadoCDI1Filtrado = [...listadoCDI1];
+      llenarPlutoGrid(listadoCDI1Filtrado);
+      return;
+    }
+
+    //Revisar que se este buscando un id
+    final int? id = int.tryParse(busquedaController.text);
+    if (id != null) {
+      listadoCDI1Filtrado =
+          listadoCDI1.where((registro) => registro.bebeId.toString().contains(id.toString())).toList();
+      llenarPlutoGrid(listadoCDI1Filtrado);
+      return;
+    }
+
+    //Revisar que se este buscando un nombre
+    final String busqueda = removeDiacritics(busquedaController.text).toLowerCase();
+    listadoCDI1Filtrado = listadoCDI1.where((registro) {
+      final String nombreBebe = removeDiacritics(registro.nombreBebe).toLowerCase();
+      if (nombreBebe.contains(busqueda)) return true;
+      return false;
+    }).toList();
+
+    llenarPlutoGrid(listadoCDI1Filtrado);
   }
 
   Future<bool> borrarCDI1(int cdi1id) async {

@@ -92,8 +92,8 @@ class _CDI1ListadoHeaderState extends State<CDI1ListadoHeader> {
                               fontWeight: FontWeight.normal,
                               useGoogleFonts: false,
                             ),
-                        onChanged: (value) async {
-                          await provider.getListadoCDI1();
+                        onChanged: (value) {
+                          provider.filtrarCDI1();
                         },
                       ),
                     ),
