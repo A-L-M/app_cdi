@@ -48,6 +48,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
 
   void llenarPlutoGrid(List<CDI1> listadoCDI1) {
     rows.clear();
+    listadoCDI1Filtrado = [...listadoCDI1];
     for (CDI1 cdi1 in listadoCDI1) {
       rows.add(
         PlutoRow(

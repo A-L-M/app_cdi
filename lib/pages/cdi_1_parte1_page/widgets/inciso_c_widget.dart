@@ -16,7 +16,7 @@ class IncisoCWidget extends StatefulWidget {
 class _IncisoCWidgetState extends State<IncisoCWidget> {
   final List<String> preguntas = [
     '1.- Algunos niños repiten las cosas que escuchan. A veces repiten parte de una frase, por ejemplo, si oyen "el coche de papá" dicen "papá" o "coche". Otras veces pueden repetir una palabra nueva para ellos. ¿Con qué frecuencia cree usted que su hijo(a) imite palabras o partes de frases?',
-    '2.- Algunos niños nombran cosas que ven. Se pasen por la casa y al ver objetos o personas, dicen sus nombres. ¿Con qué frecuencia cree usted que su hijo(a) haga esto?',
+    '2.- Algunos niños nombran cosas que ven. Se pasean por la casa y al ver objetos o personas, dicen sus nombres. ¿Con qué frecuencia cree usted que su hijo(a) haga esto?',
   ];
 
   @override

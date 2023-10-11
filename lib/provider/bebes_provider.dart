@@ -58,6 +58,7 @@ class BebesProvider extends ChangeNotifier {
 
   void llenarPlutoGrid(List<Bebe> bebes) {
     rows.clear();
+    bebesFiltrados = [...bebes];
     for (Bebe bebe in bebes) {
       rows.add(
         PlutoRow(
@@ -125,22 +126,7 @@ class BebesProvider extends ChangeNotifier {
       if (bebe == null) return false;
       await supabase.from('bebe').insert(bebe.toMap());
       bebes.add(bebe);
-      rows.add(
-        PlutoRow(
-          cells: {
-            'id': PlutoCell(value: bebe.bebeId),
-            'cuidador': PlutoCell(value: bebe.nombreCuidador),
-            'nombre': PlutoCell(value: bebe.nombre),
-            'apellido_paterno': PlutoCell(value: bebe.apellidoPaterno),
-            'apellido_materno': PlutoCell(value: bebe.apellidoMaterno ?? ''),
-            'sexo': PlutoCell(value: Bebe.convertToString(bebe.sexo)),
-            'fecha_nacimiento': PlutoCell(value: bebe.fechaNacimiento.parseToString('yyyy/MM/dd')),
-            'acciones': PlutoCell(value: bebe.bebeId.toString()),
-          },
-        ),
-      );
-      if (stateManager != null) stateManager!.notifyListeners();
-      notifyListeners();
+      llenarPlutoGrid(bebes);
       return true;
     } catch (e) {
       log('Error en registrarBebe() - $e');

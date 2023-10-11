@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:app_cdi/helpers/functions/remove_diacritics.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:random_password_generator/random_password_generator.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 import 'package:app_cdi/helpers/constants.dart';
@@ -81,6 +80,7 @@ class UsuariosProvider extends ChangeNotifier {
 
   void llenarPlutoGrid(List<Usuario> usuarios) {
     rows.clear();
+    usuariosFiltrados = [...usuarios];
     for (Usuario usuario in usuarios) {
       rows.add(
         PlutoRow(
@@ -128,17 +128,13 @@ class UsuariosProvider extends ChangeNotifier {
 
   Future<Map<String, String>?> registrarUsuario() async {
     try {
-      //Generar contrasena aleatoria
-      final password = generatePassword();
-
-      //Registrar al usuario con una contraseña temporal
       var response = await http.post(
         Uri.parse('$supabaseUrl/auth/v1/signup'),
         headers: {'Content-Type': 'application/json', 'apiKey': anonKey},
         body: json.encode(
           {
             "email": correoController.text,
-            "password": password,
+            "password": 'default',
           },
         ),
       );
@@ -205,29 +201,13 @@ class UsuariosProvider extends ChangeNotifier {
       final res = await supabase.rpc('borrar_usuario', params: {
         'user_id': userId,
       });
-      final index = usuarios.indexWhere((user) => user.id == userId);
-      if (index == -1) return false;
-      final usuario = usuarios[index];
-      rows.removeWhere((element) => element.cells['id_secuencial']?.value == usuario.idSecuencial);
-      usuarios.removeAt(index);
-      if (stateManager != null) stateManager!.notifyListeners();
+      usuarios.removeWhere((user) => user.id == userId);
+      llenarPlutoGrid(usuarios);
       return res;
     } catch (e) {
       log('Error en borrarUsuario() - $e');
       return false;
     }
-  }
-
-  String generatePassword() {
-    //Generar contrasena aleatoria
-    final passwordGenerator = RandomPasswordGenerator();
-    return passwordGenerator.randomPassword(
-      letters: true,
-      uppercase: true,
-      numbers: true,
-      specialChar: true,
-      passwordLength: 8,
-    );
   }
 
   @override
