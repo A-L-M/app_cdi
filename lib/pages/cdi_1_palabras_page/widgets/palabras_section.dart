@@ -9,9 +9,13 @@ class PalabrasSection extends StatefulWidget {
   const PalabrasSection({
     Key? key,
     required this.palabras,
+    this.instrucciones,
+    this.aclaracion,
   }) : super(key: key);
 
   final List<PalabraCDI1> palabras;
+  final String? instrucciones;
+  final String? aclaracion;
 
   @override
   State<PalabrasSection> createState() => _PalabrasSectionState();
@@ -54,8 +58,7 @@ class _PalabrasSectionState extends State<PalabrasSection> {
     }
 
     //Cada columna se genera con una sublista
-    final List<Column> columnas =
-        List.generate(palabrasSubLists.length, (index) {
+    final List<Column> columnas = List.generate(palabrasSubLists.length, (index) {
       final List<PalabraCDI1> sublist = palabrasSubLists[index];
 
       final List<Widget> listaDePalabras = List.generate(
@@ -161,10 +164,52 @@ class _PalabrasSectionState extends State<PalabrasSection> {
       );
     });
 
-    return Row(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [...columnas],
+      children: [
+        if (widget.instrucciones != null)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.instrucciones!,
+              style: GoogleFonts.robotoSlab(
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: const Color(0xFF2B2B2B),
+              ),
+            ),
+          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [...columnas],
+        ),
+        if (widget.aclaracion != null)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RichText(
+              text: TextSpan(
+                text: '* ',
+                style: GoogleFonts.robotoSlab(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.red,
+                ),
+                children: [
+                  TextSpan(
+                    text: widget.aclaracion!,
+                    style: GoogleFonts.robotoSlab(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: const Color(0xFF2B2B2B),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

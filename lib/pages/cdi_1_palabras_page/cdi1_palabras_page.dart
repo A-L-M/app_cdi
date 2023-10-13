@@ -53,6 +53,18 @@ class _CDI2PageDesktopState extends State<CDI1PalabrasPageDesktop> {
   int index = 1;
   ScrollController scrollController = ScrollController();
 
+  Map<int, String> instrucciones = {
+    11: 'Los niños les dicen de manera diferente a sus parientes. A veces le dicen "tía" o "abuela" o en otros casos le dicen por su nombre o por su nombre de cariño, por ejemplo, "Chacha". Si su hijo(a) hace cualquiera de las dos cosas, dice "tía" o "Chacha", rellene el círculo de la palabra indicada en la columna correspondiente.',
+    13: 'Cuando los niños hablan, por lo general, usan verbos en distintas formas. Por ejemplo, pueden decir "abrir", "abrí", "abre", "está abierto" o "se abrió". Si su hijo(a) comprende o usa algunos de los verbos de la lista en cualquier forma o conjugación, por favor, rellene el círculo de la palabra indicada en la columna correspondiente.',
+    16: 'Muchas de estas palabras pueden aparecer en masculino, por ejemplo, "bueno", o en femenino "buena". Si su hijo(a) comprende o comprende y dice la palabra en cualquiera de las dos formas, por favor, rellene el círculo de la palabra en la columna correspondiente.',
+    17: 'Su hijo(a) puede comprender o decir y comprender estas palabras solas, por ejemplo, "ésta" o junto con otra palabra, como "dámelo". Rellene el círculo de la columna correspondiente si su hijo(a) comprende o comprende y dice algunas de las palabras de la lista. Recuerde que no importa si lo dice en forma separada o como parte de otra palabra.',
+  };
+
+  Map<int, String> aclaraciones = {
+    6: 'o la palabra que use su familia para esto',
+    11: 'o el nombre de esta persona',
+  };
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -83,6 +95,8 @@ class _CDI2PageDesktopState extends State<CDI1PalabrasPageDesktop> {
           textAlign: Alignment.centerLeft,
           child: PalabrasSection(
             palabras: seccion.palabras,
+            instrucciones: instrucciones[seccion.seccionId],
+            aclaracion: aclaraciones[seccion.seccionId],
           ),
         ),
       );

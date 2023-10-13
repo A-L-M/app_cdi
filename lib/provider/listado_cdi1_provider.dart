@@ -280,14 +280,14 @@ class ListadoCDI1Provider extends ChangeNotifier {
     gestosTardiosRange.cellStyle.wrapText = false;
   }
 
-  void guardarArchivoExcel(Workbook excel) {
+  void guardarArchivoExcel(Workbook excel, String nombreArchivo) {
     final List<int> bytes = excel.saveSync();
 
     excel.dispose();
 
     //Download the output file in web.
     AnchorElement(href: "data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}")
-      ..setAttribute("download", "resultados.xlsx")
+      ..setAttribute("download", "$nombreArchivo.xlsx")
       ..click();
   }
 
@@ -427,7 +427,13 @@ class ListadoCDI1Provider extends ChangeNotifier {
 
     llenarTotales(excel, listaCDI1);
 
-    guardarArchivoExcel(excel);
+    String nombreArchivo = 'resultados';
+
+    if (!multiple) {
+      nombreArchivo = listaCDI1.first.bebeId.toString();
+    }
+
+    guardarArchivoExcel(excel, nombreArchivo);
 
     excel.dispose();
 

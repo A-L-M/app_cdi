@@ -4,6 +4,9 @@ class Tablas {
     required int edad,
     required int numPalabras,
   }) {
+    //Si el numero de palabras es 0, regresar 0
+    if (numPalabras == 0) return 0;
+
     //Encontrar columna mas cercana a edad
     final columna = tabla.getColumnaPorEdad(edad);
 
