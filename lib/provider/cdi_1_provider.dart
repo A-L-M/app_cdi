@@ -63,6 +63,19 @@ class CDI1Provider extends ChangeNotifier {
     }
   }
 
+  void borrarPalabra(PalabraCDI1 palabra) async {
+    palabra.opcion = Opcion.ninguna;
+    notifyListeners();
+    try {
+      await supabase.rpc('borrar_palabra_cdi1', params: {
+        'cdi1_id': cdi1Id,
+        'palabra_id': palabra.palabraId,
+      });
+    } catch (e) {
+      log('Error en borrarPalabra() - $e');
+    }
+  }
+
   Future<void> setComprensionIncisoA(
     bool valor,
     int indexPregunta,

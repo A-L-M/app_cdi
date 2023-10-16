@@ -50,8 +50,7 @@ class _PalabrasSectionState extends State<PalabrasSection> {
     }
 
     //Cada columna se genera con una sublista
-    final List<Column> columnas =
-        List.generate(palabrasSubLists.length, (index) {
+    final List<Column> columnas = List.generate(palabrasSubLists.length, (index) {
       final List<PalabraCDI2> sublist = palabrasSubLists[index];
 
       final List<Widget> listaDePalabras = List.generate(
@@ -75,8 +74,7 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                 palabra.nombre,
                 style: GoogleFonts.robotoSlab(
                   fontSize: 14,
-                  decoration:
-                      palabra.subrayada ? TextDecoration.underline : null,
+                  decoration: palabra.subrayada ? TextDecoration.underline : null,
                   fontWeight: FontWeight.normal,
                   color: const Color(0xFF2B2B2B),
                 ),
@@ -88,8 +86,12 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                     value: Opcion.comprende,
                     groupValue: palabra.opcion,
                     activeColor: AppTheme.of(context).secondaryColor,
+                    toggleable: true,
                     onChanged: (opcion) {
-                      if (opcion == null) return;
+                      if (opcion == null) {
+                        provider.borrarPalabra(palabra);
+                        return;
+                      }
                       provider.setOpcionPalabra(opcion, palabra);
                     },
                   ),
@@ -97,8 +99,12 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                     value: Opcion.comprendeYDice,
                     groupValue: palabra.opcion,
                     activeColor: AppTheme.of(context).secondaryColor,
+                    toggleable: true,
                     onChanged: (opcion) {
-                      if (opcion == null) return;
+                      if (opcion == null) {
+                        provider.borrarPalabra(palabra);
+                        return;
+                      }
                       provider.setOpcionPalabra(opcion, palabra);
                     },
                   ),

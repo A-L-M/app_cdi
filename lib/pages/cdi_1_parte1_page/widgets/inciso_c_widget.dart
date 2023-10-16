@@ -24,7 +24,7 @@ class _IncisoCWidgetState extends State<IncisoCWidget> {
     final CDI1Provider provider = Provider.of<CDI1Provider>(context);
     final size = MediaQuery.of(context).size;
 
-    final cellHeight = size.width > 1145 ? 75.0 : 125.0;
+    final cellHeight = size.width > 1145 ? 100.0 : 125.0;
     final titleHeight = size.width > 857 ? 38.0 : 60.0;
 
     final Column columnaPreguntas = Column(

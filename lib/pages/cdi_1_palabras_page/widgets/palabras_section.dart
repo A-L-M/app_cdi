@@ -92,8 +92,12 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                     value: Opcion.comprende,
                     groupValue: palabra.opcion,
                     activeColor: AppTheme.of(context).secondaryColor,
+                    toggleable: true,
                     onChanged: (opcion) {
-                      if (opcion == null) return;
+                      if (opcion == null) {
+                        provider.borrarPalabra(palabra);
+                        return;
+                      }
                       provider.setOpcionPalabra(opcion, palabra);
                     },
                   ),
@@ -101,8 +105,12 @@ class _PalabrasSectionState extends State<PalabrasSection> {
                     value: Opcion.comprendeYDice,
                     groupValue: palabra.opcion,
                     activeColor: AppTheme.of(context).secondaryColor,
+                    toggleable: true,
                     onChanged: (opcion) {
-                      if (opcion == null) return;
+                      if (opcion == null) {
+                        provider.borrarPalabra(palabra);
+                        return;
+                      }
                       provider.setOpcionPalabra(opcion, palabra);
                     },
                   ),

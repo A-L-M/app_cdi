@@ -56,9 +56,8 @@ class CDI2Provider extends ChangeNotifier {
     try {
       final res = await supabase.from('secciones_palabras_cdi2').select();
 
-      seccionesPalabras = (res as List<dynamic>)
-          .map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra)))
-          .toList();
+      seccionesPalabras =
+          (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra))).toList();
 
       notifyListeners();
     } catch (e) {
@@ -80,6 +79,19 @@ class CDI2Provider extends ChangeNotifier {
     }
   }
 
+  void borrarPalabra(PalabraCDI2 palabra) async {
+    palabra.opcion = Opcion.ninguna;
+    notifyListeners();
+    try {
+      await supabase.rpc('borrar_palabra_cdi2', params: {
+        'cdi2_id': cdi2Id,
+        'palabra_id': palabra.palabraId,
+      });
+    } catch (e) {
+      log('Error en borrarPalabra() - $e');
+    }
+  }
+
   Future<void> setOpcionComprension(
     RespuestaComprension valor,
     int indexPregunta,
@@ -95,9 +107,7 @@ class CDI2Provider extends ChangeNotifier {
 
   Future<void> setVerbo(String dbName, bool value) async {
     try {
-      await supabase
-          .from('cdi2_parte2')
-          .update({dbName: value}).eq('cdi2_id', cdi2Id);
+      await supabase.from('cdi2_parte2').update({dbName: value}).eq('cdi2_id', cdi2Id);
     } catch (e) {
       log('Error en setVerbo() - $e');
     }
