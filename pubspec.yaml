@@ -80,9 +80,18 @@ flutter:
     - family: DroidSerif
       fonts:
         - asset: assets/fonts/DroidSerif-Bold.ttf
+          weight: 700
         - asset: assets/fonts/DroidSerif-Regular.ttf
         - asset: assets/fonts/DroidSerif-BoldItalic.ttf
         - asset: assets/fonts/DroidSerif-Italic.ttf
+          style: italic
+    - family: Cambria
+      fonts:
+        - asset: assets/fonts/Cambria-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Cambria-Regular.ttf
+        - asset: assets/fonts/Cambria-BoldItalic.ttf
+        - asset: assets/fonts/Cambria-Italic.ttf
           style: italic
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

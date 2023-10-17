@@ -9,6 +9,7 @@ class CDI1 {
     required this.cdi1Id,
     required this.bebeId,
     required this.nombreBebe,
+    required this.cuidador,
     required this.fechaNacimiento,
     required this.createdAt,
     required this.palabras,
@@ -19,6 +20,7 @@ class CDI1 {
   int cdi1Id;
   int bebeId;
   String nombreBebe;
+  String cuidador;
   DateTime fechaNacimiento;
   DateTime createdAt;
   List<PalabraCDI1Valor> palabras;
@@ -87,6 +89,7 @@ class CDI1 {
       cdi1Id: json['cdi1_id'],
       bebeId: json['bebe_id'],
       nombreBebe: json['nombre_bebe'],
+      cuidador: json['cuidador'],
       fechaNacimiento: DateTime.parse(json['fecha_nacimiento']),
       createdAt: DateTime.parse(json['created_at']),
       palabras: json['palabras'] != null

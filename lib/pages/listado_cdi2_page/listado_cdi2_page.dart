@@ -149,7 +149,7 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                         PlutoColumn(
                                             title: 'Acciones',
                                             field: 'acciones',
-                                            width: 300,
+                                            width: 325,
                                             titleTextAlign: PlutoColumnTextAlign.center,
                                             textAlign: PlutoColumnTextAlign.center,
                                             type: PlutoColumnType.text(),
@@ -212,6 +212,20 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                       final res = await provider.generarReporteExcel([cdi2!]);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast('Error al generar Excel');
+                                                        return;
+                                                      }
+                                                    },
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.document_scanner,
+                                                    tooltip: 'Generar PDF',
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
+                                                    onTap: () async {
+                                                      final res = await provider.crearPdf(cdi2!);
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast('Error al generar PDF');
                                                         return;
                                                       }
                                                     },
