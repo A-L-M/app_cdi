@@ -468,6 +468,18 @@ class ListadoCDI2Provider extends ChangeNotifier {
     return true;
   }
 
+  pw.Widget createTableCell(String text, {bool bold = true}) {
+    return pw.Container(
+      padding: const pw.EdgeInsets.all(8),
+      alignment: pw.Alignment.center,
+      child: pw.Text(
+        text,
+        textAlign: pw.TextAlign.center,
+        style: pw.TextStyle(fontSize: 11, fontWeight: bold ? pw.FontWeight.bold : null),
+      ),
+    );
+  }
+
   Future<bool> crearPdf(CDI2 cdi2) async {
     try {
       final pdf = pw.Document();
@@ -479,11 +491,15 @@ class ListadoCDI2Provider extends ChangeNotifier {
 
       // pw.TextStyle regular = pw.TextStyle(fontSize: 12);
 
+      final produccion = cdi2.calcularProduccion();
+      final p3l = cdi2.calcularP3L();
+      final complejidad = cdi2.calcularComplejidad();
+
       pdf.addPage(
         pw.Page(
           pageFormat: PdfPageFormat.letter,
           theme: theme,
-          margin: const pw.EdgeInsets.symmetric(vertical: 40, horizontal: 70),
+          margin: const pw.EdgeInsets.symmetric(vertical: 40, horizontal: 66),
           build: (pw.Context context) {
             return pw.Column(
               children: [
@@ -533,7 +549,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
                 pw.Align(
                   alignment: pw.Alignment.centerLeft,
                   child: pw.Text(
-                    "Estimada/o: ${cdi2.cuidador}",
+                    "Estimada/o ${cdi2.cuidador}:",
                     style: const pw.TextStyle(fontSize: 10.5),
                   ),
                 ),
@@ -548,7 +564,40 @@ class ListadoCDI2Provider extends ChangeNotifier {
                       '        Los puntajes obtenidos por ${cdi2.nombreBebe} cuando tenía ${cdi2.edad} meses han sido comparados con los puntajes de una muestra de niños de su misma edad con el fin de identificar cómo es su desarrollo de lenguaje en relación al resto de los niños. Un puntaje percentil alrededor de 50 posiciona al infante a la mitad del grupo, mostrando niveles de desarrollo típico. Los puntajes y percentiles obtenidos en el inventario se detallan a continuación:',
                   style: const pw.TextStyle(fontSize: 11, lineSpacing: 1),
                 ),
-                pw.Table(),
+                pw.Table(
+                  defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
+                  tableWidth: pw.TableWidth.min,
+                  border: pw.TableBorder.all(color: PdfColors.grey, width: 0.5),
+                  defaultColumnWidth: const pw.FixedColumnWidth(90),
+                  children: [
+                    pw.TableRow(
+                      verticalAlignment: pw.TableCellVerticalAlignment.middle,
+                      children: [
+                        createTableCell('Sección del inventario'),
+                        createTableCell('Producción de palabras'),
+                        createTableCell('Combinación de palabras P3L-Palabras'),
+                        createTableCell('Complejidad de frases'),
+                      ],
+                    ),
+                    pw.TableRow(
+                      children: [
+                        createTableCell('Puntuación'),
+                        createTableCell(produccion.natural.toString(), bold: false),
+                        createTableCell(p3l.natural.toString(), bold: false),
+                        createTableCell(complejidad.natural.toString(), bold: false),
+                      ],
+                    ),
+                    pw.TableRow(
+                      children: [
+                        createTableCell('Percentil'),
+                        createTableCell(produccion.percentil.toString(), bold: false),
+                        createTableCell(p3l.percentil.toString(), bold: false),
+                        createTableCell(complejidad.percentil.toString(), bold: false),
+                      ],
+                    ),
+                  ],
+                ),
+                pw.SizedBox(height: 12),
                 pw.Paragraph(
                   text:
                       '        La primera sección del inventario proporciona puntuaciones de la producción de palabras de un listado de vocabulario de diferentes categorías semánticas. La siguiente sección proporciona una puntuación basada en las emisiones tempranas del infante al producir combinaciones de palabras, y la última sección está dedicada a puntuar el rango evolutivo de las frases o enunciados que reflejan la mejor manera en la que habla el infante. Estas secciones ofrecen la oportunidad de estimar un rango de habilidades tempranas de comunicación y representación que dependen de la expresión verbal.',
@@ -569,8 +618,14 @@ class ListadoCDI2Provider extends ChangeNotifier {
                       '        Para mayor información puede contactar al laboratorio en un horario de lunes a viernes de 10am a 6 pm, a través de vía telefónica, por correo o haciendo una visita directa.',
                   style: const pw.TextStyle(fontSize: 11, lineSpacing: 1),
                 ),
-                pw.Text('ATTE: ${currentUser!.nombreCompleto}'),
-                pw.Text('Colaborador/a del Laboratorio de Infantes'),
+                pw.Align(
+                  alignment: pw.Alignment.centerRight,
+                  child: pw.Text('ATTE: ${currentUser!.nombreCompleto}'),
+                ),
+                pw.Align(
+                  alignment: pw.Alignment.centerRight,
+                  child: pw.Text('Colaborador/a del Laboratorio de Infantes'),
+                ),
               ],
             ); // Center
           },
