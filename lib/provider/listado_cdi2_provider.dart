@@ -489,7 +489,10 @@ class ListadoCDI2Provider extends ChangeNotifier {
         bold: pw.Font.ttf(await rootBundle.load("assets/fonts/Cambria-Bold.ttf")),
       );
 
-      // pw.TextStyle regular = pw.TextStyle(fontSize: 12);
+      //Imagen
+      final byteData = await rootBundle.load('assets/images/logo_pdf.png');
+      final imageBytes = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+      final image = pw.MemoryImage(imageBytes);
 
       final produccion = cdi2.calcularProduccion();
       final p3l = cdi2.calcularP3L();
@@ -506,7 +509,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
                 pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text("Imagen"),
+                    pw.Image(image, width: 190, height: 130),
                     pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.end,
                       children: [
