@@ -1,3 +1,4 @@
+import 'package:app_cdi/helpers/functions/generar_pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -189,6 +190,20 @@ class _ListadoCDI1PageState extends State<ListadoCDI1Page> {
                                                       final res = await provider.generarReporteExcel([cdi1!]);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast('Error al generar Excel');
+                                                        return;
+                                                      }
+                                                    },
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  AnimatedHoverButton(
+                                                    icon: Icons.document_scanner,
+                                                    tooltip: 'Generar PDF',
+                                                    primaryColor: AppTheme.of(context).primaryColor,
+                                                    secondaryColor: AppTheme.of(context).primaryBackground,
+                                                    onTap: () async {
+                                                      final res = await crearPdfCDI1(cdi1!);
+                                                      if (!res) {
+                                                        ApiErrorHandler.callToast('Error al generar PDF');
                                                         return;
                                                       }
                                                     },

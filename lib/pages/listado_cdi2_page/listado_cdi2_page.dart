@@ -15,6 +15,7 @@ import 'package:app_cdi/pages/widgets/animated_hover_button.dart';
 import 'package:app_cdi/pages/widgets/side_menu/side_menu.dart';
 import 'package:app_cdi/pages/widgets/top_menu/top_menu.dart';
 import 'package:app_cdi/theme/theme.dart';
+import 'package:app_cdi/helpers/functions/generar_pdf.dart';
 
 class ListadoCDI2Page extends StatefulWidget {
   const ListadoCDI2Page({Key? key}) : super(key: key);
@@ -223,7 +224,7 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                     primaryColor: AppTheme.of(context).primaryColor,
                                                     secondaryColor: AppTheme.of(context).primaryBackground,
                                                     onTap: () async {
-                                                      final res = await provider.crearPdf(cdi2!);
+                                                      final res = await crearPdfCDI2(cdi2!);
                                                       if (!res) {
                                                         ApiErrorHandler.callToast('Error al generar PDF');
                                                         return;
