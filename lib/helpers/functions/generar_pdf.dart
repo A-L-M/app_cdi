@@ -70,7 +70,7 @@ Future<bool> crearPdfCDI1(CDI1 cdi1) async {
                         style: const pw.TextStyle(fontSize: 10),
                       ),
                       pw.Text(
-                        "Teléfono: 56-22-22-87 Correo: laboratorio_de_infantes@unam.mx",
+                        "Teléfono: (55) 56-22-22-87 Correo: laboratorio_de_infantes@unam.mx",
                         style: const pw.TextStyle(fontSize: 10),
                       ),
                       pw.SizedBox(height: 10.5),
@@ -246,7 +246,7 @@ Future<bool> crearPdfCDI2(CDI2 cdi2) async {
                         style: const pw.TextStyle(fontSize: 10),
                       ),
                       pw.Text(
-                        "Teléfono: 56-22-22-87 Correo: laboratorio_de_infantes@unam.mx",
+                        "Teléfono: (55) 56-22-22-87 Correo: laboratorio_de_infantes@unam.mx",
                         style: const pw.TextStyle(fontSize: 10),
                       ),
                       pw.SizedBox(height: 10.5),
