@@ -27,7 +27,13 @@ class CDI1 {
   CDI1Parte1 parte1;
   CDI1Parte2 parte2;
 
-  int get edad => createdAt.difference(fechaNacimiento).inDays ~/ 30;
+  int get edad {
+    final yearsDifference = createdAt.year - fechaNacimiento.year;
+    int months = (yearsDifference * 12) - fechaNacimiento.month + createdAt.month;
+    if (createdAt.day < fechaNacimiento.day) months -= 1;
+    return months;
+    // return createdAt.difference(fechaNacimiento).inDays ~/ 30;
+  }
 
   ({int natural, int percentil}) calcularPrimerasFrases() {
     int puntajeNatural = 0;

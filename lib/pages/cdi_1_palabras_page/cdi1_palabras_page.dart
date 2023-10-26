@@ -10,12 +10,7 @@ import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/provider/cdi_1_provider.dart';
 
 class CDI1PalabrasPage extends StatefulWidget {
-  const CDI1PalabrasPage({
-    Key? key,
-    required this.cdi1Id,
-  }) : super(key: key);
-
-  final int cdi1Id;
+  const CDI1PalabrasPage({Key? key}) : super(key: key);
 
   @override
   State<CDI1PalabrasPage> createState() => _CDI1PalabrasPageState();
@@ -148,7 +143,7 @@ class _CDI2PageDesktopState extends State<CDI1PalabrasPageDesktop> {
                           label: 'Retroceder',
                           onTap: () {
                             if (index == 1) {
-                              context.pop();
+                              if (context.canPop()) context.pop();
                               return;
                             }
                             index -= 1;
@@ -168,10 +163,7 @@ class _CDI2PageDesktopState extends State<CDI1PalabrasPageDesktop> {
                               return;
                             }
                             index = 1;
-                            context.push(
-                              '/cdi-1/parte-2',
-                              extra: provider.cdi1Id,
-                            );
+                            context.push('/cdi-1/${provider.cdi1Id}/parte-2');
                           },
                         ),
                       ],

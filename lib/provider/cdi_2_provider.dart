@@ -22,17 +22,27 @@ class CDI2Provider extends ChangeNotifier {
     ejemplo3Controller.text = parte2.ejemplo3 ?? '';
   }
 
-  Future<void> initState(int cdi2Id, {bool clear = true}) async {
+  Future<bool> initState(int cdi2Id) async {
     this.cdi2Id = cdi2Id;
-    if (clear) {
-      seccionesPalabras = [];
-      comprension = CDI2Comprension.fromMap({});
-      parte2 = CDI2Parte2.fromMap({});
-      ejemplo1Controller.clear();
-      ejemplo2Controller.clear();
-      ejemplo3Controller.clear();
-    }
+    seccionesPalabras = [];
+    comprension = CDI2Comprension.fromMap({});
+    parte2 = CDI2Parte2.fromMap({});
+    ejemplo1Controller.clear();
+    ejemplo2Controller.clear();
+    ejemplo3Controller.clear();
+
     await getSeccionesPalabras();
+
+    try {
+      final res = await supabase.from('cdi2_completo').select().eq('cdi2_id', cdi2Id);
+      if ((res as List).isEmpty) return false;
+      final cdi2 = CDI2.fromMap(res.first);
+      initEditarCDI2(cdi2);
+    } catch (e) {
+      log('Error en initState() - $e');
+      return false;
+    }
+    return true;
   }
 
   void initEditarCDI2(CDI2 cdi2) {
@@ -48,6 +58,8 @@ class CDI2Provider extends ChangeNotifier {
     ejemplo1Controller.text = cdi2.parte2.ejemplo1 ?? '';
     ejemplo2Controller.text = cdi2.parte2.ejemplo2 ?? '';
     ejemplo3Controller.text = cdi2.parte2.ejemplo3 ?? '';
+
+    notifyListeners();
   }
 
   Future<void> getSeccionesPalabras() async {

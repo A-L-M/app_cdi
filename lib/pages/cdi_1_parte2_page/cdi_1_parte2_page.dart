@@ -1,22 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/pages/cdi_1_parte2_page/widgets/inciso_a_widget.dart';
 import 'package:app_cdi/pages/cdi_1_parte2_page/widgets/inciso_b_widget.dart';
 import 'package:app_cdi/pages/cdi_1_parte2_page/widgets/inciso_c_widget.dart';
 import 'package:app_cdi/pages/cdi_1_parte2_page/widgets/inciso_d_widget.dart';
 import 'package:app_cdi/pages/cdi_1_parte2_page/widgets/inciso_e_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
 import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 
 class CDI1Parte2Page extends StatefulWidget {
-  const CDI1Parte2Page({
-    Key? key,
-    required this.cdi1Id,
-  }) : super(key: key);
-
-  final int cdi1Id;
+  const CDI1Parte2Page({Key? key}) : super(key: key);
 
   @override
   State<CDI1Parte2Page> createState() => _CDI1Parte2PageState();
@@ -76,7 +71,7 @@ class _CDI1Parte2PageState extends State<CDI1Parte2Page> {
                               key: UniqueKey(),
                               label: 'Retroceder',
                               onTap: () {
-                                context.pop();
+                                if (context.canPop()) context.pop();
                               },
                             ),
                             const SizedBox(width: 10),

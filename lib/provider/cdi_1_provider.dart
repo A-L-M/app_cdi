@@ -12,14 +12,24 @@ class CDI1Provider extends ChangeNotifier {
   CDI1Parte1 parte1 = CDI1Parte1.fromMap({});
   CDI1Parte2 parte2 = CDI1Parte2.fromMap({});
 
-  Future<void> initState(int cdi1Id, {bool clear = true}) async {
+  Future<bool> initState(int cdi1Id) async {
     this.cdi1Id = cdi1Id;
-    if (clear) {
-      seccionesPalabras = [];
-      parte1 = CDI1Parte1.fromMap({});
-      parte2 = CDI1Parte2.fromMap({});
-    }
+    seccionesPalabras.clear();
+    parte1 = CDI1Parte1.fromMap({});
+    parte2 = CDI1Parte2.fromMap({});
+
     await getSeccionesPalabras();
+
+    try {
+      final res = await supabase.from('cdi1_completo').select().eq('cdi1_id', cdi1Id);
+      if ((res as List).isEmpty) return false;
+      final cdi1 = CDI1.fromMap(res.first);
+      initEditarCDI1(cdi1);
+    } catch (e) {
+      log('Error en initState() - $e');
+      return false;
+    }
+    return true;
   }
 
   void initEditarCDI1(CDI1 cdi1) {
@@ -32,6 +42,8 @@ class CDI1Provider extends ChangeNotifier {
     }
     parte1 = cdi1.parte1;
     parte2 = cdi1.parte2;
+
+    notifyListeners();
   }
 
   Future<void> getSeccionesPalabras() async {

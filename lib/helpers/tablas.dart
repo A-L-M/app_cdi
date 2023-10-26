@@ -240,11 +240,23 @@ class Columna {
     double suma = inferior.toDouble();
     int interpolacion = 0;
 
+    //El percentil es el que mas se acerca al puntaje natural (arriba o abajo)
+    //Si son iguales asignar el mayor
+
     for (var i = 0; i < 5; i++) {
       interpolacion += 1;
       suma += palabrasPorPercentil;
       if (suma >= numPalabras) break;
     }
+
+    if (interpolacion != 1) {
+      //suma = acercamiento superior
+      final acercamientoInferior = suma - palabrasPorPercentil;
+      if (numPalabras - acercamientoInferior < suma - numPalabras) {
+        interpolacion -= 1;
+      }
+    }
+
     return (index: index, interpolacion: interpolacion);
   }
 }

@@ -1,24 +1,21 @@
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
 import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_a_widget.dart';
 import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_b_widget.dart';
 import 'package:app_cdi/pages/cdi_1_parte1_page/widgets/inciso_c_widget.dart';
 import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
-
-import 'package:app_cdi/models/models.dart';
 import 'package:app_cdi/provider/cdi_1_provider.dart';
 
 class CDI1Parte1Page extends StatefulWidget {
   const CDI1Parte1Page({
     Key? key,
     required this.cdi1Id,
-    this.cdi1Editado,
   }) : super(key: key);
 
   final int cdi1Id;
-  final CDI1? cdi1Editado;
 
   @override
   State<CDI1Parte1Page> createState() => _CDI1Parte1PageState();
@@ -36,9 +33,12 @@ class _CDI1Parte1PageState extends State<CDI1Parte1Page> {
         context,
         listen: false,
       );
-      await provider.initState(widget.cdi1Id);
-      if (widget.cdi1Editado != null) {
-        provider.initEditarCDI1(widget.cdi1Editado!);
+
+      final success = await provider.initState(widget.cdi1Id);
+      if (!mounted) return;
+      if (!success) {
+        context.pushReplacement('/no-encontrado');
+        return;
       }
     });
   }
@@ -53,7 +53,9 @@ class _CDI1Parte1PageState extends State<CDI1Parte1Page> {
         },
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return const CDI1Parte1PageDesktop();
+            return CDI1Parte1PageDesktop(
+              cdi1Id: widget.cdi1Id,
+            );
           },
         ),
       ),
@@ -62,7 +64,12 @@ class _CDI1Parte1PageState extends State<CDI1Parte1Page> {
 }
 
 class CDI1Parte1PageDesktop extends StatefulWidget {
-  const CDI1Parte1PageDesktop({Key? key}) : super(key: key);
+  const CDI1Parte1PageDesktop({
+    Key? key,
+    required this.cdi1Id,
+  }) : super(key: key);
+
+  final int cdi1Id;
 
   @override
   State<CDI1Parte1PageDesktop> createState() => _CDI2PageDesktopState();
@@ -74,7 +81,6 @@ class _CDI2PageDesktopState extends State<CDI1Parte1PageDesktop> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final CDI1Provider provider = Provider.of<CDI1Provider>(context);
 
     double formSize = 1145;
 
@@ -117,10 +123,7 @@ class _CDI2PageDesktopState extends State<CDI1Parte1PageDesktop> {
                           onTap: () {
                             scrollController.jumpTo(0.0);
 
-                            context.push(
-                              '/cdi-1/palabras',
-                              extra: provider.cdi1Id,
-                            );
+                            context.push('/cdi-1/${widget.cdi1Id.toString()}/palabras');
                           },
                         ),
                       ],

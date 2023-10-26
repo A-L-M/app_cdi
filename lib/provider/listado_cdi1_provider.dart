@@ -138,8 +138,6 @@ class ListadoCDI1Provider extends ChangeNotifier {
       {'nombre': 'LOCATIVOS', 'color': '#CCCCCC'},
       {'nombre': 'PREPOSICIONES', 'color': '#CCCCCC'},
       {'nombre': 'RESULTADOS POR ID', 'color': '#FF0000'},
-      //TODO: agregar
-      // if (multiple) {'nombre': 'RESULTADOS POR PALABRA', 'color': '#FF0000'},
       {'nombre': 'TOTALES', 'color': '#FF0000'},
     ];
 

@@ -175,10 +175,7 @@ class _ListadoCDI2PageState extends State<ListadoCDI2Page> {
                                                       primaryColor: AppTheme.of(context).primaryColor,
                                                       secondaryColor: AppTheme.of(context).primaryBackground,
                                                       onTap: () async {
-                                                        context.pushReplacement(
-                                                          '/cdi-2',
-                                                          extra: cdi2,
-                                                        );
+                                                        context.push('/cdi-2/${cdi2!.cdi2Id}');
                                                       },
                                                     ),
                                                   if (permisoCaptura) const SizedBox(width: 5),

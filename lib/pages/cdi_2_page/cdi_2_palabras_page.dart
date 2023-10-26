@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'package:app_cdi/models/cdi2.dart';
 import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/form_section.dart';
@@ -13,11 +12,9 @@ class CDI2PalabrasPage extends StatefulWidget {
   const CDI2PalabrasPage({
     Key? key,
     required this.cdi2Id,
-    this.cdi2Editado,
   }) : super(key: key);
 
   final int cdi2Id;
-  final CDI2? cdi2Editado;
 
   @override
   State<CDI2PalabrasPage> createState() => _CDI2PalabrasPageState();
@@ -35,9 +32,11 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
         context,
         listen: false,
       );
-      await provider.initState(widget.cdi2Id);
-      if (widget.cdi2Editado != null) {
-        provider.initEditarCDI2(widget.cdi2Editado!);
+      final success = await provider.initState(widget.cdi2Id);
+      if (!mounted) return;
+      if (!success) {
+        context.pushReplacement('/no-encontrado');
+        return;
       }
     });
   }
@@ -52,7 +51,9 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
         },
         child: LayoutBuilder(
           builder: (context, constraints) {
-            return const CDI2PageDesktop();
+            return CDI2PageDesktop(
+              cdi2Id: widget.cdi2Id,
+            );
           },
         ),
       ),
@@ -61,7 +62,11 @@ class _CDI2PalabrasPageState extends State<CDI2PalabrasPage> {
 }
 
 class CDI2PageDesktop extends StatefulWidget {
-  const CDI2PageDesktop({Key? key}) : super(key: key);
+  const CDI2PageDesktop({
+    Key? key,
+    required this.cdi2Id,
+  }) : super(key: key);
+  final int cdi2Id;
 
   @override
   State<CDI2PageDesktop> createState() => _CDI2PageDesktopState();
@@ -155,10 +160,7 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
                               return;
                             }
                             index = 1;
-                            context.push(
-                              '/cdi-2/parte-2',
-                              extra: provider.cdi2Id,
-                            );
+                            context.push('/cdi-2/${widget.cdi2Id}/parte-2');
                           },
                         ),
                       ],

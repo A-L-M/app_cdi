@@ -46,6 +46,8 @@ class BebesProvider extends ChangeNotifier {
         return;
       }
 
+      //TODO: ordenar bebes por fecha de registro
+
       bebes = (res as List<dynamic>).map((usuario) => Bebe.fromJson(jsonEncode(usuario))).toList();
 
       bebesFiltrados = [...bebes];

@@ -165,11 +165,12 @@ Future<bool> crearPdfCDI1(CDI1 cdi1) async {
               ),
               pw.Align(
                 alignment: pw.Alignment.centerRight,
-                child: pw.Text('ATTE: ${currentUser!.nombreCompleto}'),
+                child: pw.Text('ATTE: Laboratorio de Infantes'),
               ),
+              //TODO: arreglar formato
               pw.Align(
                 alignment: pw.Alignment.centerRight,
-                child: pw.Text('Colaborador/a del Laboratorio de Infantes'),
+                child: pw.Text('Responsable: Dra. Elda Alicia Alva Canto'),
               ),
             ],
           ); // Center

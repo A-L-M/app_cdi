@@ -29,69 +29,44 @@ final GoRouter router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/cdi-1',
+      path: '/cdi-1/:id',
       name: 'cdi_1',
       builder: (BuildContext context, GoRouterState state) {
-        if (state.extra is int) {
-          return CDI1Parte1Page(cdi1Id: state.extra as int);
-        }
-        if (state.extra is CDI1) {
-          final cdi1 = (state.extra as CDI1);
-          return CDI1Parte1Page(
-            cdi1Id: cdi1.cdi1Id,
-            cdi1Editado: cdi1,
-          );
-        }
-        return const HomePage();
+        final id = int.tryParse(state.pathParameters['id'] ?? '-');
+        if (id == null) return const PageNotFoundPage();
+        return CDI1Parte1Page(cdi1Id: id);
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'palabras',
           name: 'palabras',
           builder: (BuildContext context, GoRouterState state) {
-            if (state.extra is int) {
-              return CDI1PalabrasPage(cdi1Id: state.extra as int);
-            }
-            return const HomePage();
+            return const CDI1PalabrasPage();
           },
         ),
         GoRoute(
           path: 'parte-2',
           name: 'cdi1_parte_2',
           builder: (BuildContext context, GoRouterState state) {
-            if (state.extra is int) {
-              return CDI1Parte2Page(cdi1Id: state.extra as int);
-            }
-            return const HomePage();
+            return const CDI1Parte2Page();
           },
         ),
       ],
     ),
     GoRoute(
-      path: '/cdi-2',
+      path: '/cdi-2/:id',
       name: 'cdi_2',
       builder: (BuildContext context, GoRouterState state) {
-        if (state.extra is int) {
-          return CDI2PalabrasPage(cdi2Id: state.extra as int);
-        }
-        if (state.extra is CDI2) {
-          final cdi2 = (state.extra as CDI2);
-          return CDI2PalabrasPage(
-            cdi2Id: cdi2.cdi2Id,
-            cdi2Editado: cdi2,
-          );
-        }
-        return const HomePage();
+        final id = int.tryParse(state.pathParameters['id'] ?? '-');
+        if (id == null) return const PageNotFoundPage();
+        return CDI2PalabrasPage(cdi2Id: id);
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'parte-2',
           name: 'cdi2_parte_2',
           builder: (BuildContext context, GoRouterState state) {
-            if (state.extra is int) {
-              return CDI2Parte2Page(cdi2Id: state.extra as int);
-            }
-            return const HomePage();
+            return const CDI2Parte2Page();
           },
         ),
       ],
@@ -159,6 +134,13 @@ final GoRouter router = GoRouter(
           },
         ),
       ],
+    ),
+    GoRoute(
+      path: '/no-encontrado',
+      name: 'no_encontrado',
+      builder: (BuildContext context, GoRouterState state) {
+        return const PageNotFoundPage();
+      },
     ),
   ],
 );
