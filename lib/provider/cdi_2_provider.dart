@@ -34,6 +34,7 @@ class CDI2Provider extends ChangeNotifier {
     await getSeccionesPalabras();
 
     try {
+      //TODO: limitar acceso a la ruta
       final res = await supabase.from('cdi2_completo').select().eq('cdi2_id', cdi2Id);
       if ((res as List).isEmpty) return false;
       final cdi2 = CDI2.fromMap(res.first);

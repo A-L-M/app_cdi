@@ -9,9 +9,11 @@ class PalabrasSection extends StatefulWidget {
   const PalabrasSection({
     Key? key,
     required this.palabras,
+    this.aclaracion = false,
   }) : super(key: key);
 
   final List<PalabraCDI2> palabras;
+  final bool aclaracion;
 
   @override
   State<PalabrasSection> createState() => _PalabrasSectionState();
@@ -166,10 +168,40 @@ class _PalabrasSectionState extends State<PalabrasSection> {
       );
     });
 
-    return Row(
+    return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [...columnas],
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [...columnas],
+        ),
+        if (widget.aclaracion)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: RichText(
+              text: TextSpan(
+                text: '* ',
+                style: GoogleFonts.robotoSlab(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.red,
+                ),
+                children: [
+                  TextSpan(
+                    text: 'o la palabra que use su familia para esto',
+                    style: GoogleFonts.robotoSlab(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: const Color(0xFF2B2B2B),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

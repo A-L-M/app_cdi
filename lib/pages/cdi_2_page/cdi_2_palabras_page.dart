@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 
 import 'package:app_cdi/pages/widgets/form_button.dart';
 import 'package:app_cdi/pages/cdi_2_page/widgets/preguntas_lenguaje_widget.dart';
-import 'package:app_cdi/pages/cdi_2_page/widgets/form_section.dart';
 import 'package:app_cdi/pages/widgets/page_header.dart';
 import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/pages/cdi_2_page/widgets/palabras_section.dart';
+import 'package:app_cdi/pages/widgets/custom_card.dart';
 
 class CDI2PalabrasPage extends StatefulWidget {
   const CDI2PalabrasPage({
@@ -97,17 +98,22 @@ class _CDI2PageDesktopState extends State<CDI2PageDesktop> {
       return const Center(child: CircularProgressIndicator());
     }
 
-    final List<FormSection> secciones = [];
+    final List<CustomCard> secciones = [];
     for (var seccion in provider.seccionesPalabras) {
       secciones.add(
-        FormSection(
+        CustomCard(
           title: seccion.tituloCompleto,
-          palabras: seccion.palabras,
+          contentPadding: EdgeInsets.zero,
+          textAlign: Alignment.centerLeft,
+          child: PalabrasSection(
+            palabras: seccion.palabras,
+            aclaracion: seccion.seccionId == 6 || seccion.seccionId == 12,
+          ),
         ),
       );
     }
 
-    List<FormSection> division = [];
+    List<CustomCard> division = [];
 
     if (index == 1) {
       division = secciones.sublist(0, 8);
