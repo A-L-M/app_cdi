@@ -56,7 +56,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
             'cdi2_id': PlutoCell(value: cdi2.cdi2Id),
             'bebe_id': PlutoCell(value: cdi2.bebeId),
             'nombre_bebe': PlutoCell(value: cdi2.nombreBebe),
-            'edad': PlutoCell(value: cdi2.edad.toString()),
+            'edad': PlutoCell(value: cdi2.edadConDias),
             'created_at': PlutoCell(value: cdi2.createdAt.parseToString('yyyy-MM-dd')),
             'acciones': PlutoCell(value: cdi2.cdi2Id.toString()),
           },

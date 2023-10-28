@@ -21,7 +21,7 @@ class BebesProvider extends ChangeNotifier {
 
   //PANTALLA USUARIOS
   final busquedaController = TextEditingController();
-  String orden = "bebe_id";
+  String orden = "created_at";
 
   final numIdentificacionController = TextEditingController();
   final nombreCuidadorController = TextEditingController();
@@ -39,14 +39,12 @@ class BebesProvider extends ChangeNotifier {
 
   Future<void> getBebes() async {
     try {
-      final res = await supabase.from('bebe').select().order(orden, ascending: true);
+      final res = await supabase.from('bebe').select().order(orden);
 
       if (res == null) {
         log('Error en getBebes()');
         return;
       }
-
-      //TODO: ordenar bebes por fecha de registro
 
       bebes = (res as List<dynamic>).map((usuario) => Bebe.fromJson(jsonEncode(usuario))).toList();
 

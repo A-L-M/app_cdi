@@ -32,7 +32,19 @@ class CDI2 {
     int months = (yearsDifference * 12) - fechaNacimiento.month + createdAt.month;
     if (createdAt.day < fechaNacimiento.day) months -= 1;
     return months;
-    // return createdAt.difference(fechaNacimiento).inDays ~/ 30;
+  }
+
+  String get edadConDias {
+    final yearsDifference = createdAt.year - fechaNacimiento.year;
+    int months = (yearsDifference * 12) - fechaNacimiento.month + createdAt.month;
+    if (createdAt.day < fechaNacimiento.day) months -= 1;
+    int dias = 0;
+    if (createdAt.day >= fechaNacimiento.day) {
+      dias = createdAt.day - fechaNacimiento.day;
+    } else {
+      dias = 30 - (fechaNacimiento.day - createdAt.day);
+    }
+    return '${months.toString()} meses ${dias.toString()} días';
   }
 
   ({int natural, int percentil}) calcularProduccion() {

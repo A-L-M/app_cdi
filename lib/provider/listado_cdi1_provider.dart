@@ -56,7 +56,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
             'cdi1_id': PlutoCell(value: cdi1.cdi1Id),
             'bebe_id': PlutoCell(value: cdi1.bebeId),
             'nombre_bebe': PlutoCell(value: cdi1.nombreBebe),
-            'edad': PlutoCell(value: cdi1.edad.toString()),
+            'edad': PlutoCell(value: cdi1.edadConDias),
             'created_at': PlutoCell(value: cdi1.createdAt.parseToString('yyyy-MM-dd')),
             'acciones': PlutoCell(value: cdi1.cdi1Id.toString()),
           },
@@ -312,7 +312,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
         for (var palabra in palabras) {
           row.add(convertToInt(palabra.opcion));
         }
-        excel.worksheets[i].importList([listaCDI1[j].bebeId, listaCDI1[j].edad, ...row], j + 2, 1, false);
+        excel.worksheets[i].importList([listaCDI1[j].bebeId, listaCDI1[j].edadConDias, ...row], j + 2, 1, false);
         row.clear();
       }
 
@@ -320,7 +320,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
         excel,
         seccionesPalabras,
         listaCDI1[j].bebeId,
-        listaCDI1[j].edad,
+        listaCDI1[j].edadConDias,
         j + 2,
       );
     }
@@ -351,7 +351,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
     Workbook excel,
     List<SeccionPalabrasCDI1> seccionesPalabras,
     int bebeId,
-    int edad,
+    String edad,
     int rowIndex,
   ) {
     final sheet = excel.worksheets['RESULTADOS POR ID'];
@@ -399,7 +399,7 @@ class ListadoCDI1Provider extends ChangeNotifier {
         puntajesGestosTardios.natural,
         puntajesGestosTardios.percentil,
       ];
-      sheet.importList([cdi1.bebeId, cdi1.edad, ...row], i + 3, 1, false);
+      sheet.importList([cdi1.bebeId, cdi1.edadConDias, ...row], i + 3, 1, false);
     }
     final range = sheet.getRangeByIndex(3, 1, listaCDI1.length + 2, 15);
     range.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');

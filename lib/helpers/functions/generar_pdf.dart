@@ -7,7 +7,6 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:universal_html/html.dart';
 
 import 'package:app_cdi/helpers/datetime_extension.dart';
-import 'package:app_cdi/helpers/globals.dart';
 import 'package:app_cdi/models/models.dart';
 
 Future<bool> crearPdfCDI1(CDI1 cdi1) async {
@@ -35,7 +34,7 @@ Future<bool> crearPdfCDI1(CDI1 cdi1) async {
       pw.Page(
         pageFormat: PdfPageFormat.letter,
         theme: theme,
-        margin: const pw.EdgeInsets.symmetric(vertical: 40, horizontal: 66),
+        margin: const pw.EdgeInsets.symmetric(vertical: 40, horizontal: 54),
         build: (pw.Context context) {
           return pw.Column(
             children: [
@@ -97,7 +96,7 @@ Future<bool> crearPdfCDI1(CDI1 cdi1) async {
               ),
               pw.Paragraph(
                 text:
-                    '        Los puntajes obtenidos por ${cdi1.nombreBebe} cuando tenía ${cdi1.edad} meses han sido comparados con los puntajes de una muestra de niños de su misma edad con el fin de identificar cómo es su desarrollo de lenguaje en relación al resto de los niños. Un puntaje percentil alrededor de 50 posiciona al infante a la mitad del grupo, mostrando niveles de desarrollo típico. Los puntajes y percentiles obtenidos en el inventario se detallan a continuación:',
+                    '        Los puntajes obtenidos por ${cdi1.nombreBebe} cuando tenía ${cdi1.edadConDias} han sido comparados con los puntajes de una muestra de niños de su misma edad con el fin de identificar cómo es su desarrollo de lenguaje en relación al resto de los niños. Un puntaje percentil alrededor de 50 posiciona al infante a la mitad del grupo, mostrando niveles de desarrollo típico. Los puntajes y percentiles obtenidos en el inventario se detallan a continuación:',
                 style: const pw.TextStyle(fontSize: 11, lineSpacing: 1),
               ),
               pw.Table(
@@ -167,7 +166,6 @@ Future<bool> crearPdfCDI1(CDI1 cdi1) async {
                 alignment: pw.Alignment.centerRight,
                 child: pw.Text('ATTE: Laboratorio de Infantes'),
               ),
-              //TODO: arreglar formato
               pw.Align(
                 alignment: pw.Alignment.centerRight,
                 child: pw.Text('Responsable: Dra. Elda Alicia Alva Canto'),
@@ -274,7 +272,7 @@ Future<bool> crearPdfCDI2(CDI2 cdi2) async {
               ),
               pw.Paragraph(
                 text:
-                    '        Los puntajes obtenidos por ${cdi2.nombreBebe} cuando tenía ${cdi2.edad} meses han sido comparados con los puntajes de una muestra de niños de su misma edad con el fin de identificar cómo es su desarrollo de lenguaje en relación al resto de los niños. Un puntaje percentil alrededor de 50 posiciona al infante a la mitad del grupo, mostrando niveles de desarrollo típico. Los puntajes y percentiles obtenidos en el inventario se detallan a continuación:',
+                    '        Los puntajes obtenidos por ${cdi2.nombreBebe} cuando tenía ${cdi2.edadConDias} han sido comparados con los puntajes de una muestra de niños de su misma edad con el fin de identificar cómo es su desarrollo de lenguaje en relación al resto de los niños. Un puntaje percentil alrededor de 50 posiciona al infante a la mitad del grupo, mostrando niveles de desarrollo típico. Los puntajes y percentiles obtenidos en el inventario se detallan a continuación:',
                 style: const pw.TextStyle(fontSize: 11, lineSpacing: 1),
               ),
               pw.Table(
@@ -333,11 +331,11 @@ Future<bool> crearPdfCDI2(CDI2 cdi2) async {
               ),
               pw.Align(
                 alignment: pw.Alignment.centerRight,
-                child: pw.Text('ATTE: ${currentUser!.nombreCompleto}'),
+                child: pw.Text('ATTE: Laboratorio de Infantes'),
               ),
               pw.Align(
                 alignment: pw.Alignment.centerRight,
-                child: pw.Text('Colaborador/a del Laboratorio de Infantes'),
+                child: pw.Text('Responsable: Dra. Elda Alicia Alva Canto'),
               ),
             ],
           ); // Center
