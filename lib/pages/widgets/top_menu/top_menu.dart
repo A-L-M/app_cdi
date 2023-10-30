@@ -1,10 +1,10 @@
-import 'package:app_cdi/helpers/globals.dart';
-import 'package:app_cdi/pages/widgets/hover_icon_widget.dart';
-import 'package:app_cdi/pages/widgets/top_menu/editar_perfil_popup/editar_perfil_popup.dart';
-import 'package:app_cdi/provider/providers.dart';
-import 'package:app_cdi/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:app_cdi/helpers/globals.dart';
+import 'package:app_cdi/pages/widgets/hover_icon_widget.dart';
+import 'package:app_cdi/provider/providers.dart';
+import 'package:app_cdi/theme/theme.dart';
 
 class TopMenuWidget extends StatefulWidget {
   const TopMenuWidget({
@@ -71,32 +71,16 @@ class _TopMenuWidgetState extends State<TopMenuWidget> {
                     },
                   ),
                   SizedBox(width: 0.0065 * MediaQuery.of(context).size.width),
-                  MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 17, vertical: 10),
-                        child: Text(
-                          currentUser!.nombreCompleto,
-                          style: AppTheme.of(context).bodyText1.override(
-                                fontFamily: 'Gotham-Light',
-                                fontSize:
-                                    0.02 * MediaQuery.of(context).size.height,
-                                fontWeight: FontWeight.w400,
-                                useGoogleFonts: false,
-                              ),
-                        ),
-                      ),
-                      onTap: () async {
-                        userState.initPerfilUsuario();
-                        await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const EditarPerfilPopup();
-                          },
-                        );
-                      },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 10),
+                    child: Text(
+                      currentUser!.nombreCompleto,
+                      style: AppTheme.of(context).bodyText1.override(
+                            fontFamily: 'Gotham-Light',
+                            fontSize: 0.02 * MediaQuery.of(context).size.height,
+                            fontWeight: FontWeight.w400,
+                            useGoogleFonts: false,
+                          ),
                     ),
                   ),
                 ],

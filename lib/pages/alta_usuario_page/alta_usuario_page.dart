@@ -212,6 +212,50 @@ class _AltaUsuarioPageState extends State<AltaUsuarioPage> {
                                                 ],
                                               ),
                                             ),
+                                            if (!editar)
+                                              Container(
+                                                padding: const EdgeInsets.only(top: 20),
+                                                width: 500,
+                                                child: Stack(
+                                                  children: [
+                                                    if (provider.contrasenaController.text.isEmpty)
+                                                      const InputFieldLabel(
+                                                        label: 'Contraseña',
+                                                      ),
+                                                    TextFormField(
+                                                      controller: provider.contrasenaController,
+                                                      keyboardType: TextInputType.text,
+                                                      onChanged: (_) {
+                                                        setState(() {});
+                                                      },
+                                                      validator: (value) {
+                                                        if (value == null || value.isEmpty) {
+                                                          return 'La contraseña es obligatoria';
+                                                        } else if (value.length < 8) {
+                                                          return 'La contraseña debe tener al menos 8 caracteres';
+                                                        }
+                                                        return null;
+                                                      },
+                                                      decoration: InputDecoration(
+                                                        labelStyle: AppTheme.of(context).bodyText2,
+                                                        enabledBorder: UnderlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: AppTheme.of(context).primaryColor,
+                                                            width: 1.5,
+                                                          ),
+                                                        ),
+                                                        focusedBorder: UnderlineInputBorder(
+                                                          borderSide: BorderSide(
+                                                            color: AppTheme.of(context).primaryColor,
+                                                            width: 1.5,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      style: AppTheme.of(context).bodyText2,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
                                             const Padding(
                                               padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
                                               child: RolDropDown(),

@@ -17,6 +17,7 @@ class UsuariosProvider extends ChangeNotifier {
   //ALTA USUARIO
   TextEditingController nombreController = TextEditingController();
   TextEditingController correoController = TextEditingController();
+  TextEditingController contrasenaController = TextEditingController();
   TextEditingController apellidosController = TextEditingController();
 
   List<Rol> roles = [];
@@ -39,6 +40,7 @@ class UsuariosProvider extends ChangeNotifier {
     nombreController.clear();
     if (clearEmail) correoController.clear();
     apellidosController.clear();
+    contrasenaController.clear();
     rolSeleccionado = null;
 
     if (notify) notifyListeners();
@@ -134,7 +136,7 @@ class UsuariosProvider extends ChangeNotifier {
         body: json.encode(
           {
             "email": correoController.text,
-            "password": 'default',
+            "password": apellidosController.text,
           },
         ),
       );
@@ -192,6 +194,7 @@ class UsuariosProvider extends ChangeNotifier {
     nombreController.text = usuario.nombre;
     apellidosController.text = usuario.apellidos;
     correoController.text = usuario.email;
+    contrasenaController.clear();
     rolSeleccionado = usuario.rol;
     notifyListeners();
   }
@@ -215,6 +218,7 @@ class UsuariosProvider extends ChangeNotifier {
     busquedaController.dispose();
     nombreController.dispose();
     correoController.dispose();
+    contrasenaController.dispose();
     apellidosController.dispose();
     super.dispose();
   }
