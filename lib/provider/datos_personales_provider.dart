@@ -97,31 +97,47 @@ class DatosPersonalesProvider extends ChangeNotifier {
     }
   }
 
-  Future<int?> registrarCDI1() async {
+  Future<Map<String, dynamic>> registrarCDI1() async {
     try {
-      if (fechaCita == null || bebe == null) return null;
+      if (fechaCita == null || bebe == null) return {'Error': 'Error al registrar CDI'};
+
+      final citaExiste = await supabase.rpc('cita_repetida_cdi1', params: {
+        'fecha_cita': fechaCita!.toIso8601String(),
+        'bebe_id': bebe!.bebeId,
+      }) as bool;
+
+      if (citaExiste) return {'Error': 'Ya existe un registro de este día para este bebé'};
+
       final res = await supabase.rpc('registrar_cdi1', params: {
         'fecha_cita': fechaCita!.toIso8601String(),
         'bebe_id': bebe!.bebeId,
       });
-      return res;
+      return {'cdi_id': res};
     } catch (e) {
       log('Error en registrarCDI1() - $e');
-      return null;
+      return {'Error': 'Error al registrar CDI'};
     }
   }
 
-  Future<int?> registrarCDI2() async {
+  Future<Map<String, dynamic>> registrarCDI2() async {
     try {
-      if (fechaCita == null || bebe == null) return null;
+      if (fechaCita == null || bebe == null) return {'Error': 'Error al registrar CDI'};
+
+      final citaExiste = await supabase.rpc('cita_repetida_cdi2', params: {
+        'fecha_cita': fechaCita!.toIso8601String(),
+        'bebe_id': bebe!.bebeId,
+      }) as bool;
+
+      if (citaExiste) return {'Error': 'Ya existe un registro de este día para este bebé'};
+
       final res = await supabase.rpc('registrar_cdi2', params: {
         'fecha_cita': fechaCita!.toIso8601String(),
         'bebe_id': bebe!.bebeId,
       });
-      return res;
+      return {'cdi_id': res};
     } catch (e) {
       log('Error en registrarCDI2() - $e');
-      return null;
+      return {'Error': 'Error al registrar CDI'};
     }
   }
 

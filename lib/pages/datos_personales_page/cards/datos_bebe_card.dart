@@ -236,19 +236,21 @@ class _DatosBebeCardState extends State<DatosBebeCard> {
                     }
 
                     if (widget.inventario == 'INVENTARIO I') {
-                      final cdi1Id = await provider.registrarCDI1();
-                      if (cdi1Id == null) {
-                        ApiErrorHandler.callToast('Error al registrar CDI I');
+                      final res = await provider.registrarCDI1();
+                      if (res['Error'] != null) {
+                        ApiErrorHandler.callToast(res['Error']);
                         return;
                       }
+                      final cdi1Id = res['cdi_id'];
                       if (!mounted) return;
                       context.pushReplacement('/cdi-1/$cdi1Id');
                     } else {
-                      final cdi2Id = await provider.registrarCDI2();
-                      if (cdi2Id == null) {
-                        ApiErrorHandler.callToast('Error al registrar CDI II');
+                      final res = await provider.registrarCDI2();
+                      if (res['Error'] != null) {
+                        ApiErrorHandler.callToast(res['Error']);
                         return;
                       }
+                      final cdi2Id = res['cdi_id'];
                       if (!mounted) return;
                       context.pushReplacement('/cdi-2/$cdi2Id');
                     }

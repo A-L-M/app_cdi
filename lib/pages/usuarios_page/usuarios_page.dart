@@ -198,7 +198,7 @@ class _UsuariosPageState extends State<UsuariosPage> {
                                                         if (popupResult == false) return;
                                                         final res = await provider.borrarUsuario(usuario!.id);
                                                         if (!res) {
-                                                          ApiErrorHandler.callToast('Error borrar al usuario');
+                                                          ApiErrorHandler.callToast('Error al borrar usuario');
                                                           return;
                                                         }
                                                       },

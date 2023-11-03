@@ -214,24 +214,30 @@ class ListadoCDI2Provider extends ChangeNotifier {
 
       final idCell = workbook.worksheets[i].getRangeByIndex(1, 1);
       idCell.setValue('ID');
-      idCell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
+      idCell.cellStyle = styleBold;
 
-      final edadCell = workbook.worksheets[i].getRangeByIndex(1, 2);
-      edadCell.setValue('Edad');
-      edadCell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
+      final edadMesesCell = workbook.worksheets[i].getRangeByIndex(1, 2);
+      edadMesesCell.setValue('Edad (Meses)');
+      edadMesesCell.cellStyle = styleBold;
+      edadMesesCell.columnWidth = 14;
+
+      final edadDiasCell = workbook.worksheets[i].getRangeByIndex(1, 3);
+      edadDiasCell.setValue('Edad (Días)');
+      edadDiasCell.cellStyle = styleBold;
+      edadDiasCell.columnWidth = 12;
 
       for (var j = 0; j < palabras.length; j++) {
         //se busca la celda
-        final cell = workbook.worksheets[i].getRangeByIndex(1, j + 3);
+        final cell = workbook.worksheets[i].getRangeByIndex(1, j + 4);
         cell.setValue(palabras[j].nombre);
         cell.autoFitColumns();
         cell.autoFitRows();
         if (palabras[j].sombreada) {
-          cell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleSombreada');
+          cell.cellStyle = styleSombreada;
         } else if (palabras[j].subrayada && !palabras[j].sombreada) {
-          cell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleSubrayada');
+          cell.cellStyle = styleSubrayada;
         } else {
-          cell.cellStyle = workbook.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
+          cell.cellStyle = styleBold;
         }
       }
     }
@@ -248,7 +254,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
     final sheet = excel.worksheets['RESULTADOS POR ID'];
     final copy = [
       {'nombre': '   ID   ', 'color': '#FFFFFF'},
-      {'nombre': '   Edad   ', 'color': '#FFFFFF'},
+      {'nombre': 'Edad (Meses)', 'color': '#FFFFFF'},
+      {'nombre': 'Edad (Días)', 'color': '#FFFFFF'},
       ...nombreSheets,
       {'nombre': 'TOTAL X NIÑO', 'color': '#CCCCCC'},
       {'nombre': 'TOTAL C+C/D', 'color': '#FFFFFF'},
@@ -259,10 +266,10 @@ class ListadoCDI2Provider extends ChangeNotifier {
 
     for (var i = 0; i < copy.length; i++) {
       Range cell;
-      if (i == 0 || i == 1) {
+      if (i == 0 || i == 1 || i == 2) {
         cell = sheet.getRangeByIndex(1, i + 1);
       } else {
-        cell = sheet.getRangeByIndex(1, (i * 2) - 1, 1, i * 2);
+        cell = sheet.getRangeByIndex(1, (i * 2) - 2, 1, (i * 2) - 1);
       }
       cell.merge();
       cell.setValue(copy[i]['nombre']);
@@ -274,6 +281,9 @@ class ListadoCDI2Provider extends ChangeNotifier {
       cell.cellStyle.borders.all.lineStyle = LineStyle.medium;
       cell.autoFitColumns();
       cell.autoFitRows();
+      if (i == 0 || i == 1 || i == 2) {
+        cell.columnWidth = 14;
+      }
     }
   }
 
@@ -281,31 +291,32 @@ class ListadoCDI2Provider extends ChangeNotifier {
     final sheet = excel.worksheets['TOTALES'];
 
     //Produccion
-    final Range produccionRange = sheet.getRangeByName('C1:D1');
+    final Range produccionRange = sheet.getRangeByName('D1:E1');
     produccionRange.merge();
     produccionRange.setValue('Producción');
 
     //P3L
-    final Range p3LRange = sheet.getRangeByName('E1:F1');
+    final Range p3LRange = sheet.getRangeByName('F1:G1');
     p3LRange.merge();
     p3LRange.setValue('P3L');
 
     //Complejidad
-    final Range complejidadRange = sheet.getRangeByName('G1:H1');
+    final Range complejidadRange = sheet.getRangeByName('H1:I1');
     complejidadRange.merge();
     complejidadRange.setValue('Complejidad');
 
     //Puntaje
     sheet.getRangeByName('A2').setValue('ID');
-    sheet.getRangeByName('B2').setValue('Edad');
-    sheet.getRangeByName('C2').setValue('Natural');
-    sheet.getRangeByName('D2').setValue(' Percentil ');
-    sheet.getRangeByName('E2').setValue('Natural');
-    sheet.getRangeByName('F2').setValue(' Percentil ');
-    sheet.getRangeByName('G2').setValue('Natural');
-    sheet.getRangeByName('H2').setValue(' Percentil ');
+    sheet.getRangeByName('B2').setValue('Edad (Meses)');
+    sheet.getRangeByName('C2').setValue('Edad (Días)');
+    sheet.getRangeByName('D2').setValue('Natural');
+    sheet.getRangeByName('E2').setValue(' Percentil ');
+    sheet.getRangeByName('F2').setValue('Natural');
+    sheet.getRangeByName('G2').setValue(' Percentil ');
+    sheet.getRangeByName('H2').setValue('Natural');
+    sheet.getRangeByName('I2').setValue(' Percentil ');
 
-    final completeRange = sheet.getRangeByName('A1:H2');
+    final completeRange = sheet.getRangeByName('A1:I2');
     completeRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleBold');
     complejidadRange.cellStyle.wrapText = false;
   }
@@ -338,7 +349,13 @@ class ListadoCDI2Provider extends ChangeNotifier {
         for (var palabra in palabras) {
           row.add(convertToInt(palabra.opcion));
         }
-        excel.worksheets[i].importList([listaCDI2[j].bebeId, listaCDI2[j].edad, ...row], j + 2, 1, false);
+        final edadRecord = listaCDI2[j].edadConDiasRecord;
+        excel.worksheets[i].importList(
+          [listaCDI2[j].bebeId, edadRecord.meses, edadRecord.dias, ...row],
+          j + 2,
+          1,
+          false,
+        );
         row.clear();
       }
 
@@ -346,7 +363,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
         excel,
         seccionesPalabras,
         listaCDI2[j].bebeId,
-        listaCDI2[j].edad,
+        listaCDI2[j].edadConDiasRecord,
         j + 2,
       );
     }
@@ -358,7 +375,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
         2,
         1,
         listaCDI2.length + 1,
-        palabras.length + 3,
+        palabras.length + 4,
       );
       datosRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
     }
@@ -368,7 +385,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       2,
       1,
       listaCDI2.length + 1,
-      seccionesPalabras.length * 2 + 5,
+      seccionesPalabras.length * 2 + 6,
     );
     resultadosPorIdRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
   }
@@ -377,7 +394,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
     Workbook excel,
     List<SeccionPalabrasCDI2> seccionesPalabras,
     int bebeId,
-    int edad,
+    ({int meses, int dias}) edadRecord,
     int rowIndex,
   ) {
     final sheet = excel.worksheets['RESULTADOS POR ID'];
@@ -395,7 +412,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
     resultados.add(totalComprende);
     resultados.add(totalComprendeYDice);
     resultados.add(totalComprende + totalComprendeYDice);
-    sheet.importList([bebeId, edad, ...resultados], rowIndex, 1, false);
+    sheet.importList([bebeId, edadRecord.meses, edadRecord.dias, ...resultados], rowIndex, 1, false);
   }
 
   void llenarTotales(
@@ -416,9 +433,10 @@ class ListadoCDI2Provider extends ChangeNotifier {
         puntajesComplejidad.natural,
         puntajesComplejidad.percentil,
       ];
-      sheet.importList([cdi2.bebeId, cdi2.edad, ...row], i + 3, 1, false);
+      final edadRecord = cdi2.edadConDiasRecord;
+      sheet.importList([cdi2.bebeId, edadRecord.meses, edadRecord.dias, ...row], i + 3, 1, false);
     }
-    final range = sheet.getRangeByIndex(3, 1, listaCDI2.length + 2, 8);
+    final range = sheet.getRangeByIndex(3, 1, listaCDI2.length + 2, 9);
     range.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
   }
 

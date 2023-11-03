@@ -82,7 +82,7 @@ class _AltaUsuarioHeaderState extends State<AltaUsuarioHeader> {
                   if (!mounted) return;
                   fToast.showToast(
                     child: const SuccessToast(
-                      message: 'Usuario creado',
+                      message: 'Usuario editado',
                     ),
                     gravity: ToastGravity.BOTTOM,
                     toastDuration: const Duration(seconds: 2),

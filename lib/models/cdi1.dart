@@ -47,6 +47,19 @@ class CDI1 {
     return '${months.toString()} meses ${dias.toString()} días';
   }
 
+  ({int meses, int dias}) get edadConDiasRecord {
+    final yearsDifference = createdAt.year - fechaNacimiento.year;
+    int months = (yearsDifference * 12) - fechaNacimiento.month + createdAt.month;
+    if (createdAt.day < fechaNacimiento.day) months -= 1;
+    int dias = 0;
+    if (createdAt.day >= fechaNacimiento.day) {
+      dias = createdAt.day - fechaNacimiento.day;
+    } else {
+      dias = 30 - (fechaNacimiento.day - createdAt.day);
+    }
+    return (meses: months, dias: dias);
+  }
+
   ({int natural, int percentil}) calcularPrimerasFrases() {
     int puntajeNatural = 0;
     for (var frase in parte1.listaFrases) {
