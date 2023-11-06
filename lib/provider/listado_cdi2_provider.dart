@@ -259,6 +259,8 @@ class ListadoCDI2Provider extends ChangeNotifier {
       ...nombreSheets,
       {'nombre': 'TOTAL X NIÑO', 'color': '#CCCCCC'},
       {'nombre': 'TOTAL C+C/D', 'color': '#FFFFFF'},
+      {'nombre': 'TOTAL X NIÑO ICPLIM', 'color': '#CCCCCC'},
+      {'nombre': 'TOTAL C+C/D ICPLIM', 'color': '#FFFFFF'},
     ];
     copy.removeWhere((element) => element['nombre'] == 'RESULTADOS POR ID');
     copy.removeWhere((element) => element['nombre'] == 'RESULTADOS POR PALABRA');
@@ -385,7 +387,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       2,
       1,
       listaCDI2.length + 1,
-      seccionesPalabras.length * 2 + 6,
+      seccionesPalabras.length * 2 + 9,
     );
     resultadosPorIdRange.cellStyle = excel.styles.innerList.singleWhere((style) => style.name == 'StyleDatos');
   }
@@ -401,18 +403,34 @@ class ListadoCDI2Provider extends ChangeNotifier {
     final List<int> resultados = [];
     int totalComprende = 0;
     int totalComprendeYDice = 0;
+
+    int totalComprendeICPLIM = 0;
+    int totalComprendeYDiceICPLIM = 0;
+
     for (var seccion in seccionesPalabras) {
       int tempTotal = seccion.getTotalComprende();
       totalComprende += tempTotal;
+      totalComprendeICPLIM += seccion.getTotalComprendeICPLIM();
       resultados.add(tempTotal);
       tempTotal = seccion.getTotalComprendeYDice();
+      totalComprendeYDiceICPLIM += seccion.getTotalComprendeYDiceICPLIM();
       totalComprendeYDice += tempTotal;
       resultados.add(tempTotal);
     }
     resultados.add(totalComprende);
     resultados.add(totalComprendeYDice);
     resultados.add(totalComprende + totalComprendeYDice);
-    sheet.importList([bebeId, edadRecord.meses, edadRecord.dias, ...resultados], rowIndex, 1, false);
+
+    sheet.importList([
+      bebeId,
+      edadRecord.meses,
+      edadRecord.dias,
+      ...resultados,
+      '',
+      totalComprendeICPLIM,
+      totalComprendeYDiceICPLIM,
+      totalComprendeICPLIM + totalComprendeYDiceICPLIM,
+    ], rowIndex, 1, false);
   }
 
   void llenarTotales(

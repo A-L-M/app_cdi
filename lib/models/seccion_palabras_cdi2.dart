@@ -27,8 +27,7 @@ class SeccionPalabrasCDI2 {
 
   void asignarValores(List<PalabraCDI2Valor> valores) {
     for (var palabra in palabras) {
-      final index =
-          valores.indexWhere((valor) => valor.palabraId == palabra.palabraId);
+      final index = valores.indexWhere((valor) => valor.palabraId == palabra.palabraId);
       if (index == -1) {
         palabra.opcion = Opcion.ninguna;
       } else {
@@ -53,15 +52,27 @@ class SeccionPalabrasCDI2 {
     return total;
   }
 
-  factory SeccionPalabrasCDI2.fromJson(String str) =>
-      SeccionPalabrasCDI2.fromMap(json.decode(str));
+  int getTotalComprendeICPLIM() {
+    int total = 0;
+    for (var palabra in palabras) {
+      if (palabra.opcion == Opcion.comprende && palabra.subrayada) total += 1;
+    }
+    return total;
+  }
 
-  factory SeccionPalabrasCDI2.fromMap(Map<String, dynamic> json) =>
-      SeccionPalabrasCDI2(
+  int getTotalComprendeYDiceICPLIM() {
+    int total = 0;
+    for (var palabra in palabras) {
+      if (palabra.opcion == Opcion.comprendeYDice && palabra.subrayada) total += 1;
+    }
+    return total;
+  }
+
+  factory SeccionPalabrasCDI2.fromJson(String str) => SeccionPalabrasCDI2.fromMap(json.decode(str));
+
+  factory SeccionPalabrasCDI2.fromMap(Map<String, dynamic> json) => SeccionPalabrasCDI2(
         seccionId: json['seccion_palabras_cdi2_id'],
         nombre: json["nombre"],
-        palabras: (json['palabras'] as List)
-            .map((palabra) => PalabraCDI2.fromJson(jsonEncode(palabra)))
-            .toList(),
+        palabras: (json['palabras'] as List).map((palabra) => PalabraCDI2.fromJson(jsonEncode(palabra))).toList(),
       );
 }
