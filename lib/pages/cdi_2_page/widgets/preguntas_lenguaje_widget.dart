@@ -27,7 +27,7 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
     final CDI2Provider provider = Provider.of<CDI2Provider>(context);
     final size = MediaQuery.of(context).size;
 
-    final cellHeight = size.width > 1145 ? 85.0 : 125.0;
+    final cellHeight = size.width > 1145 ? 85.0 : 150.0;
     final titleHeight = size.width > 857 ? 38.0 : 60.0;
 
     final Column columnaPreguntas = Column(
