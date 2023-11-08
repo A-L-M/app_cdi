@@ -10,8 +10,7 @@ class PreguntasLenguajeWidget extends StatefulWidget {
   const PreguntasLenguajeWidget({super.key});
 
   @override
-  State<PreguntasLenguajeWidget> createState() =>
-      _PreguntasLenguajeWidgetState();
+  State<PreguntasLenguajeWidget> createState() => _PreguntasLenguajeWidgetState();
 }
 
 class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
@@ -28,7 +27,7 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
     final CDI2Provider provider = Provider.of<CDI2Provider>(context);
     final size = MediaQuery.of(context).size;
 
-    final cellHeight = size.width > 1145 ? 75.0 : 125.0;
+    final cellHeight = size.width > 1145 ? 85.0 : 125.0;
     final titleHeight = size.width > 857 ? 38.0 : 60.0;
 
     final Column columnaPreguntas = Column(
@@ -176,11 +175,7 @@ class _PreguntasLenguajeWidgetState extends State<PreguntasLenguajeWidget> {
 
 class CustomTableCellText extends StatelessWidget {
   const CustomTableCellText(
-      {super.key,
-      required this.label,
-      this.height,
-      this.fontWeight,
-      this.alignment = Alignment.center});
+      {super.key, required this.label, this.height, this.fontWeight, this.alignment = Alignment.center});
 
   final String label;
   final double? height;
