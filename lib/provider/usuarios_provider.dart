@@ -58,7 +58,7 @@ class UsuariosProvider extends ChangeNotifier {
           ascending: true,
         );
 
-    roles = (res as List<dynamic>).map((rol) => Rol.fromJson(jsonEncode(rol))).toList();
+    roles = (res as List<dynamic>).map((rol) => Rol.fromMap(rol)).toList();
 
     if (notify) notifyListeners();
   }
@@ -71,7 +71,7 @@ class UsuariosProvider extends ChangeNotifier {
         log('Error en getUsuarios()');
         return;
       }
-      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromJson(jsonEncode(usuario))).toList();
+      usuarios = (res as List<dynamic>).map((usuario) => Usuario.fromMap(usuario)).toList();
       usuariosFiltrados = [...usuarios];
 
       llenarPlutoGrid(usuarios);
@@ -136,7 +136,7 @@ class UsuariosProvider extends ChangeNotifier {
         body: json.encode(
           {
             "email": correoController.text,
-            "password": apellidosController.text,
+            "password": contrasenaController.text,
           },
         ),
       );

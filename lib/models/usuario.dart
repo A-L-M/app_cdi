@@ -21,6 +21,8 @@ class Usuario {
 
   String get nombreCompleto => '$nombre $apellidos';
 
+  bool get esVisitante => rol.nombre == 'Visitante';
+
   factory Usuario.fromJson(String str) => Usuario.fromMap(json.decode(str));
 
   factory Usuario.fromMap(Map<String, dynamic> json) {
@@ -30,7 +32,7 @@ class Usuario {
       email: json["email"],
       nombre: json["nombre"],
       apellidos: json["apellidos"],
-      rol: Rol.fromJson(jsonEncode(json['rol'])),
+      rol: Rol.fromMap(json['rol']),
     );
     return usuario;
   }

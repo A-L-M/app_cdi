@@ -111,8 +111,10 @@ class _CDI2Parte2PageDesktopState extends State<CDI2Parte2PageDesktop> {
                             await provider.guardarFrasesIncisoB();
                             if (!mounted) return;
                             if (currentUser != null) {
-                              context.pushReplacement('/listado-cdi2');
-                              return;
+                              if (!currentUser!.esVisitante) {
+                                context.pushReplacement('/listado-cdi2');
+                                return;
+                              }
                             }
                             context.pushReplacement('/gracias');
                           },

@@ -7,6 +7,7 @@ class VisualStateProvider extends ChangeNotifier {
     false, //CDI 1
     false, //CDI 2
     false, //Usuarios
+    false, //Principal
   ];
 
   void setTapedOption(int index) {

@@ -106,10 +106,10 @@ class CDI2 {
       createdAt: DateTime.parse(json['created_at']),
       fechaNacimiento: DateTime.parse(json['fecha_nacimiento']),
       palabras: json['palabras'] != null
-          ? (json['palabras'] as List).map((palabra) => PalabraCDI2Valor.fromJson(jsonEncode(palabra))).toList()
+          ? (json['palabras'] as List).map((palabra) => PalabraCDI2Valor.fromMap(palabra)).toList()
           : [],
-      comprension: CDI2Comprension.fromJson(jsonEncode(json)),
-      parte2: CDI2Parte2.fromJson(jsonEncode(json)),
+      comprension: CDI2Comprension.fromMap(json),
+      parte2: CDI2Parte2.fromMap(json),
     );
   }
 

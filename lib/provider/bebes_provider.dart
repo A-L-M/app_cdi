@@ -46,7 +46,7 @@ class BebesProvider extends ChangeNotifier {
         return;
       }
 
-      bebes = (res as List<dynamic>).map((usuario) => Bebe.fromJson(jsonEncode(usuario))).toList();
+      bebes = (res as List<dynamic>).map((bebe) => Bebe.fromMap(bebe)).toList();
 
       bebesFiltrados = [...bebes];
 

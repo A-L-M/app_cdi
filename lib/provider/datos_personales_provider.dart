@@ -86,7 +86,7 @@ class DatosPersonalesProvider extends ChangeNotifier {
 
       if ((res as List).isEmpty) return false;
 
-      bebe = Bebe.fromJson(jsonEncode(res[0]));
+      bebe = Bebe.fromMap(res[0]);
 
       initControllers();
       notifyListeners();

@@ -81,8 +81,10 @@ class _CDI1Parte2PageState extends State<CDI1Parte2Page> {
                               onTap: () async {
                                 if (!mounted) return;
                                 if (currentUser != null) {
-                                  context.pushReplacement('/listado-cdi1');
-                                  return;
+                                  if (!currentUser!.esVisitante) {
+                                    context.pushReplacement('/listado-cdi1');
+                                    return;
+                                  }
                                 }
                                 context.pushReplacement('/gracias');
                               },

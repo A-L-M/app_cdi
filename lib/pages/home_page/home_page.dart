@@ -1,3 +1,4 @@
+import 'package:app_cdi/helpers/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,19 +89,21 @@ class HomePageBodyMobile extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          HomePageButton(
+          if (currentUser != null)
+            HomePageButton(
               label: 'INVENTARIO I',
               onTap: () {
-                context.pushReplacement('/datos-personales',
-                    extra: 'INVENTARIO I');
-              }),
+                context.pushReplacement('/datos-personales', extra: 'INVENTARIO I');
+              },
+            ),
           const SizedBox(height: 20),
-          HomePageButton(
+          if (currentUser != null)
+            HomePageButton(
               label: 'INVENTARIO II',
               onTap: () {
-                context.pushReplacement('/datos-personales',
-                    extra: 'INVENTARIO II');
-              }),
+                context.pushReplacement('/datos-personales', extra: 'INVENTARIO II');
+              },
+            ),
         ],
       ),
     );
@@ -144,28 +147,29 @@ class HomePageBodyDesktop extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                HomePageButton(
-                    label: 'INVENTARIO I',
-                    onTap: () {
-                      context.pushReplacement(
-                        '/datos-personales',
-                        extra: 'INVENTARIO I',
-                      );
-                    }),
-                const SizedBox(width: 50),
-                HomePageButton(
-                    label: 'INVENTARIO II',
-                    onTap: () {
-                      context.pushReplacement(
-                        '/datos-personales',
-                        extra: 'INVENTARIO II',
-                      );
-                    }),
-              ],
-            ),
+            if (currentUser != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  HomePageButton(
+                      label: 'INVENTARIO I',
+                      onTap: () {
+                        context.pushReplacement(
+                          '/datos-personales',
+                          extra: 'INVENTARIO I',
+                        );
+                      }),
+                  const SizedBox(width: 50),
+                  HomePageButton(
+                      label: 'INVENTARIO II',
+                      onTap: () {
+                        context.pushReplacement(
+                          '/datos-personales',
+                          extra: 'INVENTARIO II',
+                        );
+                      }),
+                ],
+              ),
           ],
         ),
         Positioned(

@@ -12,6 +12,13 @@ final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
   navigatorKey: NavigationService.navigatorKey,
   initialLocation: '/',
+  redirect: (BuildContext context, GoRouterState state) {
+    final bool loggedIn = currentUser != null;
+
+    if (!loggedIn) return '/';
+
+    return null;
+  },
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -82,7 +89,7 @@ final GoRouter router = GoRouter(
       path: '/bebes',
       name: 'bebes',
       builder: (BuildContext context, GoRouterState state) {
-        if (currentUser == null) return const PageNotFoundPage();
+        if (currentUser!.esVisitante) return const PageNotFoundPage();
         if (currentUser!.rol.permisos.administracionBebes == null) return const HomePage();
         return const BebesPage();
       },
@@ -91,7 +98,7 @@ final GoRouter router = GoRouter(
       path: '/listado-cdi1',
       name: 'listado_cdi1',
       builder: (BuildContext context, GoRouterState state) {
-        if (currentUser == null) return const PageNotFoundPage();
+        if (currentUser!.esVisitante) return const PageNotFoundPage();
         if (currentUser!.rol.permisos.administracionCDI1 == null) return const HomePage();
         return const ListadoCDI1Page();
       },
@@ -100,7 +107,7 @@ final GoRouter router = GoRouter(
       path: '/listado-cdi2',
       name: 'listado_cdi2',
       builder: (BuildContext context, GoRouterState state) {
-        if (currentUser == null) return const PageNotFoundPage();
+        if (currentUser!.esVisitante) return const PageNotFoundPage();
         if (currentUser!.rol.permisos.administracionCDI2 == null) return const HomePage();
         return const ListadoCDI2Page();
       },
@@ -109,7 +116,7 @@ final GoRouter router = GoRouter(
       path: '/usuarios',
       name: 'usuarios',
       builder: (BuildContext context, GoRouterState state) {
-        if (currentUser == null) return const PageNotFoundPage();
+        if (currentUser!.esVisitante) return const PageNotFoundPage();
         if (currentUser!.rol.permisos.administracionDeUsuarios == null) return const HomePage();
         return const UsuariosPage();
       },
@@ -118,7 +125,7 @@ final GoRouter router = GoRouter(
           path: 'alta-usuario',
           name: 'alta_usuario',
           builder: (BuildContext context, GoRouterState state) {
-            if (currentUser == null) return const PageNotFoundPage();
+            if (currentUser!.esVisitante) return const PageNotFoundPage();
             if (currentUser!.rol.permisos.administracionDeUsuarios == null) return const HomePage();
             return const AltaUsuarioPage();
           },
@@ -127,7 +134,7 @@ final GoRouter router = GoRouter(
           path: 'editar-usuario',
           name: 'editar_usuario',
           builder: (BuildContext context, GoRouterState state) {
-            if (currentUser == null) return const PageNotFoundPage();
+            if (currentUser!.esVisitante) return const PageNotFoundPage();
             if (currentUser!.rol.permisos.administracionDeUsuarios == null) return const HomePage();
             if (state.extra == null) return const UsuariosPage();
             return AltaUsuarioPage(usuario: state.extra as Usuario);

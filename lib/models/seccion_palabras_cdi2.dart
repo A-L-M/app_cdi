@@ -73,6 +73,6 @@ class SeccionPalabrasCDI2 {
   factory SeccionPalabrasCDI2.fromMap(Map<String, dynamic> json) => SeccionPalabrasCDI2(
         seccionId: json['seccion_palabras_cdi2_id'],
         nombre: json["nombre"],
-        palabras: (json['palabras'] as List).map((palabra) => PalabraCDI2.fromJson(jsonEncode(palabra))).toList(),
+        palabras: (json['palabras'] as List).map((palabra) => PalabraCDI2.fromMap(palabra)).toList(),
       );
 }

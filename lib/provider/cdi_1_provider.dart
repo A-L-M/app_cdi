@@ -53,8 +53,7 @@ class CDI1Provider extends ChangeNotifier {
     try {
       final res = await supabase.from('secciones_palabras_cdi1').select();
 
-      seccionesPalabras =
-          (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI1.fromJson(jsonEncode(palabra))).toList();
+      seccionesPalabras = (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI1.fromMap(palabra)).toList();
 
       notifyListeners();
     } catch (e) {

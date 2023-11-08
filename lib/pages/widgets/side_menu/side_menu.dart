@@ -35,6 +35,18 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),
+              child: MenuButton(
+                tooltip: 'Página principal',
+                fillColor: AppTheme.of(context).primaryColor,
+                icon: Icons.home,
+                isTaped: visualState.isTaped[4],
+                onPressed: () {
+                  context.pushReplacement('/');
+                },
+              ),
+            ),
             if (userPermissions.administracionBebes != null)
               Padding(
                 padding: const EdgeInsets.only(top: 5.5, bottom: 5.5),

@@ -60,6 +60,7 @@ class TopMenuBodyDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomePageProvider provider = Provider.of<HomePageProvider>(context);
+    final UserState userState = Provider.of<UserState>(context);
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 15),
@@ -82,10 +83,15 @@ class TopMenuBodyDesktop extends StatelessWidget {
                   title: 'Iniciar Sesión',
                   onTap: () => provider.changeLoginPortalVisible(),
                 )
-              : CustomDropdownButton(
-                  title: 'Entrar a panel de control',
-                  onTap: () => context.go('/bebes'),
-                ),
+              : currentUser!.esVisitante
+                  ? CustomDropdownButton(
+                      title: 'Cerrar Sesión',
+                      onTap: () async => await userState.logout(),
+                    )
+                  : CustomDropdownButton(
+                      title: 'Entrar a panel de control',
+                      onTap: () => context.go('/bebes'),
+                    ),
         ],
       ),
     );

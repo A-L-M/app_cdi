@@ -37,7 +37,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
         return;
       }
 
-      listadoCDI2 = (res as List<dynamic>).map((usuario) => CDI2.fromJson(jsonEncode(usuario))).toList();
+      listadoCDI2 = (res as List<dynamic>).map((usuario) => CDI2.fromMap(usuario)).toList();
       listadoCDI2Filtrado = [...listadoCDI2];
 
       llenarPlutoGrid(listadoCDI2);
@@ -464,8 +464,7 @@ class ListadoCDI2Provider extends ChangeNotifier {
       //Se obtienen todas las palabras divididas por seccion
       final res = await supabase.from('secciones_palabras_cdi2').select();
 
-      seccionesPalabras =
-          (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI2.fromJson(jsonEncode(palabra))).toList();
+      seccionesPalabras = (res as List<dynamic>).map((palabra) => SeccionPalabrasCDI2.fromMap(palabra)).toList();
 
       return seccionesPalabras;
     } catch (e) {
