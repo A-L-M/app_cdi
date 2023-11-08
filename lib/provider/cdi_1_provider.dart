@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app_cdi/helpers/globals.dart';
@@ -21,7 +20,6 @@ class CDI1Provider extends ChangeNotifier {
     await getSeccionesPalabras();
 
     try {
-      //TODO: limitar acceso a la ruta
       final res = await supabase.from('cdi1_completo').select().eq('cdi1_id', cdi1Id);
       if ((res as List).isEmpty) return false;
       final cdi1 = CDI1.fromMap(res.first);
