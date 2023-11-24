@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_cdi/provider/home_page_provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -27,14 +28,14 @@ class _LoginFormState extends State<LoginForm> {
   @override
   Widget build(BuildContext context) {
     final UserState userState = Provider.of<UserState>(context);
+    final HomePageProvider provider = Provider.of<HomePageProvider>(context, listen: false);
 
     Future<void> login() async {
       //Login
       try {
         // Check if user exists
         //if it doesnt return
-        final userId =
-            await userState.getUserId(userState.emailController.text);
+        final userId = await userState.getUserId(userState.emailController.text);
 
         if (userId == null) {
           await ApiErrorHandler.callToast('El correo no está registrado');
@@ -70,7 +71,11 @@ class _LoginFormState extends State<LoginForm> {
 
         if (!mounted) return;
 
-        context.pushReplacement('/bebes');
+        if (currentUser!.esVisitante) {
+          provider.setLoginVisible(false);
+        } else {
+          context.pushReplacement('/bebes');
+        }
       } catch (e) {
         if (e is AuthException) {
           await ApiErrorHandler.callToast('Credenciales inválidas');
@@ -224,9 +229,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
             borderRadius: BorderRadius.circular(4.88),
           ),
           focusColor: AppTheme.of(context).primaryColor,
-          prefixIcon: widget.isPasswordField
-              ? const Icon(Icons.key_sharp)
-              : const Icon(Icons.person_2_outlined),
+          prefixIcon: widget.isPasswordField ? const Icon(Icons.key_sharp) : const Icon(Icons.person_2_outlined),
           prefixIconColor: Colors.black,
           suffixIcon: widget.isPasswordField
               ? InkWell(
@@ -235,9 +238,7 @@ class _LoginInputFieldState extends State<LoginInputField> {
                   ),
                   focusNode: FocusNode(skipTraversal: true),
                   child: Icon(
-                    passwordVisibility
-                        ? Icons.visibility_outlined
-                        : Icons.visibility_off_outlined,
+                    passwordVisibility ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                     color: Colors.black,
                     size: 22,
                   ),
