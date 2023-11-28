@@ -4,9 +4,6 @@ class Tablas {
     required int edad,
     required int numPalabras,
   }) {
-    //Si el numero de palabras es 0, regresar 0
-    if (numPalabras == 0) return 0;
-
     //Encontrar columna mas cercana a edad
     final columna = tabla.getColumnaPorEdad(edad);
 
@@ -18,6 +15,7 @@ class Tablas {
 
     //Si no, interpolar percentiles
     final ({int index, int interpolacion}) record = columna.interpolar(numPalabras);
+    if (numPalabras == 0 && record.interpolacion <= 1) return 0;
     if (record.index == -1) return record.interpolacion;
     return tabla.rangoPercentiles[record.index] + record.interpolacion;
   }
