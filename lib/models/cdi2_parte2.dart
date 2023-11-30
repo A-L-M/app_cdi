@@ -153,16 +153,22 @@ class CDI2Parte2 {
     double numEjemplos = 0;
     double promedio = 0;
 
-    if (ejemplo1 != null || ejemplo1 != '') {
-      numEjemplos += 1;
+    if (ejemplo1 != null) {
+      if (ejemplo1!.isNotEmpty) {
+        numEjemplos += 1;
+      }
     }
 
-    if (ejemplo2 != null || ejemplo2 != '') {
-      numEjemplos += 1;
+    if (ejemplo2 != null) {
+      if (ejemplo2!.isNotEmpty) {
+        numEjemplos += 1;
+      }
     }
 
-    if (ejemplo3 != null || ejemplo3 != '') {
-      numEjemplos += 1;
+    if (ejemplo3 != null) {
+      if (ejemplo3!.isNotEmpty) {
+        numEjemplos += 1;
+      }
     }
 
     if (numEjemplos != 0) {
