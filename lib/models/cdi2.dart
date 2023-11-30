@@ -63,7 +63,7 @@ class CDI2 {
   ({int natural, int percentil}) calcularProduccion() {
     int puntajeNatural = 0;
     for (var palabra in palabras) {
-      if (palabra.opcion == Opcion.comprendeYDice) puntajeNatural += 1;
+      if (palabra.opcion == Opcion.comprendeYDice && !palabra.sombreada) puntajeNatural += 1;
     }
     int puntajePercentil =
         Tablas.calcularPercentil(tabla: Tablas.produccionPalabrasCDI2, edad: edad, numPalabras: puntajeNatural);

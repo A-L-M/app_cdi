@@ -17,8 +17,7 @@ class PalabraCDI2 {
   bool subrayada;
   Opcion opcion;
 
-  factory PalabraCDI2.fromJson(String str) =>
-      PalabraCDI2.fromMap(json.decode(str));
+  factory PalabraCDI2.fromJson(String str) => PalabraCDI2.fromMap(json.decode(str));
 
   factory PalabraCDI2.fromMap(Map<String, dynamic> json) => PalabraCDI2(
         palabraId: json['palabra_cdi2_inventario_id'],
@@ -33,20 +32,21 @@ class PalabraCDI2Valor {
   PalabraCDI2Valor({
     required this.palabraId,
     required this.seccionFk,
+    required this.sombreada,
     required this.opcion,
   });
 
   int palabraId;
   int seccionFk;
+  bool sombreada;
   Opcion opcion;
 
-  factory PalabraCDI2Valor.fromJson(String str) =>
-      PalabraCDI2Valor.fromMap(json.decode(str));
+  factory PalabraCDI2Valor.fromJson(String str) => PalabraCDI2Valor.fromMap(json.decode(str));
 
-  factory PalabraCDI2Valor.fromMap(Map<String, dynamic> json) =>
-      PalabraCDI2Valor(
+  factory PalabraCDI2Valor.fromMap(Map<String, dynamic> json) => PalabraCDI2Valor(
         palabraId: json['palabra_cdi2_inventario_id'],
         seccionFk: json['seccion_fk'],
+        sombreada: json['sombreada'],
         opcion: convertToEnumOpcion(json['valor']),
       );
 }
